@@ -14,7 +14,7 @@ public class EMail {
         this.mail = mail;
     }
 
-    public String getMail() {
+    public String toString() {
         return mail;
     }
 
