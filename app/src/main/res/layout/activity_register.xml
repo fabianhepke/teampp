@@ -30,7 +30,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/login_username"
+            android:id="@+id/register_username"
+            android:singleLine="true"
+            android:inputType="text"
             android:textCursorDrawable="@drawable/cursor"
             />
 
@@ -52,6 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/register_email"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
             android:textCursorDrawable="@drawable/cursor"
             />
 
@@ -74,6 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/register_password1"
+            android:singleLine="true"
+            android:inputType="textPassword"
             android:textCursorDrawable="@drawable/cursor"
             />
 
@@ -96,6 +102,8 @@
             android:id="@+id/register_password2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="textPassword"
             android:textCursorDrawable="@drawable/cursor"
             />
 
