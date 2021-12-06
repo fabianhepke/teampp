@@ -1,13 +1,16 @@
 package com.example.team.help;
 
-public class Token {
-    private final String token;
 
-    public Token(int length) {
-        this.token = new RandomString(length).nextString();
+import java.util.UUID;
+
+public class Token {
+    private final UUID token;
+
+    public Token() {
+        this.token = UUID.randomUUID();
     }
 
-    public String getToken() {
-        return token;
+    public String toString() {
+        return token.toString();
     }
 }
