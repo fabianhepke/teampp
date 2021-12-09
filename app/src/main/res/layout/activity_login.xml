@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".LoginActivity">
 
     <ImageView
@@ -12,25 +11,29 @@
         android:layout_height="200dp"
         android:src="@drawable/logo"
         android:layout_marginTop="50dp"
-        android:layout_gravity="center_horizontal"/>
+        android:id="@+id/login_logo"
+        android:layout_centerHorizontal="true"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="Benutzername"
+        android:id="@+id/login_username_layout"
         android:layout_marginTop="40dp"
         app:boxStrokeColor="@color/grey"
         app:hintTextColor="@color/black"
         app:boxStrokeErrorColor="@color/red"
-        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/login_logo"
+        android:layout_centerHorizontal="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
         >
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/login_username"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
             android:textCursorDrawable="@drawable/cursor"
             />
 
@@ -39,10 +42,12 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:id="@+id/login_password_layout"
         android:hint="Passwort"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         app:boxStrokeColor="@color/grey"
+        android:layout_below="@+id/login_username_layout"
         app:boxStrokeErrorColor="@color/red"
         app:hintTextColor="@color/black"
 
@@ -52,9 +57,13 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_password"
             android:layout_width="match_parent"
+            android:inputType="textPassword"
+            android:singleLine="true"
             android:layout_height="wrap_content"
             android:textCursorDrawable="@drawable/cursor"
             />
+
+
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,8 +71,9 @@
         android:id="@+id/login_angemeldetbleiben"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:checked="true"
+        android:layout_below="@+id/login_password_layout"
         android:buttonTint="@color/black"
         android:text="Angemeldet bleiben"/>
 
@@ -73,10 +83,11 @@
         android:layout_height="wrap_content"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/black"
         android:textColor="@color/white"
+        android:layout_below="@+id/login_angemeldetbleiben"
         app:cornerRadius="85px"
         android:text="Anmelden"/>
 
@@ -87,13 +98,15 @@
         android:text="Registrieren"
         android:textSize="6pt"
         android:textColor="@color/grey"
-        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/login_loginbtn"
+        android:layout_centerHorizontal="true"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/login_registerbtn"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
@@ -105,4 +118,4 @@
 
 
 
-</LinearLayout>
+</RelativeLayout>
