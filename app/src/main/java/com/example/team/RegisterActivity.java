@@ -6,10 +6,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
-public class RegisterActivity extends AppCompatActivity {
+import com.example.team.components.User;
+import com.example.team.database.PhpConnection;
+import com.example.team.help.EMail;
+import com.example.team.help.ErrorMessageHelper;
+import com.example.team.help.InputChecker;
+import com.example.team.help.MailSender;
+import com.example.team.help.Token;
+
+
+public class RegisterActivity extends AppCompatActivity{
 
     Button register, login;
+    EditText username, email, password, password2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +29,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         register = findViewById(R.id.register_registerbtn);
         login = findViewById(R.id.register_loginbtn);
+        username = findViewById(R.id.register_username);
+        email = findViewById(R.id.register_email);
+        password = findViewById(R.id.register_password1);
+        password2 = findViewById(R.id.register_password2);
     }
 
     @Override
@@ -27,7 +42,15 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToLogin();
+                if (InputChecker.checkRegisterData(username.getText().toString(), email.getText().toString(), password.getText().toString(), password2.getText().toString())
+                        && !InputChecker.doesUserExists(RegisterActivity.this, username.getText().toString())
+                        && !InputChecker.doesUserExists(RegisterActivity.this, email.getText().toString())) {
+                    register();
+                    goToVerifyScreen();
+                }
+                else {
+                    ErrorMessageHelper.displayRegisterError(username, email, password, password2);
+                }
             }
         });
 
@@ -37,6 +60,32 @@ public class RegisterActivity extends AppCompatActivity {
                 goToLogin();
             }
         });
+    }
+
+    private void goToVerifyScreen() {
+        Intent intent = new Intent(RegisterActivity.this, VerifyActivity.class);
+        startActivity(intent);
+    }
+
+    private void register() {
+        User user = createUser();
+        PhpConnection connection = new PhpConnection(this);
+        connection.registerUser(user);
+        sendVerificationMail(user);
+    }
+
+    protected void sendVerificationMail(User user) {
+        new MailSender().execute(user);
+    }
+
+    private User createUser() {
+        String newUsername = username.getText().toString();
+        EMail newEmail = new EMail(email.getText().toString());
+        String newPassword = password.getText().toString();
+        User user = new User(newUsername, newEmail.toString(), newPassword);
+        user.setLoginToken(new Token());
+        user.setVerifyToken(new Token());
+        return user;
     }
 
     private void goToLogin() {
