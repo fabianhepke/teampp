@@ -10,7 +10,11 @@ public class Token {
         this.token = UUID.randomUUID();
     }
 
-    public String toString() {
+    public Token(String token) {
+        this.token = UUID.fromString(token);
+    }
+
+    public String getToken() {
         return token.toString();
     }
 }
