@@ -4,7 +4,7 @@ public class TeamCode {
     final int code;
 
     public TeamCode(int code) {
-        if ((Math.log10(code) + 1) != 6) {
+        if (String.valueOf(code).length() != 6) {
             throw new IllegalArgumentException("Code must have 6 digits!");
         }
         this.code = code;
