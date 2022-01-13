@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity{
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (InputChecker.checkRegisterData(username.getText().toString(), email.getText().toString(), password.getText().toString(), password2.getText().toString())
+                if (InputChecker.isRegisterDataValid(username.getText().toString(), email.getText().toString(), password.getText().toString(), password2.getText().toString())
                         && !InputChecker.doesUserExists(RegisterActivity.this, username.getText().toString())
                         && !InputChecker.doesUserExists(RegisterActivity.this, email.getText().toString())) {
                     register();
