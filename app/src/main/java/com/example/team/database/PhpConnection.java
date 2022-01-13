@@ -21,23 +21,42 @@ import com.example.team.help.Token;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.ExecutionException;
+
 import static android.content.ContentValues.TAG;
 
 public class PhpConnection implements DatabaseConnection {
+    private String result;
     private Context context;
+
     public PhpConnection(Context context) {
         this.context=context;
     }
 
-    public void registerUser(User user){
+    public String registerUser(User user){
         String url ="https://www.memevz.h10.de/teamPP.php?op=register&username=" + user.getUsername() + "&password=" + user.getPassword() + "&email=" + user.geteMail() + "&login_token=" + user.getLoginToken().getToken() + "&verify_token=" + user.getVerifyToken().getToken() + "&rank=" + user.getRank();
-        ApiHelper.getResult(this.context, url);
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
+        }
+        return result;
     }
 
     @Override
     public User login(String username, String password, boolean stayLoggedin) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=login&username=" + username + "&password=" + password + "&login_token=" + stayLoggedin;
-        String result = ApiHelper.getResult(this.context, url);
+        String result;
+
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
+        }
+
         User user = new User();
         JSONObject jsonObject;
         try {
@@ -52,7 +71,15 @@ public class PhpConnection implements DatabaseConnection {
     @Override
     public User login(EMail email, String password, boolean stayLoggedin) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=login&email=" + email.toString() + "&password=" + password + "&login_token=" + stayLoggedin;
-        String result = ApiHelper.getResult(this.context, url);
+        String result;
+
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
+        }
+
         User user = new User();
         JSONObject jsonObject;
         try{
@@ -73,12 +100,19 @@ public class PhpConnection implements DatabaseConnection {
     public User getUserByEmail(String email) {
         return null;
     }
-
     @Override
     public boolean doesUserEmailExist(String email) {
         boolean userExistance = false;
-        String url ="https://www.memevz.h10.de/teamPP.php?op=mailexist&email=" + email;
-        String result = ApiHelper.getResult(this.context, url);
+        String url ="https://www.memevz.h10.de/teamPP.php?op=emailexist&email=" + email;
+        String result;
+
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
+        }
+
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(result);
@@ -93,7 +127,15 @@ public class PhpConnection implements DatabaseConnection {
     public boolean doesUserNameExist(String username) {
         boolean userExistance = false;
         String url ="https://www.memevz.h10.de/teamPP.php?op=usernameexist&username=" + username;
-        String result = ApiHelper.getResult(this.context, url);
+        String result;
+
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
+        }
+
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(result);
@@ -108,7 +150,15 @@ public class PhpConnection implements DatabaseConnection {
     public boolean doesPasswordMatchUsername(String username, String password) {
         boolean passwortMatchUser = false;
         String url ="https://www.memevz.h10.de/teamPP.php?op=passwordmatchusername&username=" + username + "&password=" + password;
-        String result = ApiHelper.getResult(this.context, url);
+        String result;
+
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
+        }
+
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(result);
@@ -123,7 +173,15 @@ public class PhpConnection implements DatabaseConnection {
     public boolean doesPasswordMatchEmail(String email, String password) {
         boolean passwortMatchEmail = false;
         String url ="https://www.memevz.h10.de/teamPP.php?op=passwordmatchemail&email=" + email + "&password=" + password;
-        String result = ApiHelper.getResult(this.context, url);
+        String result;
+
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
+        }
+
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(result);
@@ -133,5 +191,4 @@ public class PhpConnection implements DatabaseConnection {
         }
         return passwortMatchEmail;
     }
-
 }
