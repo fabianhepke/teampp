@@ -10,13 +10,25 @@ import org.json.JSONObject;
 public class JsonHelper {
 
     public static User getUserOfJson(JSONObject json) throws JSONException {
+        if (json.getString("status").equals("fail")) {
+            return new User(-1, "", "");
+        }
         User user = new User();
         user.setUserID(json.getInt("user_id"));
         user.setUsername(json.getString("username"));
         user.seteMail(json.getString("email"));
         user.setVerfied(IntToBooleanConverter.convertIntToBoolean(json.getInt("verified")));
-        user.setLoginToken(new Token(json.getString("login_token")));
-        if (json.getInt("team_id") != 0) {
+
+        try {
+            user.setLoginToken(new Token(json.getString("login_token")));
+        }catch (JSONException e) {
+
+        }
+
+        if (json.getInt("team_id") == 0) {
+            user.setTeamID(null);
+        }
+        else {
             user.setTeamID(new TeamCode(json.getInt("team_id")));
         }
         String rank = json.getString("rank");
