@@ -5,7 +5,7 @@ import com.example.team.help.EMail;
 
 public interface DatabaseConnection {
 
-    public void registerUser(User user);
+    public String registerUser(User user);
 
     public User login(String username, String password, boolean stayLoggedin);
 
