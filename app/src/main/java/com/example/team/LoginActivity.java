@@ -10,16 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.team.components.User;
 import com.example.team.database.PhpConnection;
 import com.example.team.help.EMail;
 import com.example.team.help.InputChecker;
-import com.example.team.help.ToastMessageHelper;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Objects;
 
 import static android.content.ContentValues.TAG;
 
@@ -28,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText username, password;
     private Button login, register;
     private CheckBox stayLoggedInBox;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +38,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        setButtonClickEvents();
+    }
 
+    private void setButtonClickEvents() {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,39 +53,37 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user;
-                if (InputChecker.checkLoginData(LoginActivity.this, username.getText().toString(), password.getText().toString())) {
-
-                }
-                user = getLoginUser(username.getText().toString(), password.getText().toString(), stayLoggedInBox.isChecked());
-
+                login();
             }
         });
     }
 
-    private void handleLogin(String usernaameOrEmail) {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-
-            }
-        }, 2000);
+    private void login() {
+        if (!InputChecker.isLoginDataVaild(LoginActivity.this, username.getText().toString(), password.getText().toString())) {
+            return;
+        }
+        user = getLoginUser(username.getText().toString(), password.getText().toString(), stayLoggedInBox.isChecked());
+        goToHomeOrJoinTeam();
     }
 
-    private void goToHomeOrJoinTeam(User user) {
+    private void goToHomeOrJoinTeam() {
+        Log.i(TAG, "goToHomeOrJoinTeam: " + user.getTeamID());
         if (user.getTeamID() == null) {
             goToJoinOrCreateTeam();
+            return;
         }
         goToHome();
     }
 
     private void goToHome() {
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        intent.putExtra("user_id", user.getUserID());
         startActivity(intent);
     }
 
     private void goToJoinOrCreateTeam() {
         Intent intent = new Intent(LoginActivity.this, JoinOrCreateTeamActivity.class);
+        intent.putExtra("user_id", user.getUserID());
         startActivity(intent);
     }
 
