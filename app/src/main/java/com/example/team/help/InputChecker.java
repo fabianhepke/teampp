@@ -7,7 +7,7 @@ import com.example.team.database.PhpConnection;
 
 public class InputChecker {
 
-    public static boolean checkRegisterData(String username, String email, String password, String password2) {
+    public static boolean isRegisterDataValid(String username, String email, String password, String password2) {
         if (!isUsernameValid(username)) {
             return false;
         }
@@ -60,7 +60,7 @@ public class InputChecker {
         return connection.doesPasswordMatchUsername(usernameOrEmail, password);
     }
 
-    public static boolean checkLoginData(Context context, String usernameOrEmail, String password) {
+    public static boolean isLoginDataVaild(Context context, String usernameOrEmail, String password) {
         if(!doesUserExists(context, usernameOrEmail)) {
             return false;
         }
