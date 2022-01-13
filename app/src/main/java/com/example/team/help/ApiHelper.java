@@ -1,42 +1,63 @@
 package com.example.team.help;
 
-import android.content.Context;
-import android.util.Log;
+import android.os.AsyncTask;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import static org.junit.Assert.assertEquals;
 
-import static android.content.ContentValues.TAG;
+public class ApiHelper extends AsyncTask<Void, Void, String> {
+    private String url;
 
-public class ApiHelper {
-    public static String getResult(Context context, String url) {
-        final String[] result = new String[1];
-        RequestQueue queue = Volley.newRequestQueue(context);
+    public ApiHelper(String url){
+        this.url=url;
+    }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        result[0] = response;
+    @Override
+    protected String doInBackground(Void... voids) {
+        return getJSON(url);
+    }
+
+    @Override
+    protected void onPostExecute(String strings) {
+        super.onPostExecute(strings);
+    }
+
+
+    public String getJSON(String url) {
+        HttpURLConnection c = null;
+        try {
+            URL u = new URL(url);
+            c = (HttpURLConnection) u.openConnection();
+            c.connect();
+            int status = c.getResponseCode();
+            switch (status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                    br.close();
+                    return sb.toString();
+            }
+
+        } catch (Exception ex) {
+            return ex.toString();
+        } finally {
+            if (c != null) {
                 try {
-                    throw new Exception("Kack api aufruf hat net geklappt" + error);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    c.disconnect();
+                } catch (Exception ex) {
+                    //disconnect error
                 }
             }
-        });
-        queue.add(stringRequest);
-        return result[0];
+        }
+        return null;
     }
 }
