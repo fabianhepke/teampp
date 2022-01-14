@@ -44,27 +44,27 @@ public class InputChecker {
         return true;
     }
 
-    public static boolean doesUserExists(Context context, String usernameOrEmail) {
-        PhpConnection connection = new PhpConnection(context);
+    public static boolean doesUserExists(String usernameOrEmail) {
+        PhpConnection connection = new PhpConnection();
         if (EMail.isValid(usernameOrEmail)) {
             return connection.doesUserEmailExist(usernameOrEmail);
         }
         return connection.doesUserNameExist(usernameOrEmail);
     }
 
-    public static boolean doesPassowrdMatchUser(Context context, String usernameOrEmail, String password) {
-        PhpConnection connection = new PhpConnection(context);
+    public static boolean doesPassowrdMatchUser(String usernameOrEmail, String password) {
+        PhpConnection connection = new PhpConnection();
         if (EMail.isValid(usernameOrEmail)) {
             return connection.doesPasswordMatchEmail(usernameOrEmail, password);
         }
         return connection.doesPasswordMatchUsername(usernameOrEmail, password);
     }
 
-    public static boolean isLoginDataVaild(Context context, String usernameOrEmail, String password) {
-        if(!doesUserExists(context, usernameOrEmail)) {
+    public static boolean isLoginDataVaild(String usernameOrEmail, String password) {
+        if(!doesUserExists(usernameOrEmail)) {
             return false;
         }
-        if (!doesPassowrdMatchUser(context, usernameOrEmail, password)) {
+        if (!doesPassowrdMatchUser(usernameOrEmail, password)) {
             return false;
         }
         return true;
