@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private User getLoginUser(String usernameOrMail, String password, boolean stayLoggedIn) {
-        PhpConnection connection = new PhpConnection(this);
+        PhpConnection connection = new PhpConnection();
         if (EMail.isValid(usernameOrMail)) {
             return connection.login(new EMail(usernameOrMail), password, stayLoggedIn);
         }
