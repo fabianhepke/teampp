@@ -43,7 +43,7 @@ public class ApiTest {
 
     @Test
     public void failedRegisterTest() {
-        PhpConnection conn = new PhpConnection(getApplicationContext());
+        PhpConnection conn = new PhpConnection();
 
         //Test existing username -> status: fail
         User user = new User("admin", "administrator@mail.de", "admin");
@@ -60,7 +60,7 @@ public class ApiTest {
 
     @Test
     public void successfullRegisterTest() {
-        PhpConnection conn = new PhpConnection(getApplicationContext());
+        PhpConnection conn = new PhpConnection();
 
         //ceate username and email as UIID so that username and email is not in database
         User user = new User(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "12345678");
@@ -72,7 +72,7 @@ public class ApiTest {
 
     @Test
     public void successfullLoginTest() {
-        PhpConnection conn = new PhpConnection(getApplicationContext());
+        PhpConnection conn = new PhpConnection();
         User user = conn.login("derneue", "12345678", true);
         assertEquals(27, user.getUserID());
         user = conn.login(new EMail("hepkefa@gmail.com"), "12345678", true);
@@ -85,7 +85,7 @@ public class ApiTest {
 
     @Test
     public void failLoginTest() {
-        PhpConnection conn = new PhpConnection(getApplicationContext());
+        PhpConnection conn = new PhpConnection();
         User user = conn.login("admin", "12345678", true);
         assertEquals(-1, user.getUserID());
         user = conn.login("admin", "falschesPW", true);
@@ -106,7 +106,7 @@ public class ApiTest {
 
     @Test
     public void SuccessfullUserExistsTest() {
-        PhpConnection conn = new PhpConnection(getApplicationContext());
+        PhpConnection conn = new PhpConnection();
         assertTrue(conn.doesUserNameExist("admin"));
         assertTrue(conn.doesUserEmailExist("admin@mail.de"));
     }
