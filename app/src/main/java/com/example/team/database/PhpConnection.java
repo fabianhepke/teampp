@@ -26,11 +26,8 @@ import java.util.concurrent.ExecutionException;
 import static android.content.ContentValues.TAG;
 
 public class PhpConnection implements DatabaseConnection {
-    private String result;
-    private Context context;
 
-    public PhpConnection(Context context) {
-        this.context=context;
+    public PhpConnection() {
     }
 
     public String registerUser(User user){
