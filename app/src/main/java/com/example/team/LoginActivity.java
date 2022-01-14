@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        if (!InputChecker.isLoginDataVaild(LoginActivity.this, username.getText().toString(), password.getText().toString())) {
+        if (!InputChecker.isLoginDataVaild(username.getText().toString(), password.getText().toString())) {
             return;
         }
         user = getLoginUser(username.getText().toString(), password.getText().toString(), stayLoggedInBox.isChecked());
