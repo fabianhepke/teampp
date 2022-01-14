@@ -22,4 +22,6 @@ public interface DatabaseConnection {
     boolean doesPasswordMatchUsername(String usernameOrEmail, String password);
 
     boolean doesPasswordMatchEmail(String usernameOrEmail, String password);
+
+    boolean isVerified(String username);
 }
