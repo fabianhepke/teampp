@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity{
 
     private void register() {
         User user = createUser();
-        PhpConnection connection = new PhpConnection(this);
+        PhpConnection connection = new PhpConnection();
         connection.registerUser(user);
         sendVerificationMail(user);
     }
