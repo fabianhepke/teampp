@@ -8,6 +8,14 @@ public class Team {
     private TeamCode teamID;
     private String teamName, description;
     private Date creationDate;
+    private int pin;
+
+    public Team(TeamCode teamID, String teamName, String description, int pin) {
+        this.teamID = teamID;
+        this.teamName = teamName;
+        this.description = description;
+        this.pin = pin;
+    }
 
     public Team(TeamCode teamID, String teamName, String description) {
         this.teamID = teamID;
@@ -21,6 +29,14 @@ public class Team {
 
     public TeamCode getTeamID() {
         return teamID;
+    }
+
+    public int getPin() {
+        return pin;
+    }
+
+    public void setPin(int pin) {
+        this.pin = pin;
     }
 
     public void setTeamID(TeamCode teamID) {
