@@ -8,8 +8,8 @@
     tools:context=".CreateTeamActivity">
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@drawable/logo"
         android:layout_marginTop="50dp"
         android:layout_gravity="center_horizontal"/>
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:hint="Teamname">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/creatteam_teamname"
@@ -49,6 +49,21 @@
             android:layout_height="match_parent"
             android:singleLine="false"
             android:maxLength="400"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:hint="Passwort (PIN)">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/creatteam_pin"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:singleLine="false"
+            android:maxLength="4"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,7 +89,7 @@
         android:id="@+id/createteam_submit"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:text="Bestätigen"
+        android:text="Team erstellen"
         app:cornerRadius="85px"
         android:paddingBottom="15dp"
         android:paddingTop="15dp"/>
