@@ -28,14 +28,24 @@
             android:textColor="@color/black"
             android:textSize="10pt"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jointeam_teamid_error"
+            android:text=""
+            android:layout_marginStart="20dp"
+            android:textColor="@color/red"
+            android:textSize="8pt"/>
+
         <com.chaos.view.PinView
+            android:id="@+id/jointeam_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:cursorVisible="true"
             android:hint="Team ID:"
             android:inputType="number"
-            android:padding="20dp"
+            android:paddingLeft="20dp"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -50,14 +60,55 @@
             app:lineColor="@color/black"
             app:lineWidth="2dp"
             app:viewType="rectangle"
-            >
-        </com.chaos.view.PinView>
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PIN:"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/black"
+            android:textSize="10pt"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jointeam_pin_error"
+            android:text=""
+            android:layout_marginStart="20dp"
+            android:textColor="@color/red"
+            android:textSize="8pt"/>
+
+        <com.chaos.view.PinView
+            android:id="@+id/jointeam_pin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:cursorVisible="true"
+            android:hint="Team ID:"
+            android:inputType="number"
+            android:paddingLeft="20dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cursorColor="@color/black"
+            app:cursorWidth="2dp"
+            app:hideLineWhenFilled="false"
+            app:itemCount="4"
+            app:itemHeight="48dp"
+            app:itemRadius="4dp"
+            app:itemSpacing="5dp"
+            app:itemWidth="48dp"
+            app:lineColor="@color/black"
+            app:lineWidth="2dp"
+            app:viewType="rectangle"
+            />
 
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/jointeam_btn"
         android:text="Bestätigen"
         app:cornerRadius="85px"
         android:textSize="8pt"
