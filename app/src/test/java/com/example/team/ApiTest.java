@@ -1,18 +1,4 @@
 package com.example.team;
-import android.content.Context;
-import android.os.SystemClock;
-import android.util.Log;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.runner.AndroidJUnit4;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.team.components.User;
 import com.example.team.database.PhpConnection;
 import com.example.team.help.ApiHelper;
@@ -49,7 +35,7 @@ public class ApiTest {
         User user = new User("admin", "administrator@mail.de", "admin");
         user.setLoginToken(new Token());
         user.setVerifyToken(new Token());
-        String expected = "{\"status\": \"fail\"}";
+        String expected = "fail";
         assertEquals(expected, conn.registerUser(user));
 
         //Test existing email -> status: fail
@@ -66,7 +52,7 @@ public class ApiTest {
         User user = new User(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "12345678");
         user.setVerifyToken(new Token());
         user.setLoginToken(new Token());
-        String expected = "{\"status\": \"successfull\"}";
+        String expected = "successfull";
         assertEquals(expected, conn.registerUser(user));
     }
 
