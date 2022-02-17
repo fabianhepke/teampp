@@ -37,4 +37,8 @@ public interface DatabaseConnection {
     void registerTeam(Team team);
 
     void addConnection(int userId, int teamId, Rank rank);
+
+    boolean doesPinMatchTeam(String teamId, String pin);
+
+    boolean doesUserHasTeamConnection(int userID, int parseInt);
 }
