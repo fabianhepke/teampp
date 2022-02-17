@@ -1,6 +1,8 @@
 package com.example.team.database;
 
+import com.example.team.components.Rank;
 import com.example.team.components.Team;
+import com.example.team.components.TeamCode;
 import com.example.team.components.User;
 import com.example.team.help.EMail;
 
@@ -31,4 +33,8 @@ public interface DatabaseConnection {
     String createTeam(Team team);
 
     int getMaxTeamID();
+
+    void registerTeam(Team team);
+
+    void addConnection(int userId, int teamId, Rank rank);
 }
