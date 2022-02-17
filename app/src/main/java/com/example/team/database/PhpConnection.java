@@ -301,4 +301,44 @@ public class PhpConnection implements DatabaseConnection {
             result = null;
         }
     }
+
+    @Override
+    public boolean doesPinMatchTeam(String teamID, String pin) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=doesPinMatchTeam&team_id=" + teamID + "&pin=" + pin;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            result = null;
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            return jsonObject.getBoolean("result");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean doesUserHasTeamConnection(int userID, int teamID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=doesUserHasTeamConnection&team_id=" + teamID + "&user_id=" + userID;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            result = null;
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            return jsonObject.getBoolean("result");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
