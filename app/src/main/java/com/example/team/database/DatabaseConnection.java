@@ -41,4 +41,6 @@ public interface DatabaseConnection {
     boolean doesPinMatchTeam(String teamId, String pin);
 
     boolean doesUserHasTeamConnection(int userID, int parseInt);
+
+    boolean doesUserHasTeam(int userID);
 }

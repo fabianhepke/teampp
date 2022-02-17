@@ -341,4 +341,24 @@ public class PhpConnection implements DatabaseConnection {
             return false;
         }
     }
+
+    @Override
+    public boolean doesUserHasTeam(int userID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=doesUserHasTeam&&user_id=" + userID;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            result = null;
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            return jsonObject.getBoolean("result");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
