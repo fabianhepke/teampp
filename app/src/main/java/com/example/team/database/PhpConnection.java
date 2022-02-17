@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.team.components.Rank;
+import com.example.team.components.Team;
 import com.example.team.components.TeamCode;
 import com.example.team.components.User;
 import com.example.team.help.ApiHelper;
@@ -17,6 +18,7 @@ import com.example.team.help.EMail;
 import com.example.team.help.IntToBooleanConverter;
 import com.example.team.help.JsonHelper;
 import com.example.team.help.Token;
+import com.example.team.help.URLHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +41,12 @@ public class PhpConnection implements DatabaseConnection {
             e.fillInStackTrace();
             result = null;
         }
-        return result;
+        try {
+            return new JSONObject(result).getString("status");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -138,7 +145,7 @@ public class PhpConnection implements DatabaseConnection {
             jsonObject = new JSONObject(result);
             userExistance = jsonObject.getBoolean("result");
         }catch (JSONException e) {
-            Log.e(TAG, "doesUserEmailExist: can't convert answer to json", e);
+            Log.e(TAG, "doesUserNameExist: can't convert answer to json", e);
         }
         return userExistance;
     }
@@ -175,7 +182,7 @@ public class PhpConnection implements DatabaseConnection {
         try {
             result = new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
-            e.fillInStackTrace();
+            e.printStackTrace();
             result = null;
         }
 
@@ -187,5 +194,111 @@ public class PhpConnection implements DatabaseConnection {
             Log.e(TAG, "doesPasswordMatchUsername: can't convert answer to json", e);
         }
         return passwortMatchEmail;
+    }
+
+    @Override
+    public boolean isVerified(String username) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=isusernameverified&username=" + username;
+        int isVerified = 0;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            result = null;
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            isVerified = jsonObject.getInt("result");
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return IntToBooleanConverter.convertIntToBoolean(isVerified);
+
+    }
+
+    @Override
+    public boolean doesTeamExist(int teamID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=doesTeamExist&team_id=" + teamID;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            result = null;
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            return jsonObject.getBoolean("result");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public String createTeam(Team team) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=registerTeam&team_id=" + team.getTeamID() + "&teamname=" + team.getTeamName() + "&description=" + team.getDescription();
+        String result = null;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch(InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        try {
+            return new JSONObject(result).getString("status");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public int getMaxTeamID() {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=maxTeamID";
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            result = null;
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            return jsonObject.getInt("team_id");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public void registerTeam(Team team) {
+        String url ="https://www.memevz.h10.de/teamPP.php?op=registerTeam&teamname=" + URLHelper.convertString(team.getTeamName()) + "&description=" + URLHelper.convertString(team.getDescription()) + "&team_id=" + team.getTeamID().getCode() + "&pin=" + team.getPin()  ;
+        String result;
+        Log.i(TAG, "registerTeam: " + url);
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
+        }
+
+    }
+
+    @Override
+    public void addConnection(int userId, int teamId, Rank rank) {
+        String url ="https://www.memevz.h10.de/teamPP.php?op=addConnection&team_id=" + teamId + "&user_id=" + userId + "&rank=" + rank.rank;
+        String result;
+        Log.i(TAG, "registerTeam: " + url);
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
+        }
     }
 }
