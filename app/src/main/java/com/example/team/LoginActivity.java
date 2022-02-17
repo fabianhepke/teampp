@@ -67,8 +67,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToHomeOrJoinTeam() {
-        Log.i(TAG, "goToHomeOrJoinTeam: " + user.getTeamID());
-        if (user.getTeamID() == null) {
+        PhpConnection conn = new PhpConnection();
+        if (!conn.doesUserHasTeam(user.getUserID())) {
             goToJoinOrCreateTeam();
             return;
         }
