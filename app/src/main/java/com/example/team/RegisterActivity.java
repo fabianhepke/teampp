@@ -19,8 +19,9 @@ import com.example.team.help.Token;
 
 public class RegisterActivity extends AppCompatActivity{
 
-    Button register, login;
-    EditText username, email, password, password2;
+    private Button register, login;
+    private EditText username, email, password, password2;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +65,12 @@ public class RegisterActivity extends AppCompatActivity{
 
     private void goToVerifyScreen() {
         Intent intent = new Intent(RegisterActivity.this, VerifyActivity.class);
+        intent.putExtra("username", username.getText().toString());
         startActivity(intent);
     }
 
     private void register() {
-        User user = createUser();
+        user = createUserFromRegisterForm();
         PhpConnection connection = new PhpConnection();
         connection.registerUser(user);
         sendVerificationMail(user);
@@ -78,7 +80,8 @@ public class RegisterActivity extends AppCompatActivity{
         new MailSender().execute(user);
     }
 
-    private User createUser() {
+
+    private User createUserFromRegisterForm() {
         String newUsername = username.getText().toString();
         EMail newEmail = new EMail(email.getText().toString());
         String newPassword = password.getText().toString();
