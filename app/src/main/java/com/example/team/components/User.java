@@ -17,6 +17,22 @@ public  class User {
         this.userID = userID;
         this.username = username;
         this.eMail = eMail;
+        this.rank = Rank.NORANK;
+    }
+
+    public User(int userID, String username, String eMail, Rank rank, TeamCode teamID) {
+        this.userID = userID;
+        this.username = username;
+        this.eMail = eMail;
+        this.rank = rank;
+        this.teamID = teamID;
+    }
+
+    public User(int userID, String username, String eMail, Rank rank) {
+        this.userID = userID;
+        this.username = username;
+        this.eMail = eMail;
+        this.rank = rank;
     }
 
     public User() {
@@ -27,12 +43,14 @@ public  class User {
         this.username = username;
         this.eMail = eMail;
         this.loginToken = loginToken;
+        this.rank = Rank.NORANK;
     }
 
     public User(String username, String eMail, String password) {
         this.username = username;
         this.eMail = eMail;
         this.password = password;
+        this.rank = Rank.NORANK;
     }
 
     public TeamCode getTeamID() {
