@@ -13,7 +13,6 @@ import com.example.team.database.PhpConnection;
 import com.example.team.help.EMail;
 import com.example.team.help.ErrorMessageHelper;
 import com.example.team.help.InputChecker;
-import com.example.team.help.MailSender;
 import com.example.team.help.Token;
 
 
@@ -28,6 +27,10 @@ public class RegisterActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        assignElements();
+    }
+
+    private void assignElements() {
         register = findViewById(R.id.register_registerbtn);
         login = findViewById(R.id.register_loginbtn);
         username = findViewById(R.id.register_username);
@@ -40,17 +43,25 @@ public class RegisterActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
 
+        assignButtonEvents();
+    }
+
+    private void assignButtonEvents() {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (InputChecker.isRegisterDataValid(username.getText().toString(), email.getText().toString(), password.getText().toString(), password2.getText().toString())
-                        && !InputChecker.doesUserExists(username.getText().toString())
-                        && !InputChecker.doesUserExists( email.getText().toString())) {
-                    register();
-                    goToVerifyScreen();
+                if (!InputChecker.isRegisterDataValid(username.getText().toString(), email.getText().toString(), password.getText().toString(), password2.getText().toString())
+                        && InputChecker.doesUserExists(username.getText().toString())
+                        && InputChecker.doesUserExists( email.getText().toString())) {
+
+                    ErrorMessageHelper.displayRegisterError(username, email, password, password2);
                 }
                 else {
-                    ErrorMessageHelper.displayRegisterError(username, email, password, password2);
+                    String result = register();
+                    if(!result.equals("successfull")){
+                        return;
+                    }
+                    goToLogin();
                 }
             }
         });
@@ -63,22 +74,12 @@ public class RegisterActivity extends AppCompatActivity{
         });
     }
 
-    private void goToVerifyScreen() {
-        Intent intent = new Intent(RegisterActivity.this, VerifyActivity.class);
-        intent.putExtra("username", username.getText().toString());
-        startActivity(intent);
-    }
-
-    private void register() {
+    private String register() {
         user = createUserFromRegisterForm();
         PhpConnection connection = new PhpConnection();
-        connection.registerUser(user);
-        sendVerificationMail(user);
+        return connection.registerUser(user);
     }
 
-    protected void sendVerificationMail(User user) {
-        new MailSender().execute(user);
-    }
 
 
     private User createUserFromRegisterForm() {
