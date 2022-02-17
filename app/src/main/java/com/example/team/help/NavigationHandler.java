@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.example.team.HomeActivity;
@@ -21,7 +22,7 @@ public class NavigationHandler {
         this.userID = userID;
     }
 
-    public void setNavigaionBarColor(LinearLayout teams, LinearLayout home, LinearLayout profile, int active) {
+    public void setNavigaionBarColor(ImageButton teams, ImageButton home, ImageButton profile, int active) {
         switch (active) {
             case 1:
                 teams.setBackgroundColor(context.getResources().getColor(R.color.grey));
@@ -35,7 +36,7 @@ public class NavigationHandler {
         }
     }
 
-    public void addNavigationBarEvents(LinearLayout teams, LinearLayout home, LinearLayout profile) {
+    public void addNavigationBarEvents(ImageButton teams, ImageButton home, ImageButton profile) {
         teams.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

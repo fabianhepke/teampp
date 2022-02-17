@@ -3,6 +3,7 @@ package com.example.team;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.example.team.components.User;
@@ -10,7 +11,7 @@ import com.example.team.help.NavigationHandler;
 
 public class HomeActivity extends AppCompatActivity {
 
-    LinearLayout teams, home, profile;
+    ImageButton teams, home, profile;
     User user = new User();
 
     @Override
@@ -23,6 +24,7 @@ public class HomeActivity extends AppCompatActivity {
 
         NavigationHandler nav = new NavigationHandler(this, user.getUserID());
         nav.setNavigaionBarColor(teams, home, profile, 2);
+        nav.addNavigationBarEvents(teams, home, profile);
     }
 
     @Override
