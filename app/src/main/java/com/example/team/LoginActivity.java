@@ -2,9 +2,12 @@ package com.example.team;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -63,7 +66,15 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         user = getLoginUser(username.getText().toString(), password.getText().toString(), stayLoggedInBox.isChecked());
+        saveUserId();
         goToHomeOrJoinTeam();
+    }
+
+    private void saveUserId() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("user_id", user.getUserID());
+        editor.apply();
     }
 
     private void goToHomeOrJoinTeam() {
