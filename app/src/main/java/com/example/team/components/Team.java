@@ -8,23 +8,49 @@ public class Team {
     private TeamCode teamID;
     private String teamName, description;
     private Date creationDate;
-    private int pin;
+    private int pin, members;
 
     public Team(TeamCode teamID, String teamName, String description, int pin) {
+        PhpConnection conn = new PhpConnection();
+
         this.teamID = teamID;
         this.teamName = teamName;
         this.description = description;
         this.pin = pin;
+        this.members = conn.getTeamMemberNum(teamID.getCode());
     }
 
     public Team(TeamCode teamID, String teamName, String description) {
+        PhpConnection conn = new PhpConnection();
+
         this.teamID = teamID;
         this.teamName = teamName;
         this.description = description;
+        this.members = conn.getTeamMemberNum(teamID.getCode());
+    }
+
+    public Team(TeamCode teamID) {
+        this.teamID = teamID;
     }
 
     public Team() {
         this.teamID = new TeamCode();
+    }
+
+    public int getMembers() {
+        return members;
+    }
+
+    public void setMembers(int members) {
+        this.members = members;
+    }
+
+    public Team(TeamCode teamID, String teamname) {
+        PhpConnection conn = new PhpConnection();
+
+        this.members = conn.getTeamMemberNum(teamID.getCode());
+        this.teamID = teamID;
+        this.teamName = teamname;
     }
 
     public TeamCode getTeamID() {
