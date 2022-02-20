@@ -385,6 +385,9 @@ public class PhpConnection implements DatabaseConnection {
 
     @Override
     public String getTeamName(int teamID) {
+        if (teamID <= 100000){
+            return null;
+        }
         String url = "https://www.memevz.h10.de/teamPP.php?op=getTeamname&team_id=" + teamID;
         String result;
         try {
