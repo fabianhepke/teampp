@@ -19,7 +19,6 @@ public class JoinOrCreateTeamActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_or_create_team);
         assignElements();
-        getUserInfos();
     }
 
     private void assignElements() {
@@ -38,7 +37,6 @@ public class JoinOrCreateTeamActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(JoinOrCreateTeamActivity.this, JoinTeamActivity.class);
-                intent.putExtra("user_id", user.getUserID());
                 startActivity(intent);
             }
         });
@@ -47,14 +45,8 @@ public class JoinOrCreateTeamActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(JoinOrCreateTeamActivity.this, CreateTeamActivity.class);
-                intent.putExtra("user_id", user.getUserID());
                 startActivity(intent);
             }
         });
-    }
-
-    private void getUserInfos() {
-        Bundle extra = getIntent().getExtras();
-        user.setUserID(extra.getInt("user_id"));
     }
 }

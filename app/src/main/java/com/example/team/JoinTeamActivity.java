@@ -2,7 +2,9 @@ package com.example.team;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -46,9 +48,17 @@ public class JoinTeamActivity extends AppCompatActivity {
                     return;
                 }
                 addUserTeamConnection();
+                saveTeamInfo();
                 goToHome();
             }
         });
+    }
+
+    private void saveTeamInfo() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("team_id", Integer.parseInt(teamId.getText().toString()));
+        editor.apply();
     }
 
     private void clearErrors() {
@@ -72,8 +82,8 @@ public class JoinTeamActivity extends AppCompatActivity {
     }
 
     private void getUserInfos() {
-        Bundle extra = getIntent().getExtras();
-        user.setUserID(extra.getInt("user_id"));
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        user.setUserID(sharedPref.getInt("user_id", 0));
     }
 
     private void assignElements() {

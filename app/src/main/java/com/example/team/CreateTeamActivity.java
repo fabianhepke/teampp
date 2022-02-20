@@ -2,7 +2,9 @@ package com.example.team;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.team.components.Rank;
 import com.example.team.components.Team;
+import com.example.team.components.TeamCode;
 import com.example.team.components.User;
 import com.example.team.database.PhpConnection;
 
@@ -45,8 +48,8 @@ public class CreateTeamActivity extends AppCompatActivity {
     }
 
     private void getUserInfos() {
-        Bundle extra = getIntent().getExtras();
-        user.setUserID(extra.getInt("user_id"));
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        user.setUserID(sharedPref.getInt("user_id", 0));
     }
 
     private void assignElements() {
@@ -68,9 +71,17 @@ public class CreateTeamActivity extends AppCompatActivity {
                 addInfosToTeam();
                 saveTeamInDatabase();
                 saveUserTeamConnection();
+                saveTeamInfo();
                 goToHome();
             }
         });
+    }
+
+    private void saveTeamInfo() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("team_id", team.getTeamID().getCode());
+        editor.apply();
     }
 
     private void saveUserTeamConnection() {
