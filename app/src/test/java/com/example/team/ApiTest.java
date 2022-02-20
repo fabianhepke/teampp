@@ -28,6 +28,12 @@ import static org.junit.Assert.*;
 public class ApiTest {
 
     @Test
+    public void getTeamnameTest() {
+        PhpConnection conn = new PhpConnection();
+        assertEquals("FC Bayern München", conn.getTeamName(100002));
+    }
+
+    @Test
     public void failedRegisterTest() {
         PhpConnection conn = new PhpConnection();
 
