@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.example.team.components.Team;
 import com.example.team.components.TeamCode;
 import com.example.team.components.User;
+import com.example.team.database.PhpConnection;
 import com.example.team.help.NavigationHandler;
 
 public class HomeActivity extends AppCompatActivity {
@@ -36,7 +37,15 @@ public class HomeActivity extends AppCompatActivity {
 
     private void checkTeamInfos() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        user.setUserID(sharedPref.getInt("team_id", 100000));
+        int teamID = sharedPref.getInt("team_id", 100000);
+        if (teamID != 100000){
+            return;
+        }
+        //get the first team of the user if the app don't find a team id
+        PhpConnection conn = new PhpConnection();
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("team_id", conn.getTeamsOfUser(user.getUserID()).getTeams().get(0).getTeamID().getCode());
+        editor.apply();
     }
 
     @Override
