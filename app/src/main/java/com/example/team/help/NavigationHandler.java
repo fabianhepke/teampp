@@ -63,18 +63,21 @@ public class NavigationHandler {
     private void goToTeams() {
         Intent intent = new Intent(context, TeamActivity.class);
         intent.putExtra("user_id", userID);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         context.startActivity(intent);
     }
 
     private void goToHome() {
         Intent intent = new Intent(context, HomeActivity.class);
         intent.putExtra("user_id", userID);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         context.startActivity(intent);
     }
 
     private void goToProfile() {
         Intent intent = new Intent(context, ProfileActivity.class);
         intent.putExtra("user_id", userID);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         context.startActivity(intent);
     }
 }
