@@ -1,4 +1,5 @@
 package com.example.team;
+import com.example.team.components.Teams;
 import com.example.team.components.User;
 import com.example.team.database.PhpConnection;
 import com.example.team.help.ApiHelper;
@@ -7,6 +8,7 @@ import com.example.team.help.Token;
 
 import junit.textui.TestRunner;
 
+import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +28,13 @@ import static org.junit.Assert.*;
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 28)
 public class ApiTest {
+
+    @Test
+    public void getTeams() throws JSONException {
+        PhpConnection conn = new PhpConnection();
+        Teams teams = conn.getTeamsOfUser(30);
+        assertEquals(teams.getTeams().get(0).getTeamID().getCode(), 100001);
+    }
 
     @Test
     public void getTeamnameTest() {
