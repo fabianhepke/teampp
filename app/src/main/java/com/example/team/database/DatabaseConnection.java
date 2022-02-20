@@ -3,6 +3,7 @@ package com.example.team.database;
 import com.example.team.components.Rank;
 import com.example.team.components.Team;
 import com.example.team.components.TeamCode;
+import com.example.team.components.Teams;
 import com.example.team.components.User;
 import com.example.team.help.EMail;
 
@@ -43,4 +44,10 @@ public interface DatabaseConnection {
     boolean doesUserHasTeamConnection(int userID, int parseInt);
 
     boolean doesUserHasTeam(int userID);
+
+    int getTeamMemberNum(int teamID);
+
+    String getTeamName(int teamID);
+
+    Teams getTeamsOfUser(int userID);
 }

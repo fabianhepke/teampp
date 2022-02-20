@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.team.components.Rank;
 import com.example.team.components.Team;
 import com.example.team.components.TeamCode;
+import com.example.team.components.Teams;
 import com.example.team.components.User;
 import com.example.team.help.ApiHelper;
 import com.example.team.help.EMail;
@@ -277,7 +278,7 @@ public class PhpConnection implements DatabaseConnection {
 
     @Override
     public void registerTeam(Team team) {
-        String url ="https://www.memevz.h10.de/teamPP.php?op=registerTeam&teamname=" + URLHelper.convertString(team.getTeamName()) + "&description=" + URLHelper.convertString(team.getDescription()) + "&team_id=" + team.getTeamID().getCode() + "&pin=" + team.getPin()  ;
+        String url ="https://www.memevz.h10.de/teamPP.php?op=registerTeam&teamname=" + URLHelper.convertStringForUrl(team.getTeamName()) + "&description=" + URLHelper.convertStringForUrl(team.getDescription()) + "&team_id=" + team.getTeamID().getCode() + "&pin=" + team.getPin()  ;
         String result;
         Log.i(TAG, "registerTeam: " + url);
         try {
@@ -344,7 +345,7 @@ public class PhpConnection implements DatabaseConnection {
 
     @Override
     public boolean doesUserHasTeam(int userID) {
-        String url = "https://www.memevz.h10.de/teamPP.php?op=doesUserHasTeam&&user_id=" + userID;
+        String url = "https://www.memevz.h10.de/teamPP.php?op=doesUserHasTeam&user_id=" + userID;
         String result;
         try {
             result = new ApiHelper(url).execute().get();
@@ -360,5 +361,59 @@ public class PhpConnection implements DatabaseConnection {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public int getTeamMemberNum(int teamID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getTeamMemberNum&team_id=" + teamID;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            result = null;
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            return jsonObject.getInt("members");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public String getTeamName(int teamID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getTeamname&team_id=" + teamID;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+            result = URLHelper.convertUrlString(result);
+        }catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            result = null;
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            return jsonObject.getString("teamname");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return "Verbindungsprobleme";
+        }
+    }
+
+    @Override
+    public Teams getTeamsOfUser(int userID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getTeamsOfUser&user_id=" + userID;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+            return new Teams(result);
+        }catch (ExecutionException | InterruptedException | JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
