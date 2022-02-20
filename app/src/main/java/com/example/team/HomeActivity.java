@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -26,10 +27,16 @@ public class HomeActivity extends AppCompatActivity {
 
         assignElements();
         getUserInfos();
+        checkTeamInfos();
 
         NavigationHandler nav = new NavigationHandler(this, user.getUserID());
         nav.setNavigaionBarColor(teams, home, profile, 2);
         nav.addNavigationBarEvents(teams, home, profile);
+    }
+
+    private void checkTeamInfos() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        user.setUserID(sharedPref.getInt("team_id", 100000));
     }
 
     @Override
@@ -38,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void getUserInfos() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         user.setUserID(sharedPref.getInt("user_id", 0));
     }
 

@@ -2,7 +2,9 @@ package com.example.team;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.ImageButton;
 
 import com.example.team.components.User;
@@ -31,8 +33,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void getUserInfos() {
-        Bundle extra = getIntent().getExtras();
-        user.setUserID(extra.getInt("user_id"));
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        user.setUserID(sharedPref.getInt("user_id", 0));
     }
 
     private void assignElements() {

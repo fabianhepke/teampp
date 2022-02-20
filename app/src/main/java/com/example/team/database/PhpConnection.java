@@ -413,7 +413,7 @@ public class PhpConnection implements DatabaseConnection {
         String result;
         try {
             result = new ApiHelper(url).execute().get();
-            return new Teams(result);
+            return new Teams(URLHelper.convertUrlString(result));
         }catch (ExecutionException | InterruptedException | JSONException e) {
             e.printStackTrace();
         }

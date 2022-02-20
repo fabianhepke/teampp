@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -55,7 +56,7 @@ public class JoinTeamActivity extends AppCompatActivity {
     }
 
     private void saveTeamInfo() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("team_id", Integer.parseInt(teamId.getText().toString()));
         editor.apply();
@@ -82,7 +83,7 @@ public class JoinTeamActivity extends AppCompatActivity {
     }
 
     private void getUserInfos() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         user.setUserID(sharedPref.getInt("user_id", 0));
     }
 
