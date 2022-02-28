@@ -1,46 +1,45 @@
 package com.example.team;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.team.components.Team;
-import com.example.team.components.TeamCode;
-import com.example.team.components.Teams;
-import com.example.team.components.User;
-import com.example.team.database.PhpConnection;
+import com.example.team.database.TeamRepositoryImpl;
+import com.example.team.database.UserRepositoryImpl;
 import com.example.team.help.ActivityChanger;
 import com.example.team.help.NavigationHandler;
 import com.google.android.material.card.MaterialCardView;
-
-import static android.content.ContentValues.TAG;
+import com.teampp.domain.entities.*;
+import com.teampp.domain.entities.valueobjects.BasicID;
+import com.teampp.domain.entities.valueobjects.TeamID;
+import com.teampp.domain.repositories.TeamRepository;
+import com.teampp.domain.repositories.UserRepository;
+import com.teampp.usecase.ChangeCurrentTeam;
+import com.teampp.usecase.GetCurrentTeam;
+import com.teampp.usecase.GetTeamsOfUser;
 
 public class TeamActivity extends AppCompatActivity {
 
-    ImageButton teams, home, profile;
-    Button addTeam;
-    TextView title, members;
-    LinearLayout sv;
-    User user = new User();
-    Teams otherTeams;
-    Team team;
+    private ImageButton teams, home, profile;
+    private Button addTeam;
+    private TextView title, members;
+    private LinearLayout sv;
+    private User user;
+    private Teams otherTeams;
+    private Team actualTeam;
+    private TeamRepository teamRepository;
+    private UserRepository userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +47,16 @@ public class TeamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_team);
 
         assignElements();
-        getUserInfos();
-        getTeamInfos();
         prepareNavigationBar();
     }
 
-    private void getTeamInfos() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        team = new Team(new TeamCode(sharedPref.getInt("team_id", 100000)));
+    private Team getCurrentTeam() {
+        GetCurrentTeam getCurrentTeamUseCase = new GetCurrentTeam(teamRepository, userRepository);
+        return getCurrentTeamUseCase.getCurrentTeam(user.getUserID().toInt());
     }
 
     private void prepareNavigationBar() {
-        NavigationHandler nav = new NavigationHandler(this, user.getUserID());
+        NavigationHandler nav = new NavigationHandler(this);
         nav.setNavigaionBarColor(teams, home, profile, 1);
         nav.addNavigationBarEvents(teams, home, profile);
     }
@@ -99,15 +96,19 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     private void insertOtherTeams() {
-        PhpConnection conn = new PhpConnection();
-        otherTeams = conn.getTeamsOfUser(user.getUserID());
+        GetTeamsOfUser getTeamsOfUserUseCase = new GetTeamsOfUser(teamRepository);
+        otherTeams = getTeamsOfUserUseCase.getTeams(user);
         for (int i = 0; i < otherTeams.getTeams().size(); i++) {
             isertOneTeam(otherTeams.getTeams().get(i));
         }
     }
 
     private void isertOneTeam(Team team) {
+        if (team.getTeamID().toInt() == actualTeam.getTeamID().toInt()) {
+            return;
+        }
         MaterialCardView cardView = getNewCardView();
+        addClickEvent(cardView, team.getTeamID().toInt());
         LinearLayout container = getLinearlayout();
         TextView title = getTitleTextView(team.getTeamName());
         TextView memberNum = getMembersTextView(team.getMembers());
@@ -115,6 +116,26 @@ public class TeamActivity extends AppCompatActivity {
         container.addView(memberNum);
         cardView.addView(container);
         sv.addView(cardView);
+    }
+
+    private void addClickEvent(MaterialCardView cardView, int teamID) {
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveTeamInfo(teamID);
+                restartActivity();
+            }
+        });
+    }
+
+    private void restartActivity() {
+        ActivityChanger.changeActivityTo(this, TeamActivity.class);
+    }
+
+    private void saveTeamInfo(int teamID) {
+        user.setTeamID(new TeamID(teamID));
+        ChangeCurrentTeam changeCurrentTeamUseCase = new ChangeCurrentTeam(userRepository);
+        changeCurrentTeamUseCase.changeTeam(user);
     }
 
     private TextView getMembersTextView(int memberNum) {
@@ -154,14 +175,13 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     private void insertActualTeam() {
-        PhpConnection conn = new PhpConnection();
-        title.setText(conn.getTeamName(team.getTeamID().getCode()));
-        members.setText(conn.getTeamMemberNum(team.getTeamID().getCode()) + " Mitglieder");
+        title.setText(actualTeam.getTeamName());
+        members.setText(actualTeam.getMembers() + " Mitglieder");
     }
 
-    private void getUserInfos() {
+    private User getUserInfos() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        user.setUserID(sharedPref.getInt("user_id", 0));
+        return new User(new BasicID(sharedPref.getInt("user_id", 0)));
     }
 
     private void assignElements() {
@@ -172,5 +192,9 @@ public class TeamActivity extends AppCompatActivity {
         members = findViewById(R.id.teams_actual_member);
         sv = findViewById(R.id.teams_scroll_container);
         addTeam = findViewById(R.id.teams_addteam);
+        userRepository = new UserRepositoryImpl();
+        teamRepository = new TeamRepositoryImpl();
+        user = getUserInfos();
+        actualTeam = getCurrentTeam();
     }
 }

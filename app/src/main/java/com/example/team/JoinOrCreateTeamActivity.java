@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.team.components.User;
+import com.example.team.help.ActivityChanger;
+import com.teampp.domain.entities.User;
 
 public class JoinOrCreateTeamActivity extends AppCompatActivity {
 
     Button join, create;
-    User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +36,14 @@ public class JoinOrCreateTeamActivity extends AppCompatActivity {
         join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(JoinOrCreateTeamActivity.this, JoinTeamActivity.class);
-                startActivity(intent);
+                ActivityChanger.changeActivityTo(JoinOrCreateTeamActivity.this, JoinTeamActivity.class);
             }
         });
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(JoinOrCreateTeamActivity.this, CreateTeamActivity.class);
-                startActivity(intent);
+                ActivityChanger.changeActivityTo(JoinOrCreateTeamActivity.this, CreateTeamActivity.class);
             }
         });
     }

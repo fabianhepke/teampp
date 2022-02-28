@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ImageButton;
 
-import com.example.team.components.User;
 import com.example.team.help.NavigationHandler;
+import com.teampp.domain.entities.User;
+import com.teampp.domain.entities.valueobjects.BasicID;
 
 public class ProfileActivity extends AppCompatActivity {
     ImageButton teams, home, profile;
-    User user = new User();
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
         assignElements();
         getUserInfos();
 
-        NavigationHandler nav = new NavigationHandler(this, user.getUserID());
+        NavigationHandler nav = new NavigationHandler(this);
         nav.setNavigaionBarColor(teams, home, profile, 3);
         nav.addNavigationBarEvents(teams, home, profile);
     }
@@ -32,9 +33,9 @@ public class ProfileActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void getUserInfos() {
+    private User getUserInfos() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        user.setUserID(sharedPref.getInt("user_id", 0));
+        return new User(new BasicID(sharedPref.getInt("user_id", 0)));
     }
 
     private void assignElements() {

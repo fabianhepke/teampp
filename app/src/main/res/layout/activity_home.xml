@@ -7,16 +7,63 @@
     android:orientation="vertical"
     tools:context=".HomeActivity">
 
-    <include layout="@layout/top_bar"
+    <include
+        android:id="@+id/include2"
+        layout="@layout/top_bar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"/>
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_date_title"
+        android:textSize="12pt"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include2"
+        app:layout_constraintBottom_toTopOf="@+id/home_scrollview"
+        android:text="Termine:"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_scrollview"
+        app:layout_constraintBottom_toTopOf="@+id/home_add_date"
+        app:layout_constraintTop_toBottomOf="@+id/home_date_title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/home_date_container"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/home_add_date"
+        app:layout_constraintBottom_toTopOf="@+id/navbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        android:text="Termin Hinzufügen"
+        app:strokeWidth="2dp"
+        app:icon="@drawable/ic_add"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        />
 
     <include
         layout="@layout/navigation_bar"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

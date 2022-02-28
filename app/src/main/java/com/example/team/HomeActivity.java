@@ -6,20 +6,27 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
-import com.example.team.components.Team;
-import com.example.team.components.TeamCode;
-import com.example.team.components.User;
-import com.example.team.database.PhpConnection;
+import com.example.team.database.TeamRepositoryImpl;
+import com.example.team.database.UserRepositoryImpl;
+import com.example.team.help.ActivityChanger;
 import com.example.team.help.NavigationHandler;
+import com.teampp.domain.entities.*;
+import com.teampp.domain.entities.valueobjects.BasicID;
+import com.teampp.domain.repositories.TeamRepository;
+import com.teampp.domain.repositories.UserRepository;
 
 public class HomeActivity extends AppCompatActivity {
 
     ImageButton teams, home, profile;
-    User user = new User();
+    Button addDate;
+    User user;
     Team team;
+    UserRepository userRepository;
+    TeamRepository teamRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,45 +34,52 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         assignElements();
-        getUserInfos();
-        checkTeamInfos();
+        prepareNavigationBar();
+    }
 
-        NavigationHandler nav = new NavigationHandler(this, user.getUserID());
+    private void prepareNavigationBar() {
+        NavigationHandler nav = new NavigationHandler(this);
         nav.setNavigaionBarColor(teams, home, profile, 2);
         nav.addNavigationBarEvents(teams, home, profile);
     }
 
-    private void checkTeamInfos() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        int teamID = sharedPref.getInt("team_id", 100000);
-        if (teamID != 100000){
-            return;
-        }
-        //get the first team of the user if the app don't find a team id
-        PhpConnection conn = new PhpConnection();
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("team_id", conn.getTeamsOfUser(user.getUserID()).getTeams().get(0).getTeamID().getCode());
-        editor.apply();
+    private Team getCurrentTeam() {
+        return userRepository.getCurrentTeam(user);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        insertDates();
+        assignButtonEvents();
     }
 
-    private void getUserInfos() {
+    private void assignButtonEvents() {
+        addDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityChanger.changeActivityTo(HomeActivity.this, CreateTeamDateActivity.class);
+            }
+        });
+    }
+
+    private void insertDates() {
+
+    }
+
+    private User getUser() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        user.setUserID(sharedPref.getInt("user_id", 0));
-    }
-
-    private void getTeamInfos() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        team = new Team(new TeamCode(sharedPref.getInt("team_id", 100000)));
+        return new User(new BasicID(sharedPref.getInt("user_id", 0)));
     }
 
     private void assignElements() {
         teams = findViewById(R.id.nav_teams);
         home = findViewById(R.id.nav_home);
         profile = findViewById(R.id.nav_profile);
+        addDate = findViewById(R.id.home_add_date);
+        user = getUser();
+        userRepository = new UserRepositoryImpl();
+        teamRepository = new TeamRepositoryImpl();
+        team = getCurrentTeam();
     }
 }

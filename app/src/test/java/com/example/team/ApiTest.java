@@ -2,27 +2,17 @@ package com.example.team;
 import com.example.team.components.Teams;
 import com.example.team.components.User;
 import com.example.team.database.PhpConnection;
-import com.example.team.help.ApiHelper;
-import com.example.team.help.EMail;
+import com.example.team.help.EMailHelper;
 import com.example.team.help.Token;
 
-import junit.textui.TestRunner;
-
 import org.json.JSONException;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.annotation.LooperMode;
 
-import java.io.IOException;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
-import static android.content.ContentValues.TAG;
-import static androidx.test.InstrumentationRegistry.getContext;
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
@@ -33,7 +23,7 @@ public class ApiTest {
     public void getTeams() throws JSONException {
         PhpConnection conn = new PhpConnection();
         Teams teams = conn.getTeamsOfUser(30);
-        assertEquals(teams.getTeams().get(0).getTeamID().getCode(), 100001);
+        assertEquals(teams.getTeams().get(0).getTeamID().toInt(), 100001);
     }
 
     @Test
@@ -76,11 +66,11 @@ public class ApiTest {
         PhpConnection conn = new PhpConnection();
         User user = conn.login("derneue", "12345678", true);
         assertEquals(27, user.getUserID());
-        user = conn.login(new EMail("hepkefa@gmail.com"), "12345678", true);
+        user = conn.login(new EMailHelper("hepkefa@gmail.com"), "12345678", true);
         assertEquals(27, user.getUserID());
         user = conn.login("derneue", "12345678", false);
         assertEquals(27, user.getUserID());
-        user = conn.login(new EMail("hepkefa@gmail.com"), "12345678", false);
+        user = conn.login(new EMailHelper("hepkefa@gmail.com"), "12345678", false);
         assertEquals(27, user.getUserID());
     }
 
@@ -91,17 +81,17 @@ public class ApiTest {
         assertEquals(-1, user.getUserID());
         user = conn.login("admin", "falschesPW", true);
         assertEquals(-1, user.getUserID());
-        user = conn.login(new EMail("admin@mail.com"), "falschesPW", true);
+        user = conn.login(new EMailHelper("admin@mail.com"), "falschesPW", true);
         assertEquals(-1, user.getUserID());
-        user = conn.login(new EMail("noAdmin@mail.com"), "12345678", true);
+        user = conn.login(new EMailHelper("noAdmin@mail.com"), "12345678", true);
         assertEquals(-1, user.getUserID());
         user = conn.login("nonexist", "12345678", false);
         assertEquals(-1, user.getUserID());
         user = conn.login("admin", "falschesPW", false);
         assertEquals(-1, user.getUserID());
-        user = conn.login(new EMail("admin@mail.com"), "falschesPW", false);
+        user = conn.login(new EMailHelper("admin@mail.com"), "falschesPW", false);
         assertEquals(-1, user.getUserID());
-        user = conn.login(new EMail("noadmin@gmail.com"), "12345678", false);
+        user = conn.login(new EMailHelper("noadmin@gmail.com"), "12345678", false);
         assertEquals(-1, user.getUserID());
     }
 

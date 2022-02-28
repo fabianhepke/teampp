@@ -2,26 +2,21 @@ package com.example.team;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.example.team.components.User;
-import com.example.team.database.PhpConnection;
-import com.example.team.help.EMail;
-import com.example.team.help.InputChecker;
+import com.example.team.database.UserRepositoryImpl;
+import com.example.team.help.ActivityChanger;
+import com.teampp.domain.entities.User;
+import com.teampp.domain.repositories.UserRepository;
+import com.teampp.usecase.LoginUser;
 
-import java.util.Objects;
-
-import static android.content.ContentValues.TAG;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,12 +24,14 @@ public class LoginActivity extends AppCompatActivity {
     private Button login, register;
     private CheckBox stayLoggedInBox;
     private User user;
+    private UserRepository userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         assignElements();
+        userRepository = new UserRepositoryImpl();
     }
 
 
@@ -48,8 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
+                ActivityChanger.changeActivityTo(LoginActivity.this, RegisterActivity.class);
             }
         });
 
@@ -62,24 +58,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        if (!InputChecker.isLoginDataVaild(username.getText().toString(), password.getText().toString())) {
-            return;
+        LoginUser loginUseCase = new LoginUser(userRepository, LoginActivity.this);
+        user = new User(username.getText().toString(), password.getText().toString());
+        boolean isLoginsuccessful = loginUseCase.loginUser(user, stayLoggedInBox.isChecked(), username, password);
+        if (isLoginsuccessful) {
+            goToHomeOrJoinTeam();
         }
-        user = getLoginUser(username.getText().toString(), password.getText().toString(), stayLoggedInBox.isChecked());
-        saveUserId();
-        goToHomeOrJoinTeam();
-    }
-
-    private void saveUserId() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("user_id", user.getUserID());
-        editor.apply();
     }
 
     private void goToHomeOrJoinTeam() {
-        PhpConnection conn = new PhpConnection();
-        if (!conn.doesUserHasTeam(user.getUserID())) {
+        if (userRepository.doesUserHasTeam(user)) {
             goToJoinOrCreateTeam();
             return;
         }
@@ -87,25 +75,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToHome() {
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-        intent.putExtra("user_id", user.getUserID());
-        startActivity(intent);
+        ActivityChanger.changeActivityTo(LoginActivity.this, HomeActivity.class);
     }
 
     private void goToJoinOrCreateTeam() {
-        Intent intent = new Intent(LoginActivity.this, JoinOrCreateTeamActivity.class);
-        intent.putExtra("user_id", user.getUserID());
-        startActivity(intent);
-    }
-
-    private User getLoginUser(String usernameOrMail, String password, boolean stayLoggedIn) {
-        PhpConnection connection = new PhpConnection();
-        if (EMail.isValid(usernameOrMail)) {
-            return connection.login(new EMail(usernameOrMail), password, stayLoggedIn);
-        }
-        else {
-            return connection.login(usernameOrMail, password, stayLoggedIn);
-        }
+        ActivityChanger.changeActivityTo(LoginActivity.this, JoinOrCreateTeamActivity.class);
     }
 
     private void assignElements() {

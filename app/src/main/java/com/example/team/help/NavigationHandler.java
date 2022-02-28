@@ -17,7 +17,7 @@ public class NavigationHandler {
     private Context context;
     private int userID;
 
-    public NavigationHandler(Context context, int userID){
+    public NavigationHandler(Context context){
         this.context = context;
         this.userID = userID;
     }
@@ -61,23 +61,14 @@ public class NavigationHandler {
     }
 
     private void goToTeams() {
-        Intent intent = new Intent(context, TeamActivity.class);
-        intent.putExtra("user_id", userID);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        context.startActivity(intent);
+        ActivityChanger.changeActivityTo(context, TeamActivity.class);
     }
 
     private void goToHome() {
-        Intent intent = new Intent(context, HomeActivity.class);
-        intent.putExtra("user_id", userID);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        context.startActivity(intent);
+        ActivityChanger.changeActivityTo(context, HomeActivity.class);
     }
 
     private void goToProfile() {
-        Intent intent = new Intent(context, ProfileActivity.class);
-        intent.putExtra("user_id", userID);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        context.startActivity(intent);
+        ActivityChanger.changeActivityTo(context, ProfileActivity.class);
     }
 }

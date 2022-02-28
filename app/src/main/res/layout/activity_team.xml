@@ -98,6 +98,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="20dp"
         android:text="Team Hinzufügen"
+        app:strokeWidth="2dp"
         app:icon="@drawable/ic_add"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
     />
@@ -105,7 +106,7 @@
     <include
         layout="@layout/navigation_bar"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
