@@ -8,6 +8,7 @@ public class URLHelper {
         string = string.replace("ü", "ue");
         string = string.replace("Ä", "AE");
         string = string.replace("Ö", "OE");
+        string = string.replace("ß", "ssss");
         return string.replace("ü", "UE");
     }
 
@@ -17,6 +18,7 @@ public class URLHelper {
         string = string.replace("ue", "ü");
         string = string.replace("AE", "Ä");
         string = string.replace("OE", "Ö");
+        string = string.replace("ssss", "ß");
         return string.replace("UE", "Ü");
     }
 

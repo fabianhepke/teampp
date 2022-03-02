@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:gravity="center"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,8 +42,9 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/date_titel_input"
-                        />
+                        android:singleLine="true"
+                        android:background="@color/light_grey"
+                        android:id="@+id/date_titel_input"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -121,6 +123,127 @@
                     android:text="Uhrzeit auswählen" />
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:id="@+id/date_radio_groupe"
+                    android:layout_height="wrap_content">
+                        <RadioButton
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:text="Daheim"
+                            android:checked="true"
+                            android:buttonTint="@color/black"
+                            android:layout_weight="1"
+                            android:id="@+id/date_radio_daheim"/>
+                        <RadioButton
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:text="Auswärts"
+                            android:buttonTint="@color/black"
+                            android:layout_weight="1"
+                            android:id="@+id/date_radio_auswärts"/>
+                </RadioGroup>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0px"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:hint="Postleitzahl">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:singleLine="true"
+                        android:background="@color/mid_grey"
+                        android:id="@+id/date_plz_input"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0px"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:hint="Ort">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:singleLine="true"
+                        android:background="@color/mid_grey"
+                        android:id="@+id/date_place_input"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0px"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:layout_marginEnd="5dp"
+                    android:hint="Straße">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/date_street_input"
+                        android:singleLine="true"
+                        android:background="@color/mid_grey"
+                        android:enabled="false"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0px"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:hint="Nr.">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/date_hnr_input"
+                        android:singleLine="true"
+                        android:background="@color/mid_grey"
+                        android:enabled="false"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/date_submit_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Termin erstellen" />
+
         </LinearLayout>
 
 

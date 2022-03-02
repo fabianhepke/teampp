@@ -31,7 +31,7 @@ public class UserRepositoryImpl implements UserRepository {
                 + "&email=" + user.geteMail().toString()
                 + "&login_token=" + user.getLoginToken().toString()
                 + "&rank=" + user.getRank()
-                + "&name=" + user.getName();
+                + "&name=" + URLHelper.convertStringForUrl(user.getName());
         try {
             result = new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -56,6 +56,7 @@ public class UserRepositoryImpl implements UserRepository {
                 + "&password=" + user.getPassword().toString()
                 + "&email=" + user.geteMail().toString()
                 + "&name=" + user.getName();
+        url = URLHelper.convertStringForUrl(url);
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {

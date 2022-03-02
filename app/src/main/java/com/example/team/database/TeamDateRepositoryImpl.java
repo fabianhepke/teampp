@@ -15,15 +15,13 @@ import java.util.concurrent.ExecutionException;
 public class TeamDateRepositoryImpl implements TeamDateRepository {
 
     @Override
-    public void addTeamDate(TeamDate teamDate) {
-        String url ="https://www.memevz.h10.de/teamPP.php?op=addDate&team_id="
+    public void addHomeTeamDate(TeamDate teamDate, String date) {
+        String url ="https://www.memevz.h10.de/teamPP.php?op=addHomeDate&team_id="
                 + teamDate.getTeamID().toInt()
-                + "&plz=" + teamDate.getAdress().getPlz()
-                + "&place=" + teamDate.getAdress().getPlace()
-                + "&street=" + teamDate.getAdress().getStreet()
-                + "&hnr=" + teamDate.getAdress().getHouseNr()
+                + "&place=Daheim"
                 + "&datename=" + teamDate.getDateName()
-                + "&date=" + teamDate.getDate();
+                + "&date=" + date;
+        url = URLHelper.convertStringForUrl(url);
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -56,6 +54,24 @@ public class TeamDateRepositoryImpl implements TeamDateRepository {
                 + "&hnr=" + teamDate.getAdress().getHouseNr()
                 + "&datename=" + teamDate.getDateName()
                 + "&date=" + teamDate.getDate();
+        try {
+            new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+        }
+    }
+
+    @Override
+    public void addTeamDate(TeamDate teamDate, String date) {
+        String url ="https://www.memevz.h10.de/teamPP.php?op=addDate&team_id="
+                + teamDate.getTeamID().toInt()
+                + "&plz=" + teamDate.getAdress().getPlz()
+                + "&place=" + teamDate.getAdress().getPlace()
+                + "&street=" + teamDate.getAdress().getStreet()
+                + "&hnr=" + teamDate.getAdress().getHouseNr()
+                + "&datename=" + teamDate.getDateName()
+                + "&date=" + date;
+        url = URLHelper.convertStringForUrl(url);
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {

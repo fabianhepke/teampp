@@ -42,11 +42,11 @@ public class TeamRepositoryImpl implements TeamRepository {
     @Override
     public void registerTeam(Team team) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=registerTeam&teamname="
-                + URLHelper.convertStringForUrl(team.getTeamName())
-                + "&description=" + URLHelper.convertStringForUrl(team.getDescription())
+                + team.getTeamName()
+                + "&description=" + team.getDescription()
                 + "&team_id=" + team.getTeamID().toInt()
-                + "&pin=" + team.getPin()  ;
-        Log.i(TAG, "registerTeam: " + url);
+                + "&pin=" + team.getPin();
+        url = URLHelper.convertStringForUrl(url);
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -75,8 +75,6 @@ public class TeamRepositoryImpl implements TeamRepository {
             return false;
         }
     }
-
-
 
     @Override
     public int getTeamMemberNum(Team team) {
