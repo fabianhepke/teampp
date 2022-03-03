@@ -26,7 +26,6 @@ public class UserTeamConnectionRepositoryImpl implements UserTeamConnectionRepos
 
     @Override
     public void removeUserTeamConnection(UserTeamConnection userTeamConnection) {
-        //TO DO Implement
         String url ="https://www.memevz.h10.de/teamPP.php?op=removeConnection&team_id="
                 + userTeamConnection.getTeam().getTeamID().toInt()
                 + "&user_id=" + userTeamConnection.getUser().getUserID().toInt();
