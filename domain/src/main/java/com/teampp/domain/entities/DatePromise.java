@@ -1,37 +1,36 @@
 package com.teampp.domain.entities;
 
 public class DatePromise {
-    private TeamDate teamDate;
-    private User user;
-    private boolean commitment;
+    private int dateID, userID;
+    private boolean promise;
 
-    public DatePromise(TeamDate teamDate, User user, boolean commitment) {
-        this.teamDate = teamDate;
-        this.user = user;
-        this.commitment = commitment;
+    public DatePromise(int dateID, int userID, boolean promise) {
+        this.dateID = dateID;
+        this.userID = userID;
+        this.promise = promise;
     }
 
-    public TeamDate getTeamDate() {
-        return teamDate;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setTeamDate(TeamDate teamDate) {
-        this.teamDate = teamDate;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
-    public User getUser() {
-        return user;
+    public int getDateID() {
+        return dateID;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setDateID(int dateID) {
+        this.dateID = dateID;
     }
 
-    public boolean isCommitment() {
-        return commitment;
+    public boolean isPromise() {
+        return promise;
     }
 
-    public void setCommitment(boolean commitment) {
-        this.commitment = commitment;
+    public void setPromise(boolean promise) {
+        this.promise = promise;
     }
 }

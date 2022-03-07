@@ -11,15 +11,17 @@ public class PromiseTeamDate {
         this.repository = repository;
     }
 
-    public void commitTeamDate(DatePromise commitment) {
-        repository.addDatePromise(commitment);
+    public void promiseTeamDate(int userID, int dateID, boolean promise) {
+        DatePromise userPromise = new DatePromise(dateID, userID, promise);
+        repository.addDatePromise(userPromise);
     }
 
-    public boolean doesUserCommited(DatePromise commitment) {
-        return repository.doesUserPromisedDate(commitment);
+    public boolean doesUserCommited(int userID, int dateID) {
+        return repository.doesUserPromisedDate(dateID, userID);
     }
 
-    public void changeCommitment(DatePromise commitment) {
-        repository.changeDatePromise(commitment);
+    public void changeCommitment(int dateID, int userID, boolean promise) {
+        DatePromise userPromise = new DatePromise(dateID, userID, promise);
+        repository.changeDatePromise(userPromise);
     }
 }

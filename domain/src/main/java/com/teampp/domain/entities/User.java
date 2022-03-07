@@ -5,17 +5,18 @@ import com.teampp.domain.entities.enums.Rank;
 import com.teampp.domain.entities.valueobjects.*;
 
 import java.util.Date;
+import java.util.List;
 
 public  class User {
-    BasicID userID;
-    EMail eMail;
-    Password password;
-    Username username;
-    Token loginToken;
-    Date creationDate;
-    Rank rank;
-    TeamID teamID;
-    String name;
+    private BasicID userID;
+    private EMail eMail;
+    private Password password;
+    private Username username;
+    private Token loginToken;
+    private Rank rank;
+    private int actualTeamID;
+    private List<Integer> otherTeamIDs;
+    private String name;
 
     public User(BasicID userID, Username username, EMail eMail) {
         this.userID = userID;
@@ -24,12 +25,12 @@ public  class User {
         this.rank = Rank.NORANK;
     }
 
-    public User(BasicID userID, Username username, EMail eMail, Rank rank, TeamID teamID) {
+    public User(BasicID userID, Username username, EMail eMail, Rank rank, int teamID) {
         this.userID = userID;
         this.username = username;
         this.eMail = eMail;
         this.rank = rank;
-        this.teamID = teamID;
+        this.actualTeamID = teamID;
     }
 
     public User(BasicID userID, Username username, EMail eMail, Rank rank) {
@@ -67,20 +68,38 @@ public  class User {
         this.rank = Rank.NORANK;
     }
 
+    public User(Username username, Password password) {
+        this.password = password;
+        this.username = username;
+    }
+
+    public User(EMail eMail, Password password) {
+        this.eMail = eMail;
+        this.password = password;
+    }
+
+    public int getActualTeamID() {
+        return actualTeamID;
+    }
+
+    public void setActualTeamID(int actualTeamID) {
+        this.actualTeamID = actualTeamID;
+    }
+
+    public List<Integer> getOtherTeamIDs() {
+        return otherTeamIDs;
+    }
+
+    public void setOtherTeamIDs(List<Integer> otherTeamIDs) {
+        this.otherTeamIDs = otherTeamIDs;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public TeamID getTeamID() {
-        return teamID;
-    }
-
-    public void setTeamID(TeamID teamID) {
-        this.teamID = teamID;
     }
 
     public BasicID getUserID() {
@@ -129,13 +148,5 @@ public  class User {
 
     public void setLoginToken(Token loginToken) {
         this.loginToken = loginToken;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 }

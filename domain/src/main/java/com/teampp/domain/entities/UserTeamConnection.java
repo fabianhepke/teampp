@@ -3,27 +3,36 @@ package com.teampp.domain.entities;
 import com.teampp.domain.entities.enums.Rank;
 
 public class UserTeamConnection {
-    private User user;
-    private Team team;
+    private int userID, teamID;
+    private Rank rank;
 
-    public UserTeamConnection(User user, Team team) {
-        this.user = user;
-        this.team = team;
+    public UserTeamConnection(int userID, int teamID, Rank rank) {
+        this.userID = userID;
+        this.teamID = teamID;
+        this.rank = rank;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
-    public Team getTeam() {
-        return team;
+    public int getTeamID() {
+        return teamID;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setTeamID(int teamID) {
+        this.teamID = teamID;
+    }
+
+    public Rank getRank() {
+        return rank;
+    }
+
+    public void setRank(Rank rank) {
+        this.rank = rank;
     }
 }

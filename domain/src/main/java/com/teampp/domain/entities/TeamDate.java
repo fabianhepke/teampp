@@ -7,14 +7,11 @@ import java.util.Date;
 public class TeamDate {
     private BasicID dateID;
     private String dateName;
-    private TeamID teamID;
+    private int teamID;
     private Date date;
     private Adress adress;
 
-    public TeamDate() {
-    }
-
-    public TeamDate(BasicID dateID, String dateName, TeamID teamID, Date date, Adress adress) {
+    public TeamDate(BasicID dateID, String dateName, int teamID, Date date, Adress adress) {
         this.dateID = dateID;
         this.dateName = dateName;
         this.teamID = teamID;
@@ -22,11 +19,24 @@ public class TeamDate {
         this.adress = adress;
     }
 
-    public TeamDate(String dateName, TeamID teamID, Date date, Adress adress) {
+    public TeamDate(String dateName, int teamID, Date date, Adress adress) {
         this.dateName = dateName;
         this.teamID = teamID;
         this.date = date;
         this.adress = adress;
+    }
+
+    public TeamDate(int teamID, String dateName) {
+        this.teamID = teamID;
+        this.dateName = dateName;
+    }
+
+    public int getTeamID() {
+        return teamID;
+    }
+
+    public void setTeamID(int teamID) {
+        this.teamID = teamID;
     }
 
     public BasicID getDateID() {
@@ -51,14 +61,6 @@ public class TeamDate {
 
     public void setDateName(String dateName) {
         this.dateName = dateName;
-    }
-
-    public TeamID getTeamID() {
-        return teamID;
-    }
-
-    public void setTeamID(TeamID teamID) {
-        this.teamID = teamID;
     }
 
     public Date getDate() {

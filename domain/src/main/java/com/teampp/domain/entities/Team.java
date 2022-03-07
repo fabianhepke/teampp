@@ -3,12 +3,14 @@ package com.teampp.domain.entities;
 import com.teampp.domain.entities.valueobjects.TeamID;
 
 import java.util.Date;
+import java.util.List;
 
 public class Team {
     private TeamID teamID;
     private String teamName, description;
     private Date creationDate;
     private int pin, members;
+    private List<Integer> dateIDs;
 
     public Team(TeamID teamID, String teamName, String description, int pin) {
         this.teamID = teamID;
@@ -47,6 +49,14 @@ public class Team {
     public Team(TeamID team_id, int pin) {
         this.teamID = team_id;
         this.pin = pin;
+    }
+
+    public List<Integer> getDateIDs() {
+        return dateIDs;
+    }
+
+    public void setDateIDs(List<Integer> dateIDs) {
+        this.dateIDs = dateIDs;
     }
 
     public int getMembers() {
