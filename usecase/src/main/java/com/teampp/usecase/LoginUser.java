@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.widget.EditText;
 
 import com.teampp.domain.entities.User;
+import com.teampp.domain.factories.UserFactory;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.help.ExistanceChecker;
 
@@ -18,7 +19,9 @@ public class LoginUser {
         this.context = context;
     }
 
-    public boolean loginUser(User user, boolean stayLoggedIn, EditText username, EditText password) {
+    public boolean loginUser(boolean stayLoggedIn, EditText username, EditText password) {
+        UserFactory userFactory = new UserFactory();
+        User user = userFactory.getUser(username.getText().toString(), password.getText().toString());
         if (!isDataValid(user, username, password)) {
             return false;
         }

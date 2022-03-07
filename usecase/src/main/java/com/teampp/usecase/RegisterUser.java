@@ -9,6 +9,7 @@ import com.teampp.domain.entities.User;
 import com.teampp.domain.entities.valueobjects.EMail;
 import com.teampp.domain.entities.valueobjects.Password;
 import com.teampp.domain.entities.valueobjects.Username;
+import com.teampp.domain.factories.UserFactory;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.help.ExistanceChecker;
 
@@ -19,11 +20,17 @@ public class RegisterUser {
         this.repository = repository;
     }
 
-    public boolean registerUser(User user, EditText username, EditText email, EditText password1, EditText password2) {
+    public boolean registerUser(EditText username, EditText email, EditText password1, EditText password2) {
+        User user = getUser(username, email, password1);
         if (!isInputValid(user, username, email, password1, password2)){
             return false;
         }
         return repository.registerUser(user);
+    }
+
+    private User getUser(EditText username, EditText email, EditText password1) {
+        UserFactory userFactory = new UserFactory();
+        return userFactory.getUser(username.getText().toString(), email.getText().toString(), password1.getText().toString());
     }
 
     private boolean isInputValid(User user, EditText username, EditText email, EditText password1, EditText password2) {

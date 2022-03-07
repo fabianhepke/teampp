@@ -1,10 +1,15 @@
 package com.teampp.usecase;
 
+import android.content.Intent;
 import android.widget.EditText;
 
 import com.teampp.domain.entities.TeamDate;
 import com.teampp.domain.entities.valueobjects.Adress;
+import com.teampp.domain.factories.TeamDateFactory;
 import com.teampp.domain.repositories.TeamDateRepository;
+import com.teampp.usecase.help.DateConverter;
+
+import java.util.Date;
 
 public class CreateTeamDate {
 
@@ -16,27 +21,34 @@ public class CreateTeamDate {
         this.repository = repository;
     }
 
-    public void createHomeTeamDate(TeamDate teamDate, String date, EditText title) {
+    public void createHomeTeamDate(int teamID, Date date, EditText title) {
         if (title.getText().toString().equals("")) {
             title.setError("Titel muss gesetzt sein");
             return;
         }
-        teamDate.setDateName(title.getText().toString());
-        repository.addHomeTeamDate(teamDate, date);
+        TeamDate teamDate = getHomeTeamDate(teamID, date, title.getText().toString());
+        String dateString = DateConverter.convertDateToString(date);
+        repository.addHomeTeamDate(teamDate, dateString);
     }
 
-    public void createTeamDate(TeamDate teamDate, String date, EditText title, EditText plz, EditText place, EditText street, EditText hnr) {
-        if (teamDate.getTeamID() == null) {
-            return;
-        }
-        assignData(plz, place, street, hnr, title);
+    private TeamDate getHomeTeamDate(int teamID, Date date, String datename) {
+        TeamDateFactory teamDateFactory = new TeamDateFactory();
+        return teamDateFactory.getHomeTeamDate(teamID, datename, date);
+    }
 
+    public void createTeamDate(Date date, int teamID, EditText title, EditText plz, EditText place, EditText street, EditText hnr) {
+        assignData(plz, place, street, hnr, title);
         if (!isInputValid(title, plz, place, street, hnr)) {
             return;
         }
-        teamDate = prepareTeamDate(teamDate);
+        TeamDate teamDate = getTeamDate(teamID, title.getText().toString(), date, plz.getText().toString(), place.getText().toString(), street.getText().toString(), hnr.getText().toString());
+        String dateString = DateConverter.convertDateToString(date);
+        repository.addTeamDate(teamDate, dateString);
+    }
 
-        repository.addTeamDate(teamDate, date);
+    private TeamDate getTeamDate(int teamID, String title, Date date, String plz, String place, String street, String hnr) {
+        TeamDateFactory teamDateFactory = new TeamDateFactory();
+        return teamDateFactory.getTeamDate(teamID, title, date, Integer.parseInt(plz), place, street, hnr);
     }
 
     private boolean isInputValid(EditText title, EditText plz, EditText place, EditText street, EditText hnr) {
@@ -68,11 +80,5 @@ public class CreateTeamDate {
         streetString = street.getText().toString();
         hnrString = hnr.getText().toString();
         titleString = title.getText().toString();
-    }
-
-    private TeamDate prepareTeamDate(TeamDate teamDate) {
-        teamDate.setDateName(titleString);
-        teamDate.setAdress(new Adress(plzInt, placeString, streetString, hnrString));
-        return teamDate;
     }
 }

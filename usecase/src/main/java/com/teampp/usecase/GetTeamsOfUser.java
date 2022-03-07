@@ -1,7 +1,7 @@
 package com.teampp.usecase;
 
 import com.teampp.domain.entities.Team;
-import com.teampp.domain.entities.Teams;
+import com.teampp.domain.entities.valueobjects.Teams;
 import com.teampp.domain.entities.User;
 import com.teampp.domain.repositories.TeamRepository;
 
