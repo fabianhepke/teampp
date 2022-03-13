@@ -1,7 +1,7 @@
 package com.teampp.usecase;
 
+import com.teampp.domain.builder.ConcreteUserBuilder;
 import com.teampp.domain.entities.User;
-import com.teampp.domain.factories.UserFactory;
 import com.teampp.domain.repositories.UserRepository;
 
 public class ChangeCurrentTeam {
@@ -17,9 +17,6 @@ public class ChangeCurrentTeam {
     }
 
     private User getUser(int userID, int teamID) {
-        UserFactory userFactory = new UserFactory();
-        User user = userFactory.getUser(userID, repository);
-        user.setActualTeamID(teamID);
-        return user;
+        return new ConcreteUserBuilder().setUserID(userID).setActualTeamID(teamID).build();
     }
 }

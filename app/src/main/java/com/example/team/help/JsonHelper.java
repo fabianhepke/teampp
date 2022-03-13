@@ -1,9 +1,10 @@
 package com.example.team.help;
 
+import com.teampp.domain.builder.ConcreteUserBuilder;
 import com.teampp.domain.entities.User;
 import com.teampp.domain.entities.enums.Rank;
-import com.teampp.domain.entities.valueobjects.*;
-import com.teampp.domain.entities.valueobjects.EMail;
+import com.teampp.domain.valueobjects.*;
+import com.teampp.domain.valueobjects.EMail;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,10 +15,11 @@ public class JsonHelper {
         if (json.getString("status").equals("fail")) {
             return null;
         }
-        User user = new User(new BasicID(json.getInt("user_id")));
-        user.setUsername(new Username(json.getString("username")));
-        user.seteMail(new EMail(json.getString("email")));
-
+        User user = new ConcreteUserBuilder()
+                .setUsername(json.getString("username"))
+                .setUserID(json.getInt("user_id"))
+                .setEmail(json.getString("email"))
+                .build();
         try {
             user.setLoginToken(new Token(json.getString("login_token")));
         }catch (JSONException e) {

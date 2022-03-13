@@ -1,13 +1,16 @@
 package com.teampp.domain.repositories;
 
-import com.teampp.domain.entities.Dates;
 import com.teampp.domain.entities.TeamDate;
-import com.teampp.domain.entities.valueobjects.TeamID;
+import com.teampp.domain.valueobjects.TeamID;
+
+import org.json.JSONArray;
 
 public interface TeamDateRepository {
     void addTeamDate(TeamDate teamDate, String date);
 
-    Dates getDatesByTeamID(TeamID teamID);
+    TeamDate getDateByID(int dateID);
+
+    JSONArray getDatesByTeamID(TeamID teamID);
 
     void deleteTeamDate(TeamDate teamDate);
 

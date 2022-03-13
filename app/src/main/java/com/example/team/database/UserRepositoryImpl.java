@@ -5,12 +5,11 @@ import android.util.Log;
 import com.example.team.help.ApiHelper;
 import com.example.team.help.JsonHelper;
 import com.example.team.help.URLHelper;
+import com.teampp.domain.builder.ConcreteTeamBuilder;
 import com.teampp.domain.entities.Team;
-import com.teampp.domain.entities.Teams;
 import com.teampp.domain.entities.User;
-import com.teampp.domain.entities.valueobjects.BasicID;
-import com.teampp.domain.entities.valueobjects.TeamID;
-import com.teampp.domain.entities.valueobjects.Token;
+import com.teampp.domain.valueobjects.TeamID;
+import com.teampp.domain.valueobjects.Token;
 import com.teampp.domain.repositories.UserRepository;
 
 import org.json.JSONException;
@@ -231,8 +230,29 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean doesUserHasTeam(User user) {
-        String url = "https://www.memevz.h10.de/teamPP.php?op=doesUserHasTeam&username=" + user.getUsername().toString();
+    public boolean doesUserHasTeam(String username) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=doesUserHasTeam&username=" + username;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            result = null;
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            return jsonObject.getBoolean("result");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isUserLoggedIn(int userID, String loginToken) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=isUserLoggedIn&user_id=" + userID
+                + "&login_token=" + loginToken;
         String result;
         try {
             result = new ApiHelper(url).execute().get();
@@ -254,7 +274,7 @@ public class UserRepositoryImpl implements UserRepository {
     public void changeCurrentTeam(User user) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=changeCurrentTeam&user_id="
                 + user.getUserID().toInt()
-                + "&team_id=" + user.getTeamID().toInt();
+                + "&team_id=" + user.getActualTeamID();
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -275,10 +295,16 @@ public class UserRepositoryImpl implements UserRepository {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(result);
-            return new Team(new TeamID(jsonObject.getInt("team_id")));
+            return new ConcreteTeamBuilder().setTeamID(jsonObject.getInt("team_id")).build();
         }catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public User getUserByID(int userID) {
+        //TODO
+        return null;
     }
 }

@@ -10,8 +10,6 @@ import android.widget.EditText;
 
 import com.example.team.database.UserRepositoryImpl;
 import com.example.team.help.ActivityChanger;
-import com.teampp.domain.entities.User;
-import com.teampp.domain.entities.valueobjects.*;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.RegisterUser;
 
@@ -19,8 +17,7 @@ import com.teampp.usecase.RegisterUser;
 public class RegisterActivity extends AppCompatActivity{
 
     private Button register, login;
-    private EditText username, email, password, password2;
-    private User user;
+    private EditText username, email, password, password2, name;
     private UserRepository userRepository;
 
     @Override
@@ -35,17 +32,16 @@ public class RegisterActivity extends AppCompatActivity{
         register = findViewById(R.id.register_registerbtn);
         login = findViewById(R.id.register_loginbtn);
         username = findViewById(R.id.register_username);
+        name = findViewById(R.id.register_name);
         email = findViewById(R.id.register_email);
         password = findViewById(R.id.register_password1);
         password2 = findViewById(R.id.register_password2);
         userRepository = new UserRepositoryImpl();
-        user = createUserFromRegisterForm();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         assignButtonEvents();
     }
 
@@ -67,20 +63,11 @@ public class RegisterActivity extends AppCompatActivity{
 
     private void register() {
         RegisterUser registerUseCase = new RegisterUser(userRepository);
-        boolean isSuccessfull = registerUseCase.registerUser(user, username, email, password, password2);
+        boolean isSuccessfull = registerUseCase.registerUser(username, name, email, password, password2);
         if (!isSuccessfull) {
             return;
         }
         ActivityChanger.changeActivityTo(RegisterActivity.this, LoginActivity.class);
-    }
-
-    private User createUserFromRegisterForm() {
-        String newUsername = username.getText().toString();
-        EMail newEmail = new EMail(email.getText().toString());
-        String newPassword = password.getText().toString();
-        User user = new User(new Username(newUsername), new EMail(newEmail.toString()), new Password(newPassword));
-        user.setLoginToken(new Token());
-        return user;
     }
 
     private void goToLogin() {

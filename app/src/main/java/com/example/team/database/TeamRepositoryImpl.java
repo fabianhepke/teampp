@@ -1,22 +1,17 @@
 package com.example.team.database;
 
-import android.util.Log;
-
 import com.example.team.help.ApiHelper;
 import com.example.team.help.URLHelper;
 import com.teampp.domain.entities.Team;
-import com.teampp.domain.entities.Teams;
 import com.teampp.domain.entities.User;
-import com.teampp.domain.entities.valueobjects.BasicID;
-import com.teampp.domain.entities.valueobjects.TeamID;
+import com.teampp.domain.valueobjects.TeamID;
 import com.teampp.domain.repositories.TeamRepository;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
-
-import static android.content.ContentValues.TAG;
 
 public class TeamRepositoryImpl implements TeamRepository {
     @Override
@@ -118,15 +113,21 @@ public class TeamRepositoryImpl implements TeamRepository {
     }
 
     @Override
-    public Teams getTeamsOfUser(User user) {
+    public JSONArray getTeamsOfUser(User user) {
         String url = "https://www.memevz.h10.de/teamPP.php?op=getTeamsOfUser&user_id=" + user.getUserID().toInt();
         String result;
         try {
             result = new ApiHelper(url).execute().get();
-            return new Teams(URLHelper.convertUrlString(result));
+            return new JSONArray(URLHelper.convertUrlString(result));
         }catch (ExecutionException | InterruptedException | JSONException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @Override
+    public Team getTeamByID(int teamID) {
+        //TODO
         return null;
     }
 }

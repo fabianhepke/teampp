@@ -2,13 +2,16 @@ package com.example.team.database;
 
 import com.example.team.help.ApiHelper;
 import com.example.team.help.URLHelper;
-import com.teampp.domain.entities.Dates;
+import com.teampp.domain.builder.ConcreteTeamBuilder;
+import com.teampp.domain.builder.ConcreteTeamDateBuilder;
 import com.teampp.domain.entities.TeamDate;
-import com.teampp.domain.entities.Teams;
-import com.teampp.domain.entities.valueobjects.TeamID;
+import com.teampp.domain.valueobjects.Adress;
+import com.teampp.domain.valueobjects.TeamID;
 import com.teampp.domain.repositories.TeamDateRepository;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
@@ -17,7 +20,7 @@ public class TeamDateRepositoryImpl implements TeamDateRepository {
     @Override
     public void addHomeTeamDate(TeamDate teamDate, String date) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=addHomeDate&team_id="
-                + teamDate.getTeamID().toInt()
+                + teamDate.getTeamID()
                 + "&place=Daheim"
                 + "&datename=" + teamDate.getDateName()
                 + "&date=" + date;
@@ -30,13 +33,13 @@ public class TeamDateRepositoryImpl implements TeamDateRepository {
     }
 
     @Override
-    public Dates getDatesByTeamID(TeamID teamID) {
+    public JSONArray getDatesByTeamID(TeamID teamID) {
         //TO DO Implement
         String url = "https://www.memevz.h10.de/teamPP.php?op=getDatesOfTeam&user_id=" + teamID.toInt();
         String result;
         try {
             result = new ApiHelper(url).execute().get();
-            return new Dates(URLHelper.convertUrlString(result));
+            return new JSONArray(URLHelper.convertUrlString(result));
         }catch (ExecutionException | InterruptedException | JSONException e) {
             e.printStackTrace();
         }
@@ -47,7 +50,7 @@ public class TeamDateRepositoryImpl implements TeamDateRepository {
     public void deleteTeamDate(TeamDate teamDate) {
         //TO DO Implement
         String url ="https://www.memevz.h10.de/teamPP.php?op=delteDate&team_id="
-                + teamDate.getTeamID().toInt()
+                + teamDate.getTeamID()
                 + "&plz=" + teamDate.getAdress().getPlz()
                 + "&place=" + teamDate.getAdress().getPlace()
                 + "&street=" + teamDate.getAdress().getStreet()
@@ -64,7 +67,7 @@ public class TeamDateRepositoryImpl implements TeamDateRepository {
     @Override
     public void addTeamDate(TeamDate teamDate, String date) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=addDate&team_id="
-                + teamDate.getTeamID().toInt()
+                + teamDate.getTeamID()
                 + "&plz=" + teamDate.getAdress().getPlz()
                 + "&place=" + teamDate.getAdress().getPlace()
                 + "&street=" + teamDate.getAdress().getStreet()
@@ -77,5 +80,23 @@ public class TeamDateRepositoryImpl implements TeamDateRepository {
         }catch (ExecutionException | InterruptedException e) {
             e.fillInStackTrace();
         }
+    }
+
+    @Override
+    public TeamDate getDateByID(int dateID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getDateById&date_id=" + dateID;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+            JSONObject json = new JSONObject(URLHelper.convertUrlString(result));
+            return new ConcreteTeamDateBuilder().setDateID(dateID)
+                    .setDateName(json.getString("datename"))
+                    .setDateString(json.getString("date"))
+                    .setAdress(new Adress(json.getInt("plz"), json.getString("place"), json.getString("street"), json.getString("hnr")))
+                    .build();
+        }catch (ExecutionException | InterruptedException | JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

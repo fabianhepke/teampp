@@ -1,10 +1,7 @@
 package com.teampp.domain.repositories;
 
 import com.teampp.domain.entities.*;
-import com.teampp.domain.entities.valueobjects.BasicID;
-import com.teampp.domain.entities.valueobjects.EMail;
-import com.teampp.domain.entities.valueobjects.TeamID;
-import com.teampp.domain.entities.valueobjects.Token;
+import com.teampp.domain.valueobjects.Token;
 
 public interface UserRepository {
 
@@ -24,9 +21,13 @@ public interface UserRepository {
 
     boolean doesUserHasTeamConnection(User user, Team team);
 
-    boolean doesUserHasTeam(User user);
+    boolean doesUserHasTeam(String username);
+
+    boolean isUserLoggedIn(int userID, String loginToken);
 
     void changeCurrentTeam(User user);
 
     Team getCurrentTeam(User user);
+
+    User getUserByID(int userID);
 }

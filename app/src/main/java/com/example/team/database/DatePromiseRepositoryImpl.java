@@ -13,9 +13,9 @@ public class DatePromiseRepositoryImpl implements DatePromiseRepository {
     @Override
     public void addDatePromise(DatePromise datePromise) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=addPromise&date_id="
-                + datePromise.getTeamDate().getDateID().toInt()
-                + "&user_id=" + datePromise.getUser().getUserID().toInt()
-                + "&answer=" + datePromise.isCommitment();
+                + datePromise.getDateID()
+                + "&user_id=" + datePromise.getUserID()
+                + "&answer=" + datePromise.isPromise();
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -26,9 +26,9 @@ public class DatePromiseRepositoryImpl implements DatePromiseRepository {
     @Override
     public void changeDatePromise(DatePromise datePromise) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=changePromise&date_id="
-                + datePromise.getTeamDate().getDateID().toInt()
-                + "&user_id=" + datePromise.getUser().getUserID().toInt()
-                + "&answer=" + datePromise.isCommitment();
+                + datePromise.getDateID()
+                + "&user_id=" + datePromise.getUserID()
+                + "&answer=" + datePromise.isPromise();
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -37,10 +37,10 @@ public class DatePromiseRepositoryImpl implements DatePromiseRepository {
     }
 
     @Override
-    public boolean doesUserPromisedDate(DatePromise datePromise) {
+    public boolean doesUserPromisedDate(int dateID, int userID) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=doesUserPromised&date_id="
-                + datePromise.getTeamDate().getDateID().toInt()
-                + "&user_id=" + datePromise.getUser().getUserID().toInt();
+                + dateID
+                + "&user_id=" + userID;
         String result;
         try {
             result =new ApiHelper(url).execute().get();

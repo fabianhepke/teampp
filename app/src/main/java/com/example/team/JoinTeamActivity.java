@@ -2,7 +2,6 @@ package com.example.team;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,10 +14,6 @@ import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
 import com.example.team.database.UserTeamConnectionRepositoryImpl;
 import com.example.team.help.ActivityChanger;
-import com.teampp.domain.entities.*;
-import com.teampp.domain.entities.enums.Rank;
-import com.teampp.domain.entities.valueobjects.BasicID;
-import com.teampp.domain.entities.valueobjects.TeamID;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.domain.repositories.UserTeamConnectionRepository;
@@ -26,10 +21,9 @@ import com.teampp.usecase.JoinTeam;
 
 public class JoinTeamActivity extends AppCompatActivity {
 
-    private PinView teamId, pin;
+    private PinView teamIdView, pin;
     private Button submit;
-    private User user;
-    private Team team;
+    private int userID, teamID, teamPin;
     private TextView pinError;
     private UserTeamConnectionRepository userTeamConnectionRepository;
     private TeamRepository teamRepository;
@@ -52,16 +46,18 @@ public class JoinTeamActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createTeam();
                 clearErrors();
-                addUserTeamConnection();
-                goToHome();
+                assignPinAndID();
+                if (addUserTeamConnection()) {
+                    goToHome();
+                }
             }
         });
     }
 
-    private void createTeam() {
-        team = new Team(new TeamID(Integer.parseInt(teamId.getText().toString())), Integer.parseInt(pin.getText().toString()));
+    private void assignPinAndID() {
+        teamPin = Integer.parseInt(pin.getText().toString());
+        teamID = Integer.parseInt(teamIdView.getText().toString());
     }
 
 
@@ -69,27 +65,25 @@ public class JoinTeamActivity extends AppCompatActivity {
         pinError.setText("");
     }
 
-    private void addUserTeamConnection() {
+    private boolean addUserTeamConnection() {
         JoinTeam joinTeamUseCase = new JoinTeam(userTeamConnectionRepository, teamRepository, userRepository, pinError);
-        joinTeamUseCase.joinTeam(user, team);
+        return joinTeamUseCase.joinTeam(userID, teamID, teamPin);
     }
 
-    private User getUserInfos() {
+    private int getUserID() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        User tmpUser = new User(new BasicID(sharedPref.getInt("user_id", 0)));
-        tmpUser.setRank(Rank.PLAYER);
-        return tmpUser;
+        return sharedPref.getInt("user_id", 0);
     }
 
     private void assignElements() {
         submit = findViewById(R.id.jointeam_btn);
-        teamId = findViewById(R.id.jointeam_id);
+        teamIdView = findViewById(R.id.jointeam_id);
         pin = findViewById(R.id.jointeam_pin);
         pinError = findViewById(R.id.jointeam_pin_error);
         userTeamConnectionRepository = new UserTeamConnectionRepositoryImpl();
         userRepository = new UserRepositoryImpl();
         teamRepository = new TeamRepositoryImpl();
-        user = getUserInfos();
+        userID = getUserID();
     }
 
     private void goToHome() {

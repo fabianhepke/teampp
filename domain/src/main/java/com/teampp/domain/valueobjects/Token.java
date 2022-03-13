@@ -1,6 +1,4 @@
-package com.teampp.domain.entities.valueobjects;
-
-import com.teampp.domain.entities.exceptions.WrongInputSyntaxException;
+package com.teampp.domain.valueobjects;
 
 import java.util.Objects;
 import java.util.UUID;

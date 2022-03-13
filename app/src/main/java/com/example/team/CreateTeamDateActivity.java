@@ -13,15 +13,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.team.database.TeamDateRepositoryImpl;
+import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
-import com.example.team.help.DateConverter;
+import com.teampp.domain.repositories.TeamRepository;
+import com.teampp.usecase.GetCurrentTeam;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
-import com.teampp.domain.entities.TeamDate;
-import com.teampp.domain.entities.User;
-import com.teampp.domain.entities.valueobjects.BasicID;
 import com.teampp.domain.repositories.TeamDateRepository;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.CreateTeamDate;
@@ -32,18 +31,18 @@ import java.util.TimeZone;
 
 public class CreateTeamDateActivity extends AppCompatActivity {
 
-    private TeamDate date;
     private RadioGroup rg;
-    private RadioButton home, abroad;
+    private RadioButton home;
     private EditText title, plz, place, street, hnr;
     private Button addDate, addTime, submit;
     private TextView timeView, dateView;
     private boolean dateSet = false, timeSet = false;
     private TeamDateRepository teamDateRepository;
     private UserRepository userRepository;
+    private TeamRepository teamRepository;
     private int day, year, month, min, hour;
-    private Date viewDate;
-    private User user;
+    private Date dateDate, timeDate;
+    private int userID, teamID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +50,17 @@ public class CreateTeamDateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_team_date);
 
         assignElements();
-        addTeamID();
     }
 
-    private void addTeamID() {
-        date.setTeamID(userRepository.getCurrentTeam(user).getTeamID());
+    private int getTeamID() {
+        GetCurrentTeam getCurrentTeamUseCase = new GetCurrentTeam(teamRepository, userRepository, userID);
+        return getCurrentTeamUseCase.getCurrentTeamID();
     }
 
     private void assignElements() {
         teamDateRepository = new TeamDateRepositoryImpl();
         userRepository = new UserRepositoryImpl();
+        teamRepository = new TeamRepositoryImpl();
         addDate = findViewById(R.id.date_choose_date);
         addTime = findViewById(R.id.date_choose_time);
         timeView = findViewById(R.id.date_time_text);
@@ -72,15 +72,14 @@ public class CreateTeamDateActivity extends AppCompatActivity {
         place = findViewById(R.id.date_place_input);
         hnr = findViewById(R.id.date_hnr_input);
         home = findViewById(R.id.date_radio_daheim);
-        abroad = findViewById(R.id.date_radio_auswärts);
         rg = findViewById(R.id.date_radio_groupe);
-        date = new TeamDate();
-        user = getUser();
+        userID = getUserID();
+        teamID = getTeamID();
     }
 
-    private User getUser() {
+    private int getUserID() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        return new User(new BasicID(sharedPref.getInt("user_id", 0)));
+        return sharedPref.getInt("user_id", 0);
     }
 
     @Override
@@ -147,13 +146,12 @@ public class CreateTeamDateActivity extends AppCompatActivity {
             return;
         }
         CreateTeamDate createTeamDateUseCase = new CreateTeamDate(teamDateRepository);
-        String dateTime = DateConverter.convertDateToString(viewDate);
+        Date finalDate = new Date(dateDate.getTime() + timeDate.getTime());
         if (home.isChecked()) {
-            createTeamDateUseCase.createHomeTeamDate(date, dateTime, title);
+            createTeamDateUseCase.createHomeTeamDate(teamID, finalDate, title);
         }
         else {
-            createTeamDateUseCase.createTeamDate(date, dateTime, title, plz, place, street, hnr);
-
+            createTeamDateUseCase.createTeamDate(finalDate, teamID, title, plz, place, street, hnr);
         }
     }
 
@@ -182,9 +180,8 @@ public class CreateTeamDateActivity extends AppCompatActivity {
                 hour = picker.getHour();
                 min = picker.getMinute();
                 timeView.setText(picker.getHour() + ":" + picker.getMinute() + " Uhr");
-                date.setDate(new Date(date.getDate().getTime() + picker.getMinute() * 60000 + picker.getHour() * 3600000));
+                timeDate = new Date(min*60000 + hour *3600000);
                 timeSet = true;
-                addTime.setEnabled(false);
             }
         });
     }
@@ -197,16 +194,14 @@ public class CreateTeamDateActivity extends AppCompatActivity {
         picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
             @Override
             public void onPositiveButtonClick(Long selection) {
-                viewDate = new Date(selection);
+                dateDate = new Date(selection);
                 Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
-                cal.setTime(viewDate);
+                cal.setTime(dateDate);
                 year = cal.get(Calendar.YEAR);
                 month = cal.get(Calendar.MONTH);
                 day = cal.get(Calendar.DAY_OF_MONTH);
                 dateView.setText(day + "." + (month+1) + "." + year);
-                date.setDate(viewDate);
                 dateSet = true;
-                addDate.setEnabled(false);
             }
         });
     }

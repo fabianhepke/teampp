@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,33 +21,31 @@ import com.example.team.database.UserTeamConnectionRepositoryImpl;
 import com.example.team.help.ActivityChanger;
 import com.example.team.help.NavigationHandler;
 import com.google.android.material.card.MaterialCardView;
-import com.teampp.domain.entities.Team;
-import com.teampp.domain.entities.Teams;
-import com.teampp.domain.entities.User;
-import com.teampp.domain.entities.UserTeamConnection;
-import com.teampp.domain.entities.valueobjects.BasicID;
-import com.teampp.domain.entities.valueobjects.TeamID;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.domain.repositories.UserRepository;
+import com.teampp.domain.repositories.UserTeamConnectionRepository;
 import com.teampp.usecase.GetTeamsOfUser;
+import com.teampp.usecase.LeaveTeam;
+
+import static android.content.ContentValues.TAG;
 
 public class ProfileActivity extends AppCompatActivity {
     private ImageButton teams, home, profile, editProfile;
     private LinearLayout sv;
-    private User user;
-    private Team actualTeam;
-    private Teams otherTeams;
-    private UserRepository userRepository;
+    private int userID;
+    GetTeamsOfUser getTeamsOfUserUseCase;
     private TeamRepository teamRepository;
+    private UserRepository userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        user = getUserInfos();
+        userID = getUserID();
         assignElements();
         assignButtonEvents();
+        adjustScrollView();
 
         NavigationHandler nav = new NavigationHandler(this);
         nav.setNavigaionBarColor(teams, home, profile, 3);
@@ -54,42 +54,44 @@ public class ProfileActivity extends AppCompatActivity {
         insertTeams();
     }
 
-    private void assignButtonEvents() {
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActivityChanger.changeActivityTo(ProfileActivity.this, EditProfileActivity.class);
-            }
-        });
+    private void adjustScrollView() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        findViewById(R.id.profile_scrollview).getLayoutParams().height = height - 900;
+        findViewById(R.id.profile_scrollview).requestLayout();
     }
+
+    private void assignButtonEvents() {
+        editProfile.setOnClickListener(view -> ActivityChanger.changeActivityTo(ProfileActivity.this, EditProfileActivity.class));
+    }
+
+
 
     private void insertTeams() {
-        insertOtherTeams();
-    }
-
-    private void insertOtherTeams() {
-        GetTeamsOfUser getTeamsOfUserUseCase = new GetTeamsOfUser(teamRepository);
-        otherTeams = getTeamsOfUserUseCase.getTeams(user);
-        for (int i = 0; i < otherTeams.getTeams().size(); i++) {
-            isertOneTeam(otherTeams.getTeams().get(i));
+        getTeamsOfUserUseCase = new GetTeamsOfUser(teamRepository, userRepository, userID);
+        insertOneTeam(getTeamsOfUserUseCase.getCurrentTeam(userID).getTeamName(), getTeamsOfUserUseCase.getCurrentTeam(userID).getMembers(), getTeamsOfUserUseCase.getCurrentTeam(userID).getTeamID().toInt());
+        while (!getTeamsOfUserUseCase.isFinished()) {
+            insertOneTeam(getTeamsOfUserUseCase.getTeamName(), getTeamsOfUserUseCase.getTeamMemberNum(), getTeamsOfUserUseCase.getTeamId());
         }
     }
 
-    private void isertOneTeam(Team team) {
+    private void insertOneTeam(String name, int memberNum, int id) {
         MaterialCardView cardView = getNewCardView();
         LinearLayout container = getContainer();
         LinearLayout infoLayout = getLinearlayout(8);
         LinearLayout buttonLayout = getLinearlayout(1);
-        TextView title = getTitleTextView(team.getTeamName());
-        TextView memberNum = getMembersTextView(team.getMembers());
-        ImageButton button = getButton(team.getTeamID().toInt());
+        TextView title = getTitleTextView(name);
+        TextView memberNumView = getMembersTextView(memberNum);
+        ImageButton button = getButton(id);
         infoLayout.addView(title);
-        infoLayout.addView(memberNum);
+        infoLayout.addView(memberNumView);
         buttonLayout.addView(button);
         container.addView(infoLayout);
         container.addView(buttonLayout);
         cardView.addView(container);
         sv.addView(cardView);
+        getTeamsOfUserUseCase.nextTeam();
     }
 
     private ImageButton getButton(int teamID) {
@@ -101,10 +103,14 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void addButtonClickAction(ImageButton button, int teamID) {
+        Log.i(TAG, "addButtonClickAction: set event for team: " + teamID);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new UserTeamConnectionRepositoryImpl().removeUserTeamConnection(new UserTeamConnection(user, new Team(new TeamID(teamID))));
+                Log.i(TAG, "onClick: event ausgelöst für team " + teamID);
+                UserTeamConnectionRepository userTeamConnectionRepository = new UserTeamConnectionRepositoryImpl();
+                LeaveTeam leaveTeamUseCase = new LeaveTeam(userTeamConnectionRepository, teamRepository, userRepository);
+                leaveTeamUseCase.leaveTeam(userID, teamID);
                 ActivityChanger.changeActivityTo(ProfileActivity.this, ProfileActivity.class);
             }
         });
@@ -158,9 +164,9 @@ public class ProfileActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private User getUserInfos() {
+    private int getUserID() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        return new User(new BasicID(sharedPref.getInt("user_id", 0)));
+        return sharedPref.getInt("user_id", 0);
     }
 
     private void assignElements() {
@@ -171,9 +177,5 @@ public class ProfileActivity extends AppCompatActivity {
         profile = findViewById(R.id.nav_profile);
         editProfile = findViewById(R.id.profile_edit_btn);
         sv = findViewById(R.id.profile_teams_container);
-        actualTeam = userRepository.getCurrentTeam(user);
-        actualTeam.setTeamName(teamRepository.getTeamName(actualTeam.getTeamID()));
-        GetTeamsOfUser getTeamsOfUserUseCase = new GetTeamsOfUser(teamRepository);
-        otherTeams = getTeamsOfUserUseCase.getTeams(user);
     }
 }

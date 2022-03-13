@@ -2,10 +2,7 @@ package com.example.team;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,17 +10,15 @@ import android.widget.EditText;
 
 import com.example.team.database.UserRepositoryImpl;
 import com.example.team.help.ActivityChanger;
-import com.teampp.domain.entities.User;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.LoginUser;
 
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText username, password;
+    private EditText usernameView, passwordView;
     private Button login, register;
     private CheckBox stayLoggedInBox;
-    private User user;
     private UserRepository userRepository;
 
     @Override
@@ -59,15 +54,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         LoginUser loginUseCase = new LoginUser(userRepository, LoginActivity.this);
-        user = new User(username.getText().toString(), password.getText().toString());
-        boolean isLoginsuccessful = loginUseCase.loginUser(user, stayLoggedInBox.isChecked(), username, password);
+        boolean isLoginsuccessful = loginUseCase.loginUser(stayLoggedInBox.isChecked(), usernameView, passwordView);
         if (isLoginsuccessful) {
             goToHomeOrJoinTeam();
         }
     }
 
     private void goToHomeOrJoinTeam() {
-        if (userRepository.doesUserHasTeam(user)) {
+        if (userRepository.doesUserHasTeam(usernameView.getText().toString())) {
             goToJoinOrCreateTeam();
             return;
         }
@@ -85,8 +79,8 @@ public class LoginActivity extends AppCompatActivity {
     private void assignElements() {
         login = findViewById(R.id.login_loginbtn);
         register = findViewById(R.id.login_registerbtn);
-        username = findViewById(R.id.login_username);
-        password = findViewById(R.id.login_password);
+        usernameView = findViewById(R.id.login_username);
+        passwordView = findViewById(R.id.login_password);
         stayLoggedInBox = findViewById(R.id.login_angemeldetbleiben);
     }
 }

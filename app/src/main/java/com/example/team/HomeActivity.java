@@ -2,11 +2,9 @@ package com.example.team;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -14,17 +12,15 @@ import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
 import com.example.team.help.ActivityChanger;
 import com.example.team.help.NavigationHandler;
-import com.teampp.domain.entities.*;
-import com.teampp.domain.entities.valueobjects.BasicID;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.domain.repositories.UserRepository;
+import com.teampp.usecase.GetCurrentTeam;
 
 public class HomeActivity extends AppCompatActivity {
 
     ImageButton teams, home, profile;
     Button addDate;
-    User user;
-    Team team;
+    int userID, teamID;
     UserRepository userRepository;
     TeamRepository teamRepository;
 
@@ -43,8 +39,9 @@ public class HomeActivity extends AppCompatActivity {
         nav.addNavigationBarEvents(teams, home, profile);
     }
 
-    private Team getCurrentTeam() {
-        return userRepository.getCurrentTeam(user);
+    private int getCurrentTeamID() {
+        GetCurrentTeam getCurrentTeamUseCase = new GetCurrentTeam(teamRepository, userRepository, userID);
+        return getCurrentTeamUseCase.getCurrentTeamID();
     }
 
     @Override
@@ -55,21 +52,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void assignButtonEvents() {
-        addDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityChanger.changeActivityTo(HomeActivity.this, CreateTeamDateActivity.class);
-            }
-        });
+        addDate.setOnClickListener(v -> ActivityChanger.changeActivityTo(HomeActivity.this, CreateTeamDateActivity.class));
     }
 
     private void insertDates() {
 
     }
 
-    private User getUser() {
+    private int getUserID() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        return new User(new BasicID(sharedPref.getInt("user_id", 0)));
+        return sharedPref.getInt("user_id", 0);
     }
 
     private void assignElements() {
@@ -77,9 +69,9 @@ public class HomeActivity extends AppCompatActivity {
         home = findViewById(R.id.nav_home);
         profile = findViewById(R.id.nav_profile);
         addDate = findViewById(R.id.home_add_date);
-        user = getUser();
+        userID = getUserID();
         userRepository = new UserRepositoryImpl();
         teamRepository = new TeamRepositoryImpl();
-        team = getCurrentTeam();
+        teamID = getCurrentTeamID();
     }
 }

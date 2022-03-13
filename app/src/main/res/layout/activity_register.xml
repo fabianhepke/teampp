@@ -18,7 +18,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="Benutzername"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         app:boxStrokeColor="@color/grey"
         app:hintTextColor="@color/black"
         app:boxStrokeErrorColor="@color/red"
@@ -32,6 +32,31 @@
             android:layout_height="wrap_content"
             android:id="@+id/register_username"
             android:singleLine="true"
+            android:inputType="text"
+            android:textCursorDrawable="@drawable/cursor"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:layout_marginTop="20dp"
+        app:boxStrokeColor="@color/grey"
+        app:hintTextColor="@color/black"
+        app:boxStrokeErrorColor="@color/red"
+        android:layout_gravity="center_horizontal"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/register_name"
+            android:singleLine="true"
+            android:maxLength="25"
             android:inputType="text"
             android:textCursorDrawable="@drawable/cursor"
             />

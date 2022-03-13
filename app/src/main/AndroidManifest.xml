@@ -12,10 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Team">
-        <activity android:name=".CreateTeamDateActivity"></activity>
+        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".CreateTeamDateActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".TeamActivity" />
-        <activity android:name=".VerifyActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".CreateTeamActivity" />

@@ -16,19 +16,20 @@ import com.example.team.database.UserRepositoryImpl;
 import com.example.team.database.UserTeamConnectionRepositoryImpl;
 import com.teampp.domain.entities.*;
 import com.teampp.domain.entities.enums.Rank;
-import com.teampp.domain.entities.valueobjects.*;
+import com.teampp.domain.valueobjects.*;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.domain.repositories.UserTeamConnectionRepository;
 import com.teampp.usecase.CreateTeam;
+import com.teampp.usecase.GetCurrentTeam;
 
 public class CreateTeamActivity extends AppCompatActivity {
 
     private EditText teamnameInput, descriptionInput, teamPin;
     private TextView teamIDView;
     private Button submitBtn;
-    private Team team;
-    private User user;
+    private int teamID;
+    private int userID;
     private UserRepository userRepository;
     private TeamRepository teamRepository;
     private UserTeamConnectionRepository userTeamConnectionRepository;
@@ -38,7 +39,6 @@ public class CreateTeamActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_team);
 
-        getUserInfos();
         assignElements();
     }
 
@@ -50,49 +50,46 @@ public class CreateTeamActivity extends AppCompatActivity {
     }
 
     private void showTeamId() {
-        teamIDView.setText(String.valueOf(team.getTeamID().toInt()));
+        teamIDView.setText(new CreateTeam(teamRepository, userRepository, userTeamConnectionRepository).getNewTeamID());
     }
 
-    private User getUserInfos() {
+    private int getUserID() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        User tmpUser = new User(new BasicID(sharedPref.getInt("user_id", 0)));
-        tmpUser.setRank(Rank.PLAYERADMIN);
-        return tmpUser;
+        return sharedPref.getInt("user_id", 0);
     }
 
     private void assignElements() {
+        userRepository = new UserRepositoryImpl();
+        teamRepository = new TeamRepositoryImpl();
+        userTeamConnectionRepository = new UserTeamConnectionRepositoryImpl();
         teamPin = findViewById(R.id.creatteam_pin);
         teamnameInput = findViewById(R.id.creatteam_teamname);
         submitBtn = findViewById(R.id.createteam_submit);
         descriptionInput = findViewById(R.id.creatteam_description);
         teamIDView = findViewById(R.id.createteam_id);
-        userRepository = new UserRepositoryImpl();
-        teamRepository = new TeamRepositoryImpl();
-        userTeamConnectionRepository = new UserTeamConnectionRepositoryImpl();
-        team = new Team(new TeamID(teamRepository.getNewTeamID()));
-        user = getUserInfos();
+        userID = getUserID();
+        teamID = getTeamID();
+    }
+
+    private int getTeamID() {
+        GetCurrentTeam getCurrentTeamUseCase = new GetCurrentTeam(teamRepository, userRepository, userID);
+        return getCurrentTeamUseCase.getCurrentTeamID();
     }
 
     private void assignButtonEvents() {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addInfosToTeam();
                 saveTeamInDatabase();
                 goToHome();
             }
         });
     }
 
-    private void addInfosToTeam() {
-        team.setDescription(descriptionInput.getText().toString());
-        team.setTeamName(teamnameInput.getText().toString());
-        team.setPin(Integer.parseInt(teamPin.getText().toString()));
-    }
 
     private void saveTeamInDatabase() {
         CreateTeam createTeamUseCase = new CreateTeam(teamRepository, userRepository, userTeamConnectionRepository);
-        createTeamUseCase.createTeam(team, user);
+        createTeamUseCase.createTeam(teamID, teamnameInput.getText().toString(), descriptionInput.getText().toString(), Integer.parseInt(teamPin.getText().toString()),userID);
     }
 
     private void goToHome() {

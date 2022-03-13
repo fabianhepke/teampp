@@ -5,8 +5,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.EditText;
 
+import com.teampp.domain.builder.ConcreteUserBuilder;
 import com.teampp.domain.entities.User;
-import com.teampp.domain.factories.UserFactory;
+import com.teampp.domain.entities.exceptions.WrongInputSyntaxException;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.help.ExistanceChecker;
 
@@ -20,8 +21,19 @@ public class LoginUser {
     }
 
     public boolean loginUser(boolean stayLoggedIn, EditText username, EditText password) {
-        UserFactory userFactory = new UserFactory();
-        User user = userFactory.getUser(username.getText().toString(), password.getText().toString());
+        User user;
+        try {
+            user = new ConcreteUserBuilder()
+                    .setEmail(username.getText().toString())
+                    .setPassword(password.getText().toString())
+                    .build();
+        } catch (WrongInputSyntaxException e) {
+            user = new ConcreteUserBuilder()
+                    .setUsername(username.getText().toString())
+                    .setPassword(password.getText().toString())
+                    .build();
+        }
+
         if (!isDataValid(user, username, password)) {
             return false;
         }

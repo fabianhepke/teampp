@@ -20,9 +20,6 @@ import com.example.team.database.UserRepositoryImpl;
 import com.example.team.help.ActivityChanger;
 import com.example.team.help.NavigationHandler;
 import com.google.android.material.card.MaterialCardView;
-import com.teampp.domain.entities.*;
-import com.teampp.domain.entities.valueobjects.BasicID;
-import com.teampp.domain.entities.valueobjects.TeamID;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.ChangeCurrentTeam;
@@ -35,9 +32,9 @@ public class TeamActivity extends AppCompatActivity {
     private Button addTeam;
     private TextView title, members;
     private LinearLayout sv;
-    private User user;
-    private Teams otherTeams;
-    private Team actualTeam;
+    private int userID;
+    private GetTeamsOfUser getTeamsOfUserUseCase;
+    private GetCurrentTeam getCurrentTeamUseCase;
     private TeamRepository teamRepository;
     private UserRepository userRepository;
 
@@ -48,11 +45,6 @@ public class TeamActivity extends AppCompatActivity {
 
         assignElements();
         prepareNavigationBar();
-    }
-
-    private Team getCurrentTeam() {
-        GetCurrentTeam getCurrentTeamUseCase = new GetCurrentTeam(teamRepository, userRepository);
-        return getCurrentTeamUseCase.getCurrentTeam(user.getUserID().toInt());
     }
 
     private void prepareNavigationBar() {
@@ -96,26 +88,25 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     private void insertOtherTeams() {
-        GetTeamsOfUser getTeamsOfUserUseCase = new GetTeamsOfUser(teamRepository);
-        otherTeams = getTeamsOfUserUseCase.getTeams(user);
-        for (int i = 0; i < otherTeams.getTeams().size(); i++) {
-            isertOneTeam(otherTeams.getTeams().get(i));
+        getTeamsOfUserUseCase = new GetTeamsOfUser(teamRepository, userRepository, userID);
+        getTeamsOfUserUseCase.nextTeam();
+        while (!getTeamsOfUserUseCase.isFinished()) {
+            insertOneTeam();
         }
+
     }
 
-    private void isertOneTeam(Team team) {
-        if (team.getTeamID().toInt() == actualTeam.getTeamID().toInt()) {
-            return;
-        }
+    private void insertOneTeam() {
         MaterialCardView cardView = getNewCardView();
-        addClickEvent(cardView, team.getTeamID().toInt());
+        addClickEvent(cardView, getTeamsOfUserUseCase.getTeamId());
         LinearLayout container = getLinearlayout();
-        TextView title = getTitleTextView(team.getTeamName());
-        TextView memberNum = getMembersTextView(team.getMembers());
+        TextView title = getTitleTextView(getTeamsOfUserUseCase.getTeamName());
+        TextView memberNum = getMembersTextView(getTeamsOfUserUseCase.getTeamMemberNum());
         container.addView(title);
         container.addView(memberNum);
         cardView.addView(container);
         sv.addView(cardView);
+        getTeamsOfUserUseCase.nextTeam();
     }
 
     private void addClickEvent(MaterialCardView cardView, int teamID) {
@@ -132,10 +123,9 @@ public class TeamActivity extends AppCompatActivity {
         ActivityChanger.changeActivityTo(this, TeamActivity.class);
     }
 
-    private void saveTeamInfo(int teamID) {
-        user.setTeamID(new TeamID(teamID));
+    private void saveTeamInfo(int newTeamID) {
         ChangeCurrentTeam changeCurrentTeamUseCase = new ChangeCurrentTeam(userRepository);
-        changeCurrentTeamUseCase.changeTeam(user);
+        changeCurrentTeamUseCase.changeTeam(userID, newTeamID);
     }
 
     private TextView getMembersTextView(int memberNum) {
@@ -175,13 +165,13 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     private void insertActualTeam() {
-        title.setText(actualTeam.getTeamName());
-        members.setText(actualTeam.getMembers() + " Mitglieder");
+        title.setText(getCurrentTeamUseCase.getCurrentTeamName());
+        members.setText(getCurrentTeamUseCase.getCurrentTeamMemberNum() + " Mitglieder");
     }
 
-    private User getUserInfos() {
+    private int getUserID() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        return new User(new BasicID(sharedPref.getInt("user_id", 0)));
+        return sharedPref.getInt("user_id", 0);
     }
 
     private void assignElements() {
@@ -194,7 +184,7 @@ public class TeamActivity extends AppCompatActivity {
         addTeam = findViewById(R.id.teams_addteam);
         userRepository = new UserRepositoryImpl();
         teamRepository = new TeamRepositoryImpl();
-        user = getUserInfos();
-        actualTeam = getCurrentTeam();
+        userID = getUserID();
+        getCurrentTeamUseCase = new GetCurrentTeam(teamRepository, userRepository, userID);
     }
 }

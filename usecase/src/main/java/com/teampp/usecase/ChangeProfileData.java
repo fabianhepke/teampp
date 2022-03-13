@@ -2,9 +2,9 @@ package com.teampp.usecase;
 
 import android.widget.EditText;
 
+import com.teampp.domain.builder.ConcreteUserBuilder;
 import com.teampp.domain.entities.User;
-import com.teampp.domain.entities.valueobjects.BasicID;
-import com.teampp.domain.factories.UserFactory;
+import com.teampp.domain.valueobjects.BasicID;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.help.ExistanceChecker;
 
@@ -25,15 +25,19 @@ public class ChangeProfileData {
     }
 
     private User getNewUser(int userID, String username, String email, String password) {
-        UserFactory userFactory = new UserFactory();
-        User user = userFactory.getUser(username, email, password);
+        User user = new ConcreteUserBuilder()
+                .setUserID(userID)
+                .setUsername(username)
+                .setEmail(email)
+                .setPassword(password)
+                .build();
         user.setUserID(new BasicID(userID));
         return user;
     }
 
     private User getOldUser(int userID) {
-        UserFactory userFactory = new UserFactory();
-        User user = userFactory.getUser(userID, repository);
+        //TODO
+        User user = new ConcreteUserBuilder().setUserID(userID).build();
         return user;
     }
 

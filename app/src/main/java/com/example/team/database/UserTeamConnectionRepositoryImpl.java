@@ -14,9 +14,9 @@ public class UserTeamConnectionRepositoryImpl implements UserTeamConnectionRepos
     @Override
     public void addUserTeamConnection(UserTeamConnection userTeamConnection) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=addConnection&team_id="
-                + userTeamConnection.getTeam().getTeamID().toInt()
-                + "&user_id=" + userTeamConnection.getUser().getUserID().toInt()
-                + "&rank=" + userTeamConnection.getUser().getRank();
+                + userTeamConnection.getTeamID()
+                + "&user_id=" + userTeamConnection.getUserID()
+                + "&rank=" + userTeamConnection.getRank();
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -27,8 +27,8 @@ public class UserTeamConnectionRepositoryImpl implements UserTeamConnectionRepos
     @Override
     public void removeUserTeamConnection(UserTeamConnection userTeamConnection) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=removeConnection&team_id="
-                + userTeamConnection.getTeam().getTeamID().toInt()
-                + "&user_id=" + userTeamConnection.getUser().getUserID().toInt();
+                + userTeamConnection.getTeamID()
+                + "&user_id=" + userTeamConnection.getUserID();
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -40,9 +40,9 @@ public class UserTeamConnectionRepositoryImpl implements UserTeamConnectionRepos
     public void updateRank(UserTeamConnection userTeamConnection) {
         //TO DO Implement
         String url ="https://www.memevz.h10.de/teamPP.php?op=updateConnection&team_id="
-                + userTeamConnection.getTeam().getTeamID().toInt()
-                + "&user_id=" + userTeamConnection.getUser().getUserID().toInt()
-                + "&rank=" + userTeamConnection.getUser().getRank();
+                + userTeamConnection.getTeamID()
+                + "&user_id=" + userTeamConnection.getUserID()
+                + "&rank=" + userTeamConnection.getRank();
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {

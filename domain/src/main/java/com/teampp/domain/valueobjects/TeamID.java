@@ -1,4 +1,4 @@
-package com.teampp.domain.entities.valueobjects;
+package com.teampp.domain.valueobjects;
 
 import com.teampp.domain.entities.exceptions.WrongInputSyntaxException;
 

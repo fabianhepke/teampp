@@ -1,16 +1,13 @@
 package com.teampp.usecase;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
+import com.teampp.domain.builder.ConcreteTeamBuilder;
+import com.teampp.domain.builder.ConcreteUserBuilder;
 import com.teampp.domain.entities.*;
 import com.teampp.domain.entities.enums.Rank;
-import com.teampp.domain.entities.valueobjects.BasicID;
-import com.teampp.domain.factories.TeamFactory;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.domain.repositories.UserTeamConnectionRepository;
+import com.teampp.domain.valueobjects.TeamID;
 
 public class CreateTeam {
 
@@ -24,6 +21,11 @@ public class CreateTeam {
         this.userTeamConnectionRepository = userTeamConnectionRepository;
     }
 
+    public int getNewTeamID() {
+        TeamID teamID = new TeamID(repository.getNewTeamID());
+        return  teamID.toInt();
+    }
+
     public void createTeam(int teamID, String teamname, String description, int pin, int userID) {
         User user = getUser(userID, teamID);
         Team team = getTeam(teamID, teamname, description, pin);
@@ -33,17 +35,18 @@ public class CreateTeam {
     }
 
     private Team getTeam(int teamID, String teamname, String description, int pin) {
-        TeamFactory teamFactory = new TeamFactory();
-        return teamFactory.getTeam(teamID, teamname, description, pin);
+        return new ConcreteTeamBuilder()
+                .setTeamID(teamID)
+                .setTeamname(teamname)
+                .setDescription(description)
+                .setPin(pin)
+                .build();
     }
 
     private User getUser(int userIDInt, int teamIDInt) {
-        User user = new User(new BasicID(userIDInt));
-        user.setActualTeamID(teamIDInt);
-        return user;
+        return new ConcreteUserBuilder()
+                .setUserID(userIDInt)
+                .setActualTeamID(teamIDInt)
+                .build();
     }
-
-
-
-
 }

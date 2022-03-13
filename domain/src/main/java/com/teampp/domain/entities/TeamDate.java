@@ -1,34 +1,26 @@
 package com.teampp.domain.entities;
 
-import com.teampp.domain.entities.valueobjects.*;
+import com.teampp.domain.valueobjects.*;
 
 import java.util.Date;
 
 public class TeamDate {
     private BasicID dateID;
-    private String dateName;
+    private String dateName, dateString;
     private int teamID;
     private Date date;
     private Adress adress;
 
-    public TeamDate(BasicID dateID, String dateName, int teamID, Date date, Adress adress) {
-        this.dateID = dateID;
-        this.dateName = dateName;
-        this.teamID = teamID;
-        this.date = date;
-        this.adress = adress;
+    public TeamDate() {
+
     }
 
-    public TeamDate(String dateName, int teamID, Date date, Adress adress) {
-        this.dateName = dateName;
-        this.teamID = teamID;
-        this.date = date;
-        this.adress = adress;
+    public String getDateString() {
+        return dateString;
     }
 
-    public TeamDate(int teamID, String dateName) {
-        this.teamID = teamID;
-        this.dateName = dateName;
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
     }
 
     public int getTeamID() {

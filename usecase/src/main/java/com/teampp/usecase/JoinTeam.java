@@ -1,16 +1,13 @@
 package com.teampp.usecase;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.TextView;
 
+import com.teampp.domain.builder.ConcreteTeamBuilder;
+import com.teampp.domain.builder.ConcreteUserBuilder;
 import com.teampp.domain.entities.Team;
 import com.teampp.domain.entities.User;
 import com.teampp.domain.entities.UserTeamConnection;
 import com.teampp.domain.entities.enums.Rank;
-import com.teampp.domain.factories.TeamFactory;
-import com.teampp.domain.factories.UserFactory;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.domain.repositories.UserTeamConnectionRepository;
@@ -28,19 +25,20 @@ public class JoinTeam {
         this.pinError = pinError;
     }
 
-    public void joinTeam(int userID, int teamID, int teamPin){
+    public boolean joinTeam(int userID, int teamID, int teamPin){
         UserTeamConnection connection = new UserTeamConnection(userID, teamID, Rank.PLAYER);
         User user = getUser(userID);
         Team team = getTeam(teamID);
         team.setPin(teamPin);
 
         if (!isInputValid(user, team)) {
-            return;
+            return false;
         }
 
         repository.addUserTeamConnection(connection);
         user.setActualTeamID(team.getTeamID().toInt());
         userRepository.changeCurrentTeam(user);
+        return true;
     }
 
     private boolean isInputValid(User user, Team team) {
@@ -56,12 +54,14 @@ public class JoinTeam {
     }
 
     private Team getTeam(int teamID) {
-        TeamFactory teamFactory = new TeamFactory();
-        return teamFactory.getTeam(teamID, teamRepository);
+        return new ConcreteTeamBuilder()
+                .setTeamID(teamID)
+                .build();
     }
 
     private User getUser(int userID) {
-        UserFactory userFactory = new UserFactory();
-        return userFactory.getUser(userID, userRepository);
+        return new ConcreteUserBuilder()
+                .setUserID(userID)
+                .build();
     }
 }

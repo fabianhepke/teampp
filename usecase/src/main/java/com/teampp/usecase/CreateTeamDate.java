@@ -1,13 +1,12 @@
 package com.teampp.usecase;
 
-import android.content.Intent;
 import android.widget.EditText;
 
 import com.teampp.domain.entities.TeamDate;
-import com.teampp.domain.entities.valueobjects.Adress;
-import com.teampp.domain.factories.TeamDateFactory;
+import com.teampp.domain.builder.ConcreteTeamDateBuilder;
 import com.teampp.domain.repositories.TeamDateRepository;
-import com.teampp.usecase.help.DateConverter;
+import com.teampp.domain.domainservice.DateConverter;
+import com.teampp.domain.valueobjects.Adress;
 
 import java.util.Date;
 
@@ -32,8 +31,12 @@ public class CreateTeamDate {
     }
 
     private TeamDate getHomeTeamDate(int teamID, Date date, String datename) {
-        TeamDateFactory teamDateFactory = new TeamDateFactory();
-        return teamDateFactory.getHomeTeamDate(teamID, datename, date);
+        return new ConcreteTeamDateBuilder()
+                .setTeamID(teamID)
+                .setDate(date)
+                .setDateName(datename)
+                .setAdress(new Adress())
+                .build();
     }
 
     public void createTeamDate(Date date, int teamID, EditText title, EditText plz, EditText place, EditText street, EditText hnr) {
@@ -47,8 +50,13 @@ public class CreateTeamDate {
     }
 
     private TeamDate getTeamDate(int teamID, String title, Date date, String plz, String place, String street, String hnr) {
-        TeamDateFactory teamDateFactory = new TeamDateFactory();
-        return teamDateFactory.getTeamDate(teamID, title, date, Integer.parseInt(plz), place, street, hnr);
+        Adress adress = new Adress(Integer.parseInt(plz), place, street, hnr);
+        return new ConcreteTeamDateBuilder()
+                .setDate(date)
+                .setTeamID(teamID)
+                .setDateName(title)
+                .setAdress(adress)
+                .build();
     }
 
     private boolean isInputValid(EditText title, EditText plz, EditText place, EditText street, EditText hnr) {

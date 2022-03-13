@@ -1,4 +1,4 @@
-package com.teampp.domain.entities.valueobjects;
+package com.teampp.domain.valueobjects;
 
 import com.teampp.domain.entities.exceptions.WrongInputSyntaxException;
 
@@ -18,6 +18,13 @@ public final class Adress {
         this.street = street;
         this.plz = plz;
         this.houseNr = houseNr.toUpperCase();
+    }
+
+    public Adress() {
+        this.place = "Daheim";
+        this.street = null;
+        this.plz = 0;
+        this.houseNr = null;
     }
 
     public String getPlace() {

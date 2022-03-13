@@ -1,7 +1,8 @@
 package com.teampp.usecase;
 
+import com.teampp.domain.builder.ConcreteUserBuilder;
 import com.teampp.domain.entities.User;
-import com.teampp.domain.entities.valueobjects.Token;
+import com.teampp.domain.valueobjects.Token;
 import com.teampp.domain.repositories.UserRepository;
 
 public class LogoutUser {
@@ -11,7 +12,10 @@ public class LogoutUser {
         this.repository = repository;
     }
 
-    public void logout(User user) {
+    public void logout(int userID) {
+        User user = new ConcreteUserBuilder()
+                .setUserID(userID)
+                .build();
         repository.changeUserLoginToken(user, new Token());
     }
 }

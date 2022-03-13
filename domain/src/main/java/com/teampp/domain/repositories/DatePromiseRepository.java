@@ -7,5 +7,5 @@ public interface DatePromiseRepository {
 
     void changeDatePromise(DatePromise datePromise);
 
-    boolean doesUserPromisedDate(DatePromise datePromise);
+    boolean doesUserPromisedDate(int dateID, int userID);
 }

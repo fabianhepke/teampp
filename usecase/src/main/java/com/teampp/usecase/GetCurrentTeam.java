@@ -1,22 +1,32 @@
 package com.teampp.usecase;
 
+import com.teampp.domain.builder.ConcreteTeamBuilder;
+import com.teampp.domain.builder.ConcreteUserBuilder;
 import com.teampp.domain.entities.Team;
 import com.teampp.domain.entities.User;
-import com.teampp.domain.entities.valueobjects.BasicID;
+import com.teampp.domain.valueobjects.BasicID;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.domain.repositories.UserRepository;
+import com.teampp.domain.valueobjects.TeamID;
 
 public class GetCurrentTeam {
-    private TeamRepository teamRepository;
-    private UserRepository userRepository;
-    private Team team;
+    private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
+    private final Team team;
 
     public GetCurrentTeam(TeamRepository teamRepository, UserRepository userRepository, int userID) {
         this.teamRepository = teamRepository;
         this.userRepository = userRepository;
-        team = new Team(userRepository.getCurrentTeam(new User(new BasicID(userID))).getTeamID());
-        team.setMembers(teamRepository.getTeamMemberNum(team));
-        team.setTeamName(teamRepository.getTeamName(team.getTeamID()));
+        User user = new ConcreteUserBuilder().setUserID(userID).build();
+        int teamID = userRepository.getCurrentTeam(user).getTeamID().toInt();
+        team = new ConcreteTeamBuilder().setTeamID(teamID)
+                .setMembers(teamRepository, teamID)
+                .setTeamname(teamRepository.getTeamName(new TeamID(teamID)))
+                .build();
+    }
+
+    public Team getTeam() {
+        return team;
     }
 
     public int getCurrentTeamID() {
