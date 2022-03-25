@@ -2,6 +2,7 @@ package com.teampp.usecase;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.TypedValue;
@@ -17,9 +18,13 @@ import com.google.android.material.card.MaterialCardView;
 import com.teampp.domain.domainservice.DateConverter;
 import com.teampp.domain.repositories.DatePromiseRepository;
 import com.teampp.domain.repositories.TeamDateRepository;
+import com.teampp.usecase.help.GetUIElement;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class InsertDates {
 
@@ -29,15 +34,17 @@ public class InsertDates {
     private final Class dateActivity;
     private final DatePromiseRepository datePromiseRepository;
     private final int userID;
+    private final Class homeActivity;
 
 
-    public InsertDates(Context context, TeamDateRepository teamDateRepository, DatePromiseRepository datePromiseRepository, int teamID, int userID, Class dateActivity) {
+    public InsertDates(Context context, TeamDateRepository teamDateRepository, DatePromiseRepository datePromiseRepository, int teamID, int userID, Class dateActivity, Class homeActivity) {
         this.context = context;
         this.dateActivity = dateActivity;
         this.userID = userID;
         this.teamDateRepository = teamDateRepository;
         this.datePromiseRepository = datePromiseRepository;
-        getDatesOfTeamUseCase = new DatesOfTeam(teamDateRepository, teamID);
+        this.getDatesOfTeamUseCase = new DatesOfTeam(teamDateRepository, teamID);
+        this.homeActivity = homeActivity;
     }
 
     public void insertDates(LinearLayout container) {
@@ -48,9 +55,13 @@ public class InsertDates {
     }
 
     private void insertOneDate(LinearLayout container) {
-        CardView cardView = getCardView();
-        LinearLayout dateContainer = getLinearLayoutDateContainer();
-        LinearLayout textContainer = getLinearLayourTextContainer();
+        MaterialCardView cardView = GetUIElement.getCardView(context, MATCH_PARENT, WRAP_CONTENT, true, 10);
+        setCardViewColors(cardView);
+        setOnClickEvent(cardView, getDatesOfTeamUseCase.getDateID());
+        LinearLayout dateContainer = GetUIElement.getLinearlayout(context, LinearLayout.VERTICAL, MATCH_PARENT, WRAP_CONTENT, 0, 20);
+        LinearLayout infoContainer = GetUIElement.getLinearlayout(context, LinearLayout.HORIZONTAL, MATCH_PARENT, WRAP_CONTENT, 0, 0);
+        LinearLayout textContainer = GetUIElement.getLinearlayout(context, LinearLayout.VERTICAL, 1, WRAP_CONTENT, 6, 0);
+        LinearLayout buttonContainer = GetUIElement.getLinearlayout(context, LinearLayout.HORIZONTAL, MATCH_PARENT, WRAP_CONTENT, 0, 0);
         TextView dateTitle = getDateTitleView();
         TextView dateDate = getDateDateView();
         TextView place = getPlaceView();
@@ -58,15 +69,30 @@ public class InsertDates {
         //TODO make Buttons work and add to View!
         Button promiseButton = getButton(Color.GREEN, "Zusagen");
         Button cancelButton = getButton(Color.RED, "Absagen");
+        setUpButtons(promiseButton, cancelButton, getDatesOfTeamUseCase.getDateID());
+        buttonContainer.addView(cancelButton);
+        buttonContainer.addView(promiseButton);
         textContainer.addView(dateTitle);
         textContainer.addView(dateDate);
         textContainer.addView(place);
-        dateContainer.addView(textContainer);
-        dateContainer.addView(remainingTime);
+        infoContainer.addView(textContainer);
+        infoContainer.addView(remainingTime);
+        dateContainer.addView(infoContainer);
+        dateContainer.addView(buttonContainer);
         cardView.addView(dateContainer);
-        cardView.addView(promiseButton);
-        cardView.addView(cancelButton);
         container.addView(cardView);
+    }
+
+    private void setUpButtons(Button promiseButton, Button cancelButton, int dateID) {
+        PromiseTeamDate promiseTeamDate = new PromiseTeamDate(datePromiseRepository);
+        promiseButton.setOnClickListener(v -> {
+            promiseTeamDate.promiseTeamDate(dateID, userID, true);
+            ChangeActivity.changeActivity(context, homeActivity);
+        });
+        cancelButton.setOnClickListener(v -> {
+            promiseTeamDate.promiseTeamDate(dateID, userID, false);
+            ChangeActivity.changeActivity(context, homeActivity);
+        });
     }
 
     private TextView getPlaceView() {
@@ -87,8 +113,12 @@ public class InsertDates {
         MaterialButton button = new MaterialButton(context);
         button.setText(text);
         button.setTextColor(color);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 3);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT, 3);
+        lp.setMargins(10, 0, 10, 0);
+        button.setBackgroundColor(Color.WHITE);
         button.setLayoutParams(lp);
+        button.setStrokeWidth(4);
+        button.setStrokeColor(ColorStateList.valueOf(color));
         return button;
     }
 
@@ -97,7 +127,7 @@ public class InsertDates {
         remainingTimeView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 9);
         remainingTimeView.setTextColor(Color.BLACK);
         remainingTimeView.setText(getRemainingTime());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(1, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(1, WRAP_CONTENT, 3);
         remainingTimeView.setLayoutParams(lp);
         return remainingTimeView;
     }
@@ -135,31 +165,12 @@ public class InsertDates {
         return titleView;
     }
 
-    private LinearLayout getLinearLayourTextContainer() {
-        LinearLayout tContainer = new LinearLayout(context);
-        tContainer.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(1 , ViewGroup.LayoutParams.WRAP_CONTENT, 6);
-        tContainer.setLayoutParams(lp);
-        return tContainer;
-    }
-
-    private LinearLayout getLinearLayoutDateContainer() {
-        LinearLayout lContainer = new LinearLayout(context);
-        lContainer.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(20, 20, 20, 20);
-        lContainer.setLayoutParams(lp);
-        return lContainer;
-    }
-
-    private CardView getCardView() {
+    private MaterialCardView getCardView() {
         MaterialCardView cardView = new MaterialCardView(context);
-        setCardViewColors(cardView);
         cardView.setClickable(true);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, WRAP_CONTENT);
         lp.setMargins(5,10,5,10);
         cardView.setLayoutParams(lp);
-        setOnClickEvent(cardView, getDatesOfTeamUseCase.getDateID());
         return cardView;
     }
 

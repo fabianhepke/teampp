@@ -29,9 +29,10 @@ public class CreateTeam {
     public void createTeam(int teamID, String teamname, String description, int pin, int userID) {
         User user = getUser(userID, teamID);
         Team team = getTeam(teamID, teamname, description, pin);
-        repository.registerTeam(team);
-        userRepository.changeCurrentTeam(user);
-        userTeamConnectionRepository.addUserTeamConnection(new UserTeamConnection(userID, teamID, Rank.PLAYERADMIN));
+        UserTeamConnection userTeamConnection = new UserTeamConnection(userID, teamID, Rank.PLAYERADMIN);
+        repository.registerTeam(team.getTeamID().toInt(), team.getTeamName(), team.getDescription(), team.getPin());
+        userRepository.changeCurrentTeam(user.getUserID().toInt(), user.getActualTeamID());
+        userTeamConnectionRepository.addUserTeamConnection(userTeamConnection.getTeamID(), userTeamConnection.getUserID(), userTeamConnection.getRank().rank);
     }
 
     private Team getTeam(int teamID, String teamname, String description, int pin) {

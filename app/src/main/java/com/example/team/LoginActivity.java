@@ -53,9 +53,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        LoginUser loginUseCase = new LoginUser(userRepository, LoginActivity.this);
+        LoginUser loginUseCase = new LoginUser(userRepository, LoginActivity.this, HomeActivity.class, JoinOrCreateTeamActivity.class);
         loginUseCase.loginUser(stayLoggedInBox.isChecked(), usernameView, passwordView);
-
     }
 
 

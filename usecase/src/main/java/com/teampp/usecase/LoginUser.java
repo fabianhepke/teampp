@@ -15,10 +15,13 @@ public class LoginUser {
     private final UserRepository repository;
     private final Context context;
     private User user;
+    private Class homeActivity, joinOrCreateActivity;
 
-    public LoginUser(UserRepository repository, Context context) {
+    public LoginUser(UserRepository repository, Context context, Class homeActivity, Class joinOrCreateTeam) {
         this.repository = repository;
         this.context = context;
+        this.homeActivity = homeActivity;
+        this.joinOrCreateActivity = joinOrCreateTeam;
     }
 
     public void loginUser(boolean stayLoggedIn, EditText username, EditText password) {
@@ -33,15 +36,15 @@ public class LoginUser {
         }
         saveUserIDLocal(loggedInUser);
         saveLoginTokenLocal(loggedInUser);
-        goToHome();
+        goToHomeOrJoinTeam();
     }
 
     private void goToHome() {
-
+        ChangeActivity.changeActivity(context, homeActivity);
     }
 
     private void goToJoinOrCreateTeam() {
-
+        ChangeActivity.changeActivity(context, joinOrCreateActivity);
     }
 
     private void goToHomeOrJoinTeam() {

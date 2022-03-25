@@ -179,13 +179,17 @@ public class CreateTeamDateActivity extends AppCompatActivity {
         picker.addOnPositiveButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hour = picker.getHour();
-                min = picker.getMinute();
-                timeView.setText(picker.getHour() + ":" + picker.getMinute() + " Uhr");
-                timeDate = new Date(min*60000 + hour *3600000);
-                timeSet = true;
+                setUpTime(picker);
             }
         });
+    }
+
+    private void setUpTime(MaterialTimePicker picker) {
+        hour = picker.getHour();
+        min = picker.getMinute();
+        timeView.setText(picker.getHour() + ":" + picker.getMinute() + " Uhr");
+        timeDate = new Date(min*60000 + hour *3600000);
+        timeSet = true;
     }
 
     private void setDate() {
@@ -196,15 +200,19 @@ public class CreateTeamDateActivity extends AppCompatActivity {
         picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
             @Override
             public void onPositiveButtonClick(Long selection) {
-                dateDate = new Date(selection);
-                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
-                cal.setTime(dateDate);
-                year = cal.get(Calendar.YEAR);
-                month = cal.get(Calendar.MONTH);
-                day = cal.get(Calendar.DAY_OF_MONTH);
-                dateView.setText(day + "." + (month+1) + "." + year);
-                dateSet = true;
+                setUpDate(selection);
             }
         });
+    }
+
+    private void setUpDate(Long selection) {
+        dateDate = new Date(selection);
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+        cal.setTime(dateDate);
+        year = cal.get(Calendar.YEAR);
+        month = cal.get(Calendar.MONTH);
+        day = cal.get(Calendar.DAY_OF_MONTH);
+        dateView.setText(day + "." + (month+1) + "." + year);
+        dateSet = true;
     }
 }

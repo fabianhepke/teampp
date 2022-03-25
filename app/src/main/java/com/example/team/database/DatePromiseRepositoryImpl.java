@@ -76,7 +76,7 @@ public class DatePromiseRepositoryImpl implements DatePromiseRepository {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(result);
-            promise = jsonObject.getBoolean("result");
+            promise = jsonObject.getBoolean("promise");
         }catch (JSONException e) {
             e.printStackTrace();
         }

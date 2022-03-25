@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -13,13 +14,8 @@ import com.example.team.database.DatePromiseRepositoryImpl;
 import com.example.team.database.TeamDateRepositoryImpl;
 import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
-import com.teampp.domain.entities.DatePromise;
-import com.teampp.domain.repositories.DatePromiseRepository;
 import com.teampp.usecase.ChangeActivity;
 import com.example.team.help.NavigationHandler;
-import com.teampp.domain.repositories.TeamDateRepository;
-import com.teampp.domain.repositories.TeamRepository;
-import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.GetCurrentTeam;
 import com.teampp.usecase.DatesOfTeam;
 import com.teampp.usecase.InsertDates;
@@ -61,10 +57,19 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         assignButtonEvents();
+        adjustScrollView();
+    }
+
+    private void adjustScrollView() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        findViewById(R.id.home_scrollview).getLayoutParams().height = height - 900;
+        findViewById(R.id.home_scrollview).requestLayout();
     }
 
     private void insertDates() {
-        InsertDates insertDates = new InsertDates(HomeActivity.this, teamDateRepository, datePromiseRepository, teamID, userID,  DateInfoActivity.class);
+        InsertDates insertDates = new InsertDates(HomeActivity.this, teamDateRepository, datePromiseRepository, teamID, userID,  DateInfoActivity.class, HomeActivity.class);
         insertDates.insertDates(container);
     }
 
