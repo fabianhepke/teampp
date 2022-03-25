@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.team.database.TeamDateRepositoryImpl;
 import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
+import com.teampp.usecase.ChangeActivity;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.usecase.GetCurrentTeam;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -153,6 +154,7 @@ public class CreateTeamDateActivity extends AppCompatActivity {
         else {
             createTeamDateUseCase.createTeamDate(finalDate, teamID, title, plz, place, street, hnr);
         }
+        ChangeActivity.changeActivity(CreateTeamDateActivity.this, HomeActivity.class);
     }
 
     private boolean timeAndDateIsSet() {

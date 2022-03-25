@@ -16,13 +16,6 @@ public class DateConverter {
         return dateFormat.format(date);
     }
 
-    public static String convertNum(int time) {
-        if (time < 10) {
-            return ("0" + time);
-        }
-        return String.valueOf(time);
-    }
-
     public static Date convertStringToDate(String dateString) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
@@ -33,6 +26,10 @@ public class DateConverter {
             Log.e("DateConverter: ",  "convertStringToDate: cannot convert String to Date", e);
         }
         return date;
+    }
 
+    public static String convertDateToViewString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
+        return dateFormat.format(date) + " Uhr";
     }
 }

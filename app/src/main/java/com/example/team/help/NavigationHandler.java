@@ -1,16 +1,14 @@
 package com.example.team.help;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import com.example.team.HomeActivity;
 import com.example.team.ProfileActivity;
 import com.example.team.R;
 import com.example.team.TeamActivity;
+import com.teampp.usecase.ChangeActivity;
 
 public class NavigationHandler {
 
@@ -61,14 +59,14 @@ public class NavigationHandler {
     }
 
     private void goToTeams() {
-        ActivityChanger.changeActivityTo(context, TeamActivity.class);
+        ChangeActivity.changeActivity(context, TeamActivity.class);
     }
 
     private void goToHome() {
-        ActivityChanger.changeActivityTo(context, HomeActivity.class);
+        ChangeActivity.changeActivity(context, HomeActivity.class);
     }
 
     private void goToProfile() {
-        ActivityChanger.changeActivityTo(context, ProfileActivity.class);
+        ChangeActivity.changeActivity(context, ProfileActivity.class);
     }
 }

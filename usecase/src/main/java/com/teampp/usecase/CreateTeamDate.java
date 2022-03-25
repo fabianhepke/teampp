@@ -26,8 +26,7 @@ public class CreateTeamDate {
             return;
         }
         TeamDate teamDate = getHomeTeamDate(teamID, date, title.getText().toString());
-        String dateString = DateConverter.convertDateToString(date);
-        repository.addHomeTeamDate(teamDate, dateString);
+        repository.addHomeTeamDate(teamDate.getTeamID(), teamDate.getDateName(), teamDate.getDateString());
     }
 
     private TeamDate getHomeTeamDate(int teamID, Date date, String datename) {
@@ -45,8 +44,13 @@ public class CreateTeamDate {
             return;
         }
         TeamDate teamDate = getTeamDate(teamID, title.getText().toString(), date, plz.getText().toString(), place.getText().toString(), street.getText().toString(), hnr.getText().toString());
-        String dateString = DateConverter.convertDateToString(date);
-        repository.addTeamDate(teamDate, dateString);
+        repository.addTeamDate(teamDate.getTeamID(),
+                teamDate.getDateName(),
+                teamDate.getDateString(),
+                teamDate.getAdress().getPlz(),
+                teamDate.getAdress().getPlace(),
+                teamDate.getAdress().getStreet(),
+                teamDate.getAdress().getHouseNr());
     }
 
     private TeamDate getTeamDate(int teamID, String title, Date date, String plz, String place, String street, String hnr) {

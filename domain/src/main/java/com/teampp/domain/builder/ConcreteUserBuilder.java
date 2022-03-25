@@ -88,7 +88,7 @@ public class ConcreteUserBuilder implements UserBuilder{
     public ConcreteUserBuilder setActualTeamID(UserRepository userRepository, int userID) {
         User user = new User();
         user.setUserID(new BasicID(userID));
-        this.actualTeamID = userRepository.getCurrentTeam(user).getTeamID().toInt();
+        this.actualTeamID = userRepository.getCurrentTeam(userID).getTeamID().toInt();
         return this;
     }
     public ConcreteUserBuilder setName(String name) {

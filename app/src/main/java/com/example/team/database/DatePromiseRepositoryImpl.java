@@ -10,12 +10,13 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutionException;
 
 public class DatePromiseRepositoryImpl implements DatePromiseRepository {
+
     @Override
-    public void addDatePromise(DatePromise datePromise) {
+    public void addDatePromise(int dateID, int userID, boolean promised) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=addPromise&date_id="
-                + datePromise.getDateID()
-                + "&user_id=" + datePromise.getUserID()
-                + "&answer=" + datePromise.isPromise();
+                + dateID
+                + "&user_id=" + userID
+                + "&answer=" + promised;
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -24,11 +25,11 @@ public class DatePromiseRepositoryImpl implements DatePromiseRepository {
     }
 
     @Override
-    public void changeDatePromise(DatePromise datePromise) {
+    public void changeDatePromise(int dateID, int userID, boolean promised) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=changePromise&date_id="
-                + datePromise.getDateID()
-                + "&user_id=" + datePromise.getUserID()
-                + "&answer=" + datePromise.isPromise();
+                + dateID
+                + "&user_id=" + userID
+                + "&answer=" + promised;
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -48,14 +49,38 @@ public class DatePromiseRepositoryImpl implements DatePromiseRepository {
             e.fillInStackTrace();
             result = null;
         }
-        boolean commitExistance = false;
+        boolean promiseExistance = false;
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(result);
-            commitExistance = jsonObject.getBoolean("result");
+            promiseExistance = jsonObject.getBoolean("result");
         }catch (JSONException e) {
             e.printStackTrace();
         }
-        return commitExistance;
+        return promiseExistance;
+    }
+
+    @Override
+    public boolean isDatePromisePositive(int dateID, int userID) {
+        String url ="https://www.memevz.h10.de/teamPP.php?op=doesUserPromisedTrue&date_id="
+                + dateID
+                + "&user_id=" + userID;
+        String result;
+        try {
+            result =new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
+        }
+        boolean promise = false;
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            promise = jsonObject.getBoolean("result");
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return promise;
     }
 }

@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutionException;
 
 public class TeamRepositoryImpl implements TeamRepository {
+
     @Override
     public int getNewTeamID() {
         String url = "https://www.memevz.h10.de/teamPP.php?op=maxTeamID";
@@ -35,12 +36,12 @@ public class TeamRepositoryImpl implements TeamRepository {
     }
 
     @Override
-    public void registerTeam(Team team) {
+    public void registerTeam(int teamID, String teamname, String description, int pin) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=registerTeam&teamname="
-                + team.getTeamName()
-                + "&description=" + team.getDescription()
-                + "&team_id=" + team.getTeamID().toInt()
-                + "&pin=" + team.getPin();
+                + teamname
+                + "&description=" + description
+                + "&team_id=" + teamID
+                + "&pin=" + pin;
         url = URLHelper.convertStringForUrl(url);
         try {
             new ApiHelper(url).execute().get();
@@ -50,10 +51,10 @@ public class TeamRepositoryImpl implements TeamRepository {
     }
 
     @Override
-    public boolean doesPinMatchTeam(Team team) {
+    public boolean doesPinMatchTeam(int teamID, int pin) {
         String url = "https://www.memevz.h10.de/teamPP.php?op=doesPinMatchTeam&team_id="
-                + team.getTeamID().toInt()
-                + "&pin=" + team.getPin();
+                + teamID
+                + "&pin=" + pin;
         String result;
         try {
             result = new ApiHelper(url).execute().get();
@@ -72,8 +73,8 @@ public class TeamRepositoryImpl implements TeamRepository {
     }
 
     @Override
-    public int getTeamMemberNum(Team team) {
-        String url = "https://www.memevz.h10.de/teamPP.php?op=getTeamMemberNum&team_id=" + team.getTeamID().toInt();
+    public int getTeamMemberNum(int teamID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getTeamMemberNum&team_id=" + teamID;
         String result;
         try {
             result = new ApiHelper(url).execute().get();
@@ -92,8 +93,8 @@ public class TeamRepositoryImpl implements TeamRepository {
     }
 
     @Override
-    public String getTeamName(TeamID teamID) {
-        String url = "https://www.memevz.h10.de/teamPP.php?op=getTeamname&team_id=" + teamID.toInt();
+    public String getTeamName(int teamID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getTeamname&team_id=" + teamID;
         String result;
         try {
             result = new ApiHelper(url).execute().get();
@@ -113,13 +114,13 @@ public class TeamRepositoryImpl implements TeamRepository {
     }
 
     @Override
-    public JSONArray getTeamsOfUser(User user) {
-        String url = "https://www.memevz.h10.de/teamPP.php?op=getTeamsOfUser&user_id=" + user.getUserID().toInt();
+    public String getTeamsOfUser(int userID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getTeamsOfUser&user_id=" + userID;
         String result;
         try {
             result = new ApiHelper(url).execute().get();
-            return new JSONArray(URLHelper.convertUrlString(result));
-        }catch (ExecutionException | InterruptedException | JSONException e) {
+            return URLHelper.convertUrlString(result);
+        }catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;

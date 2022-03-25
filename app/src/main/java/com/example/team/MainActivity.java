@@ -2,13 +2,12 @@ package com.example.team;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import com.example.team.database.UserRepositoryImpl;
-import com.example.team.help.ActivityChanger;
+import com.teampp.usecase.ChangeActivity;
 import com.teampp.domain.repositories.UserRepository;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             goToLogin();
             return;
         }
-        UserRepository userRepository = new UserRepositoryImpl();
+        UserRepositoryImpl userRepository = new UserRepositoryImpl();
         if (userRepository.isUserLoggedIn(userId, loginToken)) {
             goToHome();
         }
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToHome() {
-        ActivityChanger.changeActivityTo(MainActivity.this, HomeActivity.class);
+        ChangeActivity.changeActivity(MainActivity.this, HomeActivity.class);
     }
 
     private int getUserID() {
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToLogin() {
-        ActivityChanger.changeActivityTo(MainActivity.this, LoginActivity.class);
+        ChangeActivity.changeActivity(MainActivity.this, LoginActivity.class);
     }
 
     private String getLoginToken() {

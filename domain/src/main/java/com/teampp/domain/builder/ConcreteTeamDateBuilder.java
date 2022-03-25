@@ -48,7 +48,7 @@ public class ConcreteTeamDateBuilder implements TeamDateBuilder{
     }
 
     @Override
-    public TeamDateBuilder setDateString(String dateString) {
+    public ConcreteTeamDateBuilder setDateString(String dateString) {
         this.dateString = dateString;
         this.date = DateConverter.convertStringToDate(dateString);
         return this;

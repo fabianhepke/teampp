@@ -8,15 +8,15 @@ import org.json.JSONArray;
 public interface TeamRepository {
     int getNewTeamID();
 
-    void registerTeam(Team team);
+    void registerTeam(int teamID, String teamname, String description, int pin);
 
-    boolean doesPinMatchTeam(Team team);
+    boolean doesPinMatchTeam(int teamID, int pin);
 
-    int getTeamMemberNum(Team team);
+    int getTeamMemberNum(int teamID);
 
-    String getTeamName(TeamID teamID);
+    String getTeamName(int teamID);
 
-    JSONArray getTeamsOfUser(User user);
+    String getTeamsOfUser(int userID);
 
     Team getTeamByID(int teamID);
 }

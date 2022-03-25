@@ -14,13 +14,53 @@ import com.teampp.usecase.help.ExistanceChecker;
 public class LoginUser {
     private final UserRepository repository;
     private final Context context;
+    private User user;
 
     public LoginUser(UserRepository repository, Context context) {
         this.repository = repository;
         this.context = context;
     }
 
-    public boolean loginUser(boolean stayLoggedIn, EditText username, EditText password) {
+    public void loginUser(boolean stayLoggedIn, EditText username, EditText password) {
+        user = getUser(username, password);
+
+        if (!isDataValid(user, username, password)) {
+            return;
+        }
+        User loggedInUser = getLoggedInUser(user, stayLoggedIn);
+        if (loggedInUser == null) {
+            return;
+        }
+        saveUserIDLocal(loggedInUser);
+        saveLoginTokenLocal(loggedInUser);
+        goToHome();
+    }
+
+    private void goToHome() {
+
+    }
+
+    private void goToJoinOrCreateTeam() {
+
+    }
+
+    private void goToHomeOrJoinTeam() {
+        if (repository.doesUserHasTeam(user.getUsername().toString())) {
+            goToJoinOrCreateTeam();
+            return;
+        }
+        goToHome();
+    }
+
+
+    private User getLoggedInUser(User user, boolean stayLoggedIn) {
+        if (user.geteMail() != null){
+            return repository.loginWithEMail(user.geteMail().toString(), user.getPassword().toString(), stayLoggedIn);
+        }
+        return repository.loginWithUserName(user.getUsername().toString(), user.getPassword().toString(), stayLoggedIn);
+    }
+
+    private User getUser(EditText username, EditText password) {
         User user;
         try {
             user = new ConcreteUserBuilder()
@@ -33,17 +73,7 @@ public class LoginUser {
                     .setPassword(password.getText().toString())
                     .build();
         }
-
-        if (!isDataValid(user, username, password)) {
-            return false;
-        }
-        User loggedInUser = repository.login(user, stayLoggedIn);
-        if (loggedInUser == null) {
-            return false;
-        }
-        saveUserIDLocal(loggedInUser);
-        saveLoginTokenLocal(loggedInUser);
-        return true;
+        return user;
     }
 
     private boolean isDataValid(User user, EditText username, EditText password) {
@@ -67,7 +97,10 @@ public class LoginUser {
     }
 
     private boolean doesUserMatchPassword(User user) {
-        return repository.doesPasswordMatchUser(user);
+        if (user.geteMail() != null) {
+            return  repository.doesPasswordMatchUserEMail(user.geteMail().toString(), user.getPassword().toString());
+        }
+        return repository.doesPasswordMatchUserName(user.getUsername().toString(), user.getPassword().toString());
     }
 
 

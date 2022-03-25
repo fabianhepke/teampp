@@ -3,9 +3,9 @@ package com.teampp.domain.repositories;
 import com.teampp.domain.entities.UserTeamConnection;
 
 public interface UserTeamConnectionRepository {
-    void addUserTeamConnection(UserTeamConnection userTeamConnection);
+    void addUserTeamConnection(int teamID, int userID, String rank);
 
-    void removeUserTeamConnection(UserTeamConnection userTeamConnection);
+    void removeUserTeamConnection(int teamID, int userID);
 
-    void updateRank(UserTeamConnection userTeamConnection);
+    void updateRank(int teamID, int userID, String rank);
 }

@@ -12,11 +12,11 @@ import static android.content.ContentValues.TAG;
 
 public class UserTeamConnectionRepositoryImpl implements UserTeamConnectionRepository {
     @Override
-    public void addUserTeamConnection(UserTeamConnection userTeamConnection) {
+    public void addUserTeamConnection(int teamID, int userID, String rank) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=addConnection&team_id="
-                + userTeamConnection.getTeamID()
-                + "&user_id=" + userTeamConnection.getUserID()
-                + "&rank=" + userTeamConnection.getRank();
+                + teamID
+                + "&user_id=" + userID
+                + "&rank=" + rank;
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -25,10 +25,10 @@ public class UserTeamConnectionRepositoryImpl implements UserTeamConnectionRepos
     }
 
     @Override
-    public void removeUserTeamConnection(UserTeamConnection userTeamConnection) {
+    public void removeUserTeamConnection(int teamID, int userID) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=removeConnection&team_id="
-                + userTeamConnection.getTeamID()
-                + "&user_id=" + userTeamConnection.getUserID();
+                + teamID
+                + "&user_id=" + userID;
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -37,12 +37,12 @@ public class UserTeamConnectionRepositoryImpl implements UserTeamConnectionRepos
     }
 
     @Override
-    public void updateRank(UserTeamConnection userTeamConnection) {
+    public void updateRank(int teamID, int userID, String rank) {
         //TO DO Implement
         String url ="https://www.memevz.h10.de/teamPP.php?op=updateConnection&team_id="
-                + userTeamConnection.getTeamID()
-                + "&user_id=" + userTeamConnection.getUserID()
-                + "&rank=" + userTeamConnection.getRank();
+                + teamID
+                + "&user_id=" + userID
+                + "&rank=" + rank;
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {

@@ -15,19 +15,29 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GetDatesOfTeam {
+public class DatesOfTeam {
     private final List<TeamDate> dates = new ArrayList<>();
 
-    public GetDatesOfTeam(TeamDateRepository teamDateRepository, int teamID) {
-        JSONArray jsonArray = teamDateRepository.getDatesByTeamID(new TeamID(teamID));
+    public DatesOfTeam(TeamDateRepository teamDateRepository, int teamID) {
+        JSONArray jsonArray = teamDateRepository.getDatesByTeamID(teamID);
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                TeamDate date = new ConcreteTeamDateBuilder().setDateID(jsonObject.getInt("date_id"))
-                        .setDateName(jsonObject.getString("datename"))
-                        .setDate(DateConverter.convertStringToDate(jsonObject.getString("date")))
-                        .setAdress(new Adress(jsonObject.getInt("plz"), jsonObject.getString("place"), jsonObject.getString("street"), jsonObject.getString("hnr")))
-                        .build();
+                TeamDate date;
+                if (jsonObject.getString("place").equals("Daheim")) {
+                    date = new ConcreteTeamDateBuilder().setDateID(jsonObject.getInt("date_id"))
+                            .setDateName(jsonObject.getString("datename"))
+                            .setDateString(jsonObject.getString("date"))
+                            .setAdress(new Adress())
+                            .build();
+                }
+                else {
+                    date = new ConcreteTeamDateBuilder().setDateID(jsonObject.getInt("date_id"))
+                            .setDateName(jsonObject.getString("datename"))
+                            .setDateString(jsonObject.getString("date"))
+                            .setAdress(new Adress(jsonObject.getInt("plz"), jsonObject.getString("place"), jsonObject.getString("street"), jsonObject.getString("hnr")))
+                            .build();
+                }
                 dates.add(date);
             }
         }catch (JSONException e) {
@@ -72,5 +82,9 @@ public class GetDatesOfTeam {
             return true;
         }
         return false;
+    }
+
+    public String getDateString() {
+        return dates.get(0).getDateString();
     }
 }

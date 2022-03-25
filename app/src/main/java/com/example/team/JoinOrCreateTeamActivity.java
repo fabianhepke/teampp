@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.team.help.ActivityChanger;
+import com.teampp.usecase.ChangeActivity;
 
 public class JoinOrCreateTeamActivity extends AppCompatActivity {
 
@@ -34,14 +34,14 @@ public class JoinOrCreateTeamActivity extends AppCompatActivity {
         join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityChanger.changeActivityTo(JoinOrCreateTeamActivity.this, JoinTeamActivity.class);
+                ChangeActivity.changeActivity(JoinOrCreateTeamActivity.this, JoinTeamActivity.class);
             }
         });
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityChanger.changeActivityTo(JoinOrCreateTeamActivity.this, CreateTeamActivity.class);
+                ChangeActivity.changeActivity(JoinOrCreateTeamActivity.this, CreateTeamActivity.class);
             }
         });
     }

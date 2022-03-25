@@ -1,5 +1,6 @@
 package com.teampp.domain.entities;
 
+import com.teampp.domain.domainservice.DateConverter;
 import com.teampp.domain.valueobjects.*;
 
 import java.util.Date;
@@ -12,7 +13,6 @@ public class TeamDate {
     private Adress adress;
 
     public TeamDate() {
-
     }
 
     public String getDateString() {
@@ -21,6 +21,7 @@ public class TeamDate {
 
     public void setDateString(String dateString) {
         this.dateString = dateString;
+        this.date = DateConverter.convertStringToDate(dateString);
     }
 
     public int getTeamID() {
@@ -61,5 +62,6 @@ public class TeamDate {
 
     public void setDate(Date date) {
         this.date = date;
+        this.dateString = DateConverter.convertDateToString(date);
     }
 }

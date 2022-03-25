@@ -22,15 +22,15 @@ import static android.content.ContentValues.TAG;
 public class UserRepositoryImpl implements UserRepository {
 
     @Override
-    public boolean registerUser(User user) {
+    public boolean registerUser(String username, String password, String eMail, String loginToken, String rank, String name) {
         String result = null;
         String url ="https://www.memevz.h10.de/teamPP.php?op=register&username="
-                + user.getUsername().toString()
-                + "&password=" + user.getPassword().toString()
-                + "&email=" + user.geteMail().toString()
-                + "&login_token=" + user.getLoginToken().toString()
-                + "&rank=" + user.getRank()
-                + "&name=" + URLHelper.convertStringForUrl(user.getName());
+                + username
+                + "&password=" + password
+                + "&email=" + eMail
+                + "&login_token=" + loginToken
+                + "&rank=" + rank
+                + "&name=" + URLHelper.convertStringForUrl(name);
         try {
             result = new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -48,13 +48,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void changeUserData(User user) {
+    public void changeUserData(int userID, String username, String password, String eMail, String name) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=changeUserData&user_id="
-                + user.getUserID().toString()
-                + "username=" + user.getUsername().toString()
-                + "&password=" + user.getPassword().toString()
-                + "&email=" + user.geteMail().toString()
-                + "&name=" + user.getName();
+                + userID
+                + "username=" + username
+                + "&password=" + password
+                + "&email=" + eMail
+                + "&name=" + name;
         url = URLHelper.convertStringForUrl(url);
         try {
             new ApiHelper(url).execute().get();
@@ -64,10 +64,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void changeUserLoginToken(User user, Token newToken) {
+    public void changeUserLoginToken(int userID, Token newToken) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=changeUserLogin&user_id="
-                + user.getUserID().toString()
-                + "login_token=" + user.getLoginToken().toString();
+                + userID
+                + "login_token=" + newToken;
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -76,41 +76,43 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User login(User user, boolean stayLoggedIn) {
+    public User loginWithUserName(String username, String password, boolean stayLoggedIn) {
         String result = null;
-        if (user.getUsername() != null) {
-            String url = "https://www.memevz.h10.de/teamPP.php?op=login&username="
-                    + user.getUsername().toString()
-                    + "&password=" + user.getPassword().toString()
-                    + "&login_token=" + stayLoggedIn;
+        User user = new User();
+        String url = "https://www.memevz.h10.de/teamPP.php?op=login&username="
+                + username
+                + "&password=" + password
+                + "&login_token=" + stayLoggedIn;
 
-            try {
-                result = new ApiHelper(url).execute().get();
-            } catch (ExecutionException | InterruptedException e) {
-                e.fillInStackTrace();
-                result = null;
-            }
-
-            JSONObject jsonObject;
-            try {
-                jsonObject = new JSONObject(result);
-                user = JsonHelper.getUserOfJson(jsonObject);
-            } catch (JSONException e) {
-                Log.e(TAG, "login: couldn't convert answer to json", e);
-            }
-            return user;
+        try {
+            result = new ApiHelper(url).execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
         }
-        if (user.geteMail() != null) {
-            String url = "https://www.memevz.h10.de/teamPP.php?op=login&email="
-                    + user.geteMail().toString()
-                    + "&password=" + user.getPassword().toString()
-                    + "&login_token=" + stayLoggedIn;
-            try {
-                result = new ApiHelper(url).execute().get();
-            } catch (ExecutionException | InterruptedException e) {
-                e.fillInStackTrace();
-                result = null;
-            }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            user = JsonHelper.getUserOfJson(jsonObject);
+        } catch (JSONException e) {
+            Log.e(TAG, "login: couldn't convert answer to json", e);
+        }
+        return user;
+    }
+
+    @Override
+    public User loginWithEMail(String eMail, String password, boolean stayLoggedIn) {
+        User user = new User();
+        String result = null;
+        String url = "https://www.memevz.h10.de/teamPP.php?op=login&email="
+                + eMail
+                + "&password=" + password
+                + "&login_token=" + stayLoggedIn;
+        try {
+            result = new ApiHelper(url).execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
         }
         JSONObject jsonObject;
         try {
@@ -169,32 +171,42 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean doesPasswordMatchUser(User user) {
+    public boolean doesPasswordMatchUserName(String username, String password) {
         String result = null;
-        if (user.getUsername() != null) {
-            String url = "https://www.memevz.h10.de/teamPP.php?op=passwordmatchusername&username="
-                    + user.getUsername().toString()
-                    + "&password=" + user.getPassword().toString();
-
-            try {
-                result = new ApiHelper(url).execute().get();
-            } catch (ExecutionException | InterruptedException e) {
-                e.fillInStackTrace();
-                result = null;
-            }
+        String url = "https://www.memevz.h10.de/teamPP.php?op=passwordmatchusername&username="
+                + username
+                + "&password=" + password;
+        try {
+            result = new ApiHelper(url).execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
         }
-        if (user.geteMail() != null) {
-            String url = "https://www.memevz.h10.de/teamPP.php?op=passwordmatchemail&username="
-                    + user.getUsername().toString()
-                    + "&password=" + user.getPassword().toString();
 
-            try {
-                result = new ApiHelper(url).execute().get();
-            } catch (ExecutionException | InterruptedException e) {
-                e.fillInStackTrace();
-                result = null;
-            }
+        boolean passwortMatchUser = false;
+
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            passwortMatchUser = jsonObject.getBoolean("result");
+        }catch (JSONException e) {
+            e.printStackTrace();
         }
+        return passwortMatchUser;
+    }
+    public boolean doesPasswordMatchUserEMail(String eMail, String password) {
+        String result = null;
+        String url = "https://www.memevz.h10.de/teamPP.php?op=passwordmatchemail&username="
+                + eMail
+                + "&password=" + password;
+
+        try {
+            result = new ApiHelper(url).execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.fillInStackTrace();
+            result = null;
+        }
+
         boolean passwortMatchUser = false;
 
         JSONObject jsonObject;
@@ -208,10 +220,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean doesUserHasTeamConnection(User user, Team team) {
+    public boolean doesUserHasTeamConnection(int userID, int teamID) {
         String url = "https://www.memevz.h10.de/teamPP.php?op=doesUserHasTeamConnection&team_id="
-                + team.getTeamID().toInt()
-                + "&user_id=" + user.getUserID().toInt();
+                + teamID
+                + "&user_id=" + userID;
         String result;
         try {
             result = new ApiHelper(url).execute().get();
@@ -271,10 +283,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void changeCurrentTeam(User user) {
+    public void changeCurrentTeam(int userID, int teamID) {
         String url ="https://www.memevz.h10.de/teamPP.php?op=changeCurrentTeam&user_id="
-                + user.getUserID().toInt()
-                + "&team_id=" + user.getActualTeamID();
+                + userID
+                + "&team_id=" + teamID;
         try {
             new ApiHelper(url).execute().get();
         }catch (ExecutionException | InterruptedException e) {
@@ -283,8 +295,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Team getCurrentTeam(User user) {
-        String url = "https://www.memevz.h10.de/teamPP.php?op=getCurrentTeam&user_id=" + user.getUserID().toInt();
+    public Team getCurrentTeam(int userID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getCurrentTeam&user_id=" + userID;
         String result;
         try {
             result = new ApiHelper(url).execute().get();

@@ -5,29 +5,33 @@ import com.teampp.domain.valueobjects.Token;
 
 public interface UserRepository {
 
-    boolean registerUser(User user);
+    boolean registerUser(String username, String password, String eMail, String loginToken, String rank, String name);
 
-    void changeUserData(User user);
+    void changeUserData(int userID, String username, String password, String eMail, String name);
 
-    void changeUserLoginToken(User user, Token newToken);
+    void changeUserLoginToken(int userID, Token newToken);
 
-    User login(User user, boolean stayLoggedIn);
+    User loginWithUserName(String username, String password, boolean stayLoggedIn);
+
+    User loginWithEMail(String eMail, String password, boolean stayLoggedIn);
 
     boolean doesUserEmailExist(String userEmail);
 
     boolean doesUserNameExist(String username);
 
-    boolean doesPasswordMatchUser(User user);
+    boolean doesPasswordMatchUserName(String usernameOrMail, String password);
 
-    boolean doesUserHasTeamConnection(User user, Team team);
+    boolean doesPasswordMatchUserEMail(String eMail, String password);
+
+    boolean doesUserHasTeamConnection(int userID, int teamID);
 
     boolean doesUserHasTeam(String username);
 
     boolean isUserLoggedIn(int userID, String loginToken);
 
-    void changeCurrentTeam(User user);
+    void changeCurrentTeam(int userID, int teamID);
 
-    Team getCurrentTeam(User user);
+    Team getCurrentTeam(int userID);
 
     User getUserByID(int userID);
 }

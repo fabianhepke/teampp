@@ -20,7 +20,11 @@ public class ChangeProfileData {
         User oldUser = getOldUser(userID);
         User newUser = getNewUser(userID, username.getText().toString(), email.getText().toString(), password1.getText().toString());
         if(!isInputValid(oldUser, newUser, username, email, password1, password2)) {
-            repository.changeUserData(newUser);
+            repository.changeUserData(newUser.getUserID().toInt(),
+                    newUser.getUsername().toString(),
+                    newUser.getPassword().toString(),
+                    newUser.geteMail().toString(),
+                    newUser.getName());
         }
     }
 

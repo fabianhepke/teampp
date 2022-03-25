@@ -28,34 +28,34 @@ public class JoinTeam {
     public boolean joinTeam(int userID, int teamID, int teamPin){
         UserTeamConnection connection = new UserTeamConnection(userID, teamID, Rank.PLAYER);
         User user = getUser(userID);
-        Team team = getTeam(teamID);
-        team.setPin(teamPin);
+        Team team = getTeam(teamID, teamPin);
+        user.setActualTeamID(team.getTeamID().toInt());
 
         if (!isInputValid(user, team)) {
             return false;
         }
 
-        repository.addUserTeamConnection(connection);
-        user.setActualTeamID(team.getTeamID().toInt());
-        userRepository.changeCurrentTeam(user);
+        repository.addUserTeamConnection(connection.getTeamID(), connection.getUserID(), connection.getRank().rank);
+        userRepository.changeCurrentTeam(user.getUserID().toInt(), user.getActualTeamID());
         return true;
     }
 
     private boolean isInputValid(User user, Team team) {
-        if (userRepository.doesUserHasTeamConnection(user, team)) {
+        if (userRepository.doesUserHasTeamConnection(user.getUserID().toInt(), team.getTeamID().toInt())) {
             pinError.setText("Sie sind bereits Mitglied des Teams!");
             return false;
         }
-        if (!teamRepository.doesPinMatchTeam(team)) {
+        if (!teamRepository.doesPinMatchTeam(team.getTeamID().toInt(), team.getPin())) {
             pinError.setText("Falscher Pin");
             return false;
         }
         return true;
     }
 
-    private Team getTeam(int teamID) {
+    private Team getTeam(int teamID, int teamPin) {
         return new ConcreteTeamBuilder()
                 .setTeamID(teamID)
+                .setPin(teamPin)
                 .build();
     }
 

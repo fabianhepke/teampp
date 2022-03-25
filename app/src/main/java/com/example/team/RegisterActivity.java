@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.team.database.UserRepositoryImpl;
-import com.example.team.help.ActivityChanger;
+import com.teampp.usecase.ChangeActivity;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.RegisterUser;
 
@@ -18,7 +18,7 @@ public class RegisterActivity extends AppCompatActivity{
 
     private Button register, login;
     private EditText username, email, password, password2, name;
-    private UserRepository userRepository;
+    private UserRepositoryImpl userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity{
         if (!isSuccessfull) {
             return;
         }
-        ActivityChanger.changeActivityTo(RegisterActivity.this, LoginActivity.class);
+        ChangeActivity.changeActivity(RegisterActivity.this, LoginActivity.class);
     }
 
     private void goToLogin() {

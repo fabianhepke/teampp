@@ -17,12 +17,15 @@ public class RegisterUser {
 
     public boolean registerUser(EditText username, EditText name, EditText email, EditText password1, EditText password2) {
         User user = getUser(username, name, email, password1);
-        user.setName(name.getText().toString());
-        user.setLoginToken(new Token());
         if (!isInputValid(user, username, email, password1, password2)){
             return false;
         }
-        return repository.registerUser(user);
+        return repository.registerUser(user.getUsername().toString(),
+                user.getPassword().toString(),
+                user.geteMail().toString(),
+                user.getLoginToken().toString(),
+                user.getRank().rank,
+                user.getName());
     }
 
     private User getUser(EditText username, EditText name, EditText email, EditText password1) {
@@ -31,6 +34,7 @@ public class RegisterUser {
                 .setEmail(email.getText().toString())
                 .setPassword(password1.getText().toString())
                 .setName(name.getText().toString())
+                .setLoginToken(new Token())
                 .build();
     }
 

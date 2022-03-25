@@ -6,13 +6,13 @@ import com.teampp.domain.valueobjects.TeamID;
 import org.json.JSONArray;
 
 public interface TeamDateRepository {
-    void addTeamDate(TeamDate teamDate, String date);
+    void addHomeTeamDate(int teamID, String dateName, String dateString);
 
     TeamDate getDateByID(int dateID);
 
-    JSONArray getDatesByTeamID(TeamID teamID);
+    JSONArray getDatesByTeamID(int teamID);
 
-    void deleteTeamDate(TeamDate teamDate);
+    void deleteTeamDate(int dateID);
 
-    void addHomeTeamDate(TeamDate teamDate, String date);
+    void addTeamDate(int teamID, String dateName, String dateString, int plz, String place, String street, String hnr);
 }

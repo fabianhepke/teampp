@@ -1,0 +1,369 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface TeamDateRepository {
+void addTeamDate(TeamDate teamDate, String date)
+    TeamDate getDateByID(int dateID)
+    JSONArray getDatesByTeamID(TeamID teamID)
+    void deleteTeamDate(TeamDate teamDate)
+    void addHomeTeamDate(TeamDate teamDate, String date)
+}
+TeamDate o-- TeamDateRepository
+interface UserRepository {
+    boolean registerUser(User user)
+    void changeUserData(User user)
+    void changeUserLoginToken(User user, Token newToken)
+    User login(User user, boolean stayLoggedIn)
+    boolean doesUserEmailExist(String userEmail)
+    boolean doesUserNameExist(String username)
+    boolean doesPasswordMatchUser(User user)
+    boolean doesUserHasTeamConnection(User user, Team team)
+    boolean doesUserHasTeam(String username)
+    boolean isUserLoggedIn(int userID, String loginToken)
+    void changeCurrentTeam(User user)
+    Team getCurrentTeam(User user)
+    User getUserByID(int userID)
+}
+User o-- UserRepository
+interface UserTeamConnectionRepository {
+    void addUserTeamConnection(UserTeamConnection userTeamConnection)
+    void removeUserTeamConnection(UserTeamConnection userTeamConnection)
+    void updateRank(UserTeamConnection userTeamConnection)
+}
+UserTeamConnection o-- UserTeamConnectionRepository
+interface TeamRepository {
+    int getNewTeamID()
+    void registerTeam(Team team)
+    boolean doesPinMatchTeam(Team team)
+    int getTeamMemberNum(Team team)
+    String getTeamName(TeamID teamID)
+    JSONArray getTeamsOfUser(User user)
+    Team getTeamByID(int teamID)
+}
+Team o-- TeamRepository
+interface DatePromiseRepository {
+    void addDatePromise(DatePromise datePromise)
+    void changeDatePromise(DatePromise datePromise)
+    boolean doesUserPromisedDate(int dateID, int userID)
+}
+DatePromise o-- DatePromiseRepository
+class TeamDateRepositoryImpl {
+void addTeamDate(TeamDate teamDate, String date)
+    TeamDate getDateByID(int dateID)
+    JSONArray getDatesByTeamID(TeamID teamID)
+    void deleteTeamDate(TeamDate teamDate)
+    void addHomeTeamDate(TeamDate teamDate, String date)
+}
+TeamDateRepository <|.. TeamDateRepositoryImpl
+class UserRepositoryImpl {
+    boolean registerUser(User user)
+    void changeUserData(User user)
+    void changeUserLoginToken(User user, Token newToken)
+    User login(User user, boolean stayLoggedIn)
+    boolean doesUserEmailExist(String userEmail)
+    boolean doesUserNameExist(String username)
+    boolean doesPasswordMatchUser(User user)
+    boolean doesUserHasTeamConnection(User user, Team team)
+    boolean doesUserHasTeam(String username)
+    boolean isUserLoggedIn(int userID, String loginToken)
+    void changeCurrentTeam(User user)
+    Team getCurrentTeam(User user)
+    User getUserByID(int userID)
+}
+UserRepository <|.. UserRepositoryImpl
+class UserTeamConnectionRepositoryImpl {
+    void addUserTeamConnection(UserTeamConnection userTeamConnection)
+    void removeUserTeamConnection(UserTeamConnection userTeamConnection)
+    void updateRank(UserTeamConnection userTeamConnection)
+}
+UserTeamConnectionRepository <|.. UserTeamConnectionRepositoryImpl
+class TeamRepositoryImpl {
+    int getNewTeamID()
+    void registerTeam(Team team)
+    boolean doesPinMatchTeam(Team team)
+    int getTeamMemberNum(Team team)
+    String getTeamName(TeamID teamID)
+    JSONArray getTeamsOfUser(User user)
+    Team getTeamByID(int teamID)
+}
+TeamRepository <|.. TeamRepositoryImpl
+class DatePromiseRepositoryImpl {
+    void addDatePromise(DatePromise datePromise)
+    void changeDatePromise(DatePromise datePromise)
+    boolean doesUserPromisedDate(int dateID, int userID)
+}
+DatePromiseRepository <|.. DatePromiseRepositoryImpl
+class User {
+    - BasicID userID
+    - EMail eMail
+    - Password password
+    - Username username
+    - Token loginToken
+    - Rank rank
+    - int actualTeamID
+    - String name
+}
+enum Rank {
+    PLAYER("Spieler"),
+    Trainer("Trainer"),
+    PLAYERADMIN("Spieler/Admin"),
+    NORANK("Kein Rang")
+}
+User o-- BasicID
+User o-- Password
+User o-- Username
+User o-- EMail
+User o-- Token
+User o-- Rank
+
+class Team {
+    - TeamID teamID
+    - String teamName,
+    - String description
+    - int pin
+    - int members
+}
+Team o- TeamID
+class TeamDate {
+    - BasicID dateID
+    - String dateName
+    - int teamID
+    - Date date
+    - Adress adress
+}
+TeamDate o-BasicID
+class UserTeamConnection {
+    - int userID
+    - int teamID
+    - Rank rank
+}
+class DatePromise {
+    - int dateID
+    - int userID
+    - boolean promise
+}
+
+class ChangeCurrentTeam {
+    - final UserRepository repository
+    + void changeTeam(int userID, int teamID)
+    - User getUser(int userID, int teamID)
+}
+UserRepository *--- ChangeCurrentTeam
+UserBuilder o--- ChangeCurrentTeam
+class ChangeProfileData {
+    - final UserRepository repository
+    - User getNewUser(int userID, String username, String email, String password)
+    - User getOldUser(int userID)
+    - boolean isInputValid(User oldUser, User newUser, EditText username, EditText email, EditText password1, EditText password2)
+}
+UserRepository *--- ChangeProfileData
+UserBuilder o--- ChangeProfileData
+class CreateTeam {
+    - final TeamRepository repository
+    - final UserRepository userRepository
+    - final UserTeamConnectionRepository userTeamConnectionRepository
+    + int getNewTeamID()
+    + void createTeam(int teamID, String teamname, String description, int pin, int userID)
+    - Team getTeam(int teamID, String teamname, String description, int pin)
+    - User getUser(int userIDInt, int teamIDInt)
+}
+TeamRepository *---- CreateTeam
+UserRepository *---- CreateTeam
+UserTeamConnectionRepository *---- CreateTeam
+TeamBuilder o---- CreateTeam
+class CreateTeamDate {
+    - final TeamDateRepository repository
+    - int plzInt
+    - String placeString
+    -String streetString
+    - String hnrString
+    - String titleString
+    + void createHomeTeamDate(int teamID, Date date, EditText title)
+    - TeamDate getHomeTeamDate(int teamID, Date date, String datename)
+    + void createTeamDate(Date date, int teamID, EditText title, EditText plz, EditText place, EditText street, EditText hnr)
+    - TeamDate getTeamDate(int teamID, String title, Date date, String plz, String place, String street, String hnr)
+    - boolean isInputValid(EditText title, EditText plz, EditText place, EditText street, EditText hnr)
+    - void assignData(EditText plz, EditText place, EditText street, EditText hnr, EditText title)
+}
+TeamDateRepository *---- CreateTeamDate
+TeamDateBuilder o---- CreateTeamDate
+class GetCurrentTeam {
+    - TeamRepository teamRepository
+    - UserRepository userRepository
+    - Team team
+    + GetCurrentTeam(TeamRepository teamRepository, UserRepository userRepository, int userID)
+    + int getCurrentTeamID()
+    + String getCurrentTeamName()
+    + int getCurrentTeamMemberNum()
+}
+TeamRepository *--- GetCurrentTeam
+UserRepository *--- GetCurrentTeam
+TeamBuilder o--- GetCurrentTeam
+class GetDatesOfTeam {
+    - final List<TeamDate> dates = new ArrayList<>()
+    + String getHnr()
+    + String getStreet()
+    + String getPlace()
+    + int getPLZ()
+    + Date getDate()
+    + String getDateName()
+    + int getDateID()
+    + void nextDate()
+    + boolean isFinished()
+}
+TeamDateRepository *-- GetDatesOfTeam
+TeamDateBuilder o-- GetDatesOfTeam
+class GetTeamsOfUser {
+    - final TeamRepository repository
+    - final UserRepository userRepository
+    - List<Team> teams = new ArrayList<>()
+    + void nextTeam()
+    + int getTeamId()
+    + String getTeamName()
+    + int getTeamMemberNum()
+    + Team getCurrentTeam(int userID)
+    + boolean isFinished()
+}
+TeamRepository *---- GetTeamsOfUser
+UserRepository *---- GetTeamsOfUser
+TeamBuilder o---- GetTeamsOfUser
+class JoinTeam {
+    - final UserTeamConnectionRepository repository
+    - final TeamRepository teamRepository
+    - final UserRepository userRepository
+    - final TextView pinError
+    + boolean joinTeam(int userID, int teamID, int teamPin)
+    - boolean isInputValid(User user, Team team)
+    - Team getTeam(int teamID)
+    - User getUser(int userID)
+}
+UserTeamConnectionRepository *--- JoinTeam
+TeamRepository *--- JoinTeam
+UserRepository *--- JoinTeam
+TeamBuilder o--- JoinTeam
+UserTeamConnection o--- JoinTeam
+UserBuilder o--- JoinTeam
+class LeaveTeam {
+    - UserTeamConnectionRepository userTeamConnectionRepository
+    - TeamRepository teamRepository
+    - UserRepository userRepository
+    + void leaveTeam(int userID, int teamID)
+    - void changeCurrentTeam(int userID)
+}
+UserTeamConnectionRepository *---- LeaveTeam
+TeamRepository *---- LeaveTeam
+UserRepository *---- LeaveTeam
+TeamBuilder o---- LeaveTeam
+UserTeamConnection o---- LeaveTeam
+class LoginUser {
+    - final UserRepository repository
+    - final Context context
+    + boolean loginUser(boolean stayLoggedIn, EditText username, EditText password)
+    - boolean isDataValid(User user, EditText username, EditText password)
+    - boolean doesUserMatchPassword(User user)
+}
+UserBuilder o----- LoginUser
+UserRepository  o----- LoginUser
+class LogoutUser {
+    - final UserRepository repository
+    + void logout(User user)
+}
+UserRepository *-- LogoutUser
+UserBuilder o-- LogoutUser
+class PromiseTeamDate {
+    - final DatePromiseRepository repository
+    + void promiseTeamDate(int userID, int dateID, boolean promise)
+    + boolean doesUserCommited(int userID, int dateID)
+    + void changeCommitment(int dateID, int userID, boolean promise)
+}
+DatePromiseRepository *--- PromiseTeamDate
+class RegisterUser {
+    - final UserRepository repository
+    + boolean registerUser(EditText username, EditText name, EditText email, EditText password1, EditText password2)
+    - User getUser(EditText username, EditText email, EditText password1)
+    - boolean isInputValid(User user, EditText username, EditText email, EditText password1, EditText password2)
+}
+UserRepository *---- RegisterUser
+UserBuilder  o---- RegisterUser
+
+
+
+interface UserBuilder {
+    UserBuilder setUserID(BasicID userID)
+    UserBuilder setEmail(EMail email)
+    UserBuilder setPassword(Password password)
+    UserBuilder setLoginToken(Token loginToken)
+    UserBuilder setRank(Rank rank)
+    UserBuilder setActualTeamID(int teamID)
+    UserBuilder setName(String name)
+}
+interface TeamBuilder {
+    TeamBuilder setTeamID(TeamID teamID)
+    TeamBuilder setTeamname(String teamname)
+    TeamBuilder setDescription(String description)
+    TeamBuilder setPin(int pin)
+    TeamBuilder setMembers(TeamRepository teamRepository, int teamID)
+}
+interface TeamDateBuilder {
+    TeamDateBuilder setDateID(BasicID dateID)
+    TeamDateBuilder setDateName(String dateName)
+    TeamDateBuilder setTeamID(int teamID)
+    TeamDateBuilder setDate(Date date)
+    TeamDateBuilder setAdress(Adress adress)
+}
+class ConcreteTeamBuilder {
+    - TeamID teamID
+    - String teamname
+    - String description
+    - int pin
+    - int members
+    + TeamBuilder setTeamID(TeamID teamID)
+    + TeamBuilder setTeamID(int teamID)
+    + TeamBuilder setTeamname(String teamname)
+    + TeamBuilder setDescription(String description)
+    + TeamBuilder setPin(int pin)
+    + TeamBuilder setMembers(TeamRepository teamRepository, int teamID)
+}
+TeamBuilder <|-right- ConcreteTeamBuilder
+Team <-up- ConcreteTeamBuilder
+class ConcreteTeamDateBuilder {
+    private BasicID dateID;
+    private String dateName;
+    private int teamID;
+    private Date date;
+    private Adress adress;
+    + TeamDateBuilder setDateID(BasicID dateID)
+    + TeamDateBuilder setDateID(int dateID)
+    + TeamDateBuilder setDateName(String dateName)
+    + TeamDateBuilder setTeamID(int teamID)
+    + TeamDateBuilder setDate(Date date)
+    + TeamDateBuilder setAdress(Adress adress)
+}
+TeamDateBuilder <|-right- ConcreteTeamDateBuilder
+TeamDate <-up- ConcreteTeamDateBuilder
+class ConcreteUserBuilder {
+    private BasicID userID;
+    private EMail eMail;
+    private Password password;
+    private Username username;
+    private Token loginToken;
+    private Rank rank;
+    private int actualTeamID;
+    private String name;
+    + ConcreteUserBuilder setUserID(BasicID userID)
+    + ConcreteUserBuilder setUserID(int userID)
+    + ConcreteUserBuilder setEmail(EMail email)
+    + ConcreteUserBuilder setEmail(String email)
+    + ConcreteUserBuilder setPassword(Password password)
+    + ConcreteUserBuilder setPassword(String password)
+    + ConcreteUserBuilder setLoginToken(Token loginToken)
+    + ConcreteUserBuilder setLoginToken(String loginToken)
+    + ConcreteUserBuilder setNewLoginToken()
+    + ConcreteUserBuilder setRank(Rank rank)
+    + ConcreteUserBuilder setActualTeamID(int teamID)
+    + ConcreteUserBuilder setName(String name)
+}
+UserBuilder <|-right- ConcreteUserBuilder
+User <-up- ConcreteUserBuilder
+
+@enduml

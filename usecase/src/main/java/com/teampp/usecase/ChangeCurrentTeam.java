@@ -13,7 +13,7 @@ public class ChangeCurrentTeam {
 
     public void changeTeam(int userID, int teamID) {
         User user = getUser(userID, teamID);
-        repository.changeCurrentTeam(user);
+        repository.changeCurrentTeam(user.getUserID().toInt(), user.getActualTeamID());
     }
 
     private User getUser(int userID, int teamID) {

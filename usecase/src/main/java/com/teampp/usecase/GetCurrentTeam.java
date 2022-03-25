@@ -18,10 +18,10 @@ public class GetCurrentTeam {
         this.teamRepository = teamRepository;
         this.userRepository = userRepository;
         User user = new ConcreteUserBuilder().setUserID(userID).build();
-        int teamID = userRepository.getCurrentTeam(user).getTeamID().toInt();
+        int teamID = userRepository.getCurrentTeam(user.getUserID().toInt()).getTeamID().toInt();
         team = new ConcreteTeamBuilder().setTeamID(teamID)
                 .setMembers(teamRepository, teamID)
-                .setTeamname(teamRepository.getTeamName(new TeamID(teamID)))
+                .setTeamname(teamRepository.getTeamName(teamID))
                 .build();
     }
 

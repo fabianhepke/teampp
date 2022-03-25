@@ -42,7 +42,7 @@ public class ConcreteTeamBuilder implements  TeamBuilder{
     public ConcreteTeamBuilder setMembers(TeamRepository teamRepository, int teamID) {
         Team team = new Team();
         team.setTeamID(new TeamID(teamID));
-        this.members=  teamRepository.getTeamMemberNum(team);
+        this.members=  teamRepository.getTeamMemberNum(teamID);
         return this;
     }
 

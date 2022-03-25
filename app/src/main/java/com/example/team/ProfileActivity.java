@@ -11,6 +11,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,24 +19,27 @@ import android.widget.TextView;
 import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
 import com.example.team.database.UserTeamConnectionRepositoryImpl;
-import com.example.team.help.ActivityChanger;
+import com.teampp.usecase.ChangeActivity;
 import com.example.team.help.NavigationHandler;
 import com.google.android.material.card.MaterialCardView;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.domain.repositories.UserTeamConnectionRepository;
-import com.teampp.usecase.GetTeamsOfUser;
+import com.teampp.usecase.GetCurrentTeam;
+import com.teampp.usecase.TeamsOfUser;
 import com.teampp.usecase.LeaveTeam;
+import com.teampp.usecase.LogoutUser;
 
 import static android.content.ContentValues.TAG;
 
 public class ProfileActivity extends AppCompatActivity {
     private ImageButton teams, home, profile, editProfile;
+    private Button logout;
     private LinearLayout sv;
     private int userID;
-    GetTeamsOfUser getTeamsOfUserUseCase;
-    private TeamRepository teamRepository;
-    private UserRepository userRepository;
+    private TeamsOfUser getTeamsOfUserUseCase;
+    private TeamRepositoryImpl teamRepository;
+    private UserRepositoryImpl userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +67,19 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void assignButtonEvents() {
-        editProfile.setOnClickListener(view -> ActivityChanger.changeActivityTo(ProfileActivity.this, EditProfileActivity.class));
+        editProfile.setOnClickListener(view -> ChangeActivity.changeActivity(ProfileActivity.this, EditProfileActivity.class));
+        logout.setOnClickListener(view -> logout());
+    }
+
+    private void logout() {
+        LogoutUser logoutUserUseCase = new LogoutUser(userRepository, this);
+        logoutUserUseCase.logout(userID);
+        ChangeActivity.changeActivity(ProfileActivity.this, LoginActivity.class);
     }
 
 
-
     private void insertTeams() {
-        getTeamsOfUserUseCase = new GetTeamsOfUser(teamRepository, userRepository, userID);
+        getTeamsOfUserUseCase = new TeamsOfUser(teamRepository, userRepository, userID);
         insertOneTeam(getTeamsOfUserUseCase.getCurrentTeam(userID).getTeamName(), getTeamsOfUserUseCase.getCurrentTeam(userID).getMembers(), getTeamsOfUserUseCase.getCurrentTeam(userID).getTeamID().toInt());
         while (!getTeamsOfUserUseCase.isFinished()) {
             insertOneTeam(getTeamsOfUserUseCase.getTeamName(), getTeamsOfUserUseCase.getTeamMemberNum(), getTeamsOfUserUseCase.getTeamId());
@@ -111,7 +121,7 @@ public class ProfileActivity extends AppCompatActivity {
                 UserTeamConnectionRepository userTeamConnectionRepository = new UserTeamConnectionRepositoryImpl();
                 LeaveTeam leaveTeamUseCase = new LeaveTeam(userTeamConnectionRepository, teamRepository, userRepository);
                 leaveTeamUseCase.leaveTeam(userID, teamID);
-                ActivityChanger.changeActivityTo(ProfileActivity.this, ProfileActivity.class);
+                ChangeActivity.changeActivity(ProfileActivity.this, ProfileActivity.class);
             }
         });
     }
@@ -177,5 +187,6 @@ public class ProfileActivity extends AppCompatActivity {
         profile = findViewById(R.id.nav_profile);
         editProfile = findViewById(R.id.profile_edit_btn);
         sv = findViewById(R.id.profile_teams_container);
+        logout = findViewById(R.id.profile_logout_btn);
     }
 }

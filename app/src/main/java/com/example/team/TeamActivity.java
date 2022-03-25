@@ -17,14 +17,14 @@ import android.widget.TextView;
 
 import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
-import com.example.team.help.ActivityChanger;
+import com.teampp.usecase.ChangeActivity;
 import com.example.team.help.NavigationHandler;
 import com.google.android.material.card.MaterialCardView;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.ChangeCurrentTeam;
 import com.teampp.usecase.GetCurrentTeam;
-import com.teampp.usecase.GetTeamsOfUser;
+import com.teampp.usecase.TeamsOfUser;
 
 public class TeamActivity extends AppCompatActivity {
 
@@ -33,10 +33,10 @@ public class TeamActivity extends AppCompatActivity {
     private TextView title, members;
     private LinearLayout sv;
     private int userID;
-    private GetTeamsOfUser getTeamsOfUserUseCase;
+    private TeamsOfUser getTeamsOfUserUseCase;
     private GetCurrentTeam getCurrentTeamUseCase;
-    private TeamRepository teamRepository;
-    private UserRepository userRepository;
+    private TeamRepositoryImpl teamRepository;
+    private UserRepositoryImpl userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     private void goToAddTeam() {
-        ActivityChanger.changeActivityTo(this, JoinOrCreateTeamActivity.class);
+        ChangeActivity.changeActivity(this, JoinOrCreateTeamActivity.class);
     }
 
     private void adjustScrollView() {
@@ -88,7 +88,7 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     private void insertOtherTeams() {
-        getTeamsOfUserUseCase = new GetTeamsOfUser(teamRepository, userRepository, userID);
+        getTeamsOfUserUseCase = new TeamsOfUser(teamRepository, userRepository, userID);
         getTeamsOfUserUseCase.nextTeam();
         while (!getTeamsOfUserUseCase.isFinished()) {
             insertOneTeam();
@@ -120,7 +120,7 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     private void restartActivity() {
-        ActivityChanger.changeActivityTo(this, TeamActivity.class);
+        ChangeActivity.changeActivity(this, TeamActivity.class);
     }
 
     private void saveTeamInfo(int newTeamID) {

@@ -13,7 +13,7 @@ import com.chaos.view.PinView;
 import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
 import com.example.team.database.UserTeamConnectionRepositoryImpl;
-import com.example.team.help.ActivityChanger;
+import com.teampp.usecase.ChangeActivity;
 import com.teampp.domain.repositories.TeamRepository;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.domain.repositories.UserTeamConnectionRepository;
@@ -87,6 +87,6 @@ public class JoinTeamActivity extends AppCompatActivity {
     }
 
     private void goToHome() {
-        ActivityChanger.changeActivityTo(JoinTeamActivity.this, HomeActivity.class);
+        ChangeActivity.changeActivity(JoinTeamActivity.this, HomeActivity.class);
     }
 }

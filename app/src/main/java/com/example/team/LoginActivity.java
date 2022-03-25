@@ -9,7 +9,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.example.team.database.UserRepositoryImpl;
-import com.example.team.help.ActivityChanger;
+import com.teampp.usecase.ChangeActivity;
 import com.teampp.domain.repositories.UserRepository;
 import com.teampp.usecase.LoginUser;
 
@@ -19,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText usernameView, passwordView;
     private Button login, register;
     private CheckBox stayLoggedInBox;
-    private UserRepository userRepository;
+    private UserRepositoryImpl userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityChanger.changeActivityTo(LoginActivity.this, RegisterActivity.class);
+                ChangeActivity.changeActivity(LoginActivity.this, RegisterActivity.class);
             }
         });
 
@@ -54,27 +54,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         LoginUser loginUseCase = new LoginUser(userRepository, LoginActivity.this);
-        boolean isLoginsuccessful = loginUseCase.loginUser(stayLoggedInBox.isChecked(), usernameView, passwordView);
-        if (isLoginsuccessful) {
-            goToHomeOrJoinTeam();
-        }
+        loginUseCase.loginUser(stayLoggedInBox.isChecked(), usernameView, passwordView);
+
     }
 
-    private void goToHomeOrJoinTeam() {
-        if (userRepository.doesUserHasTeam(usernameView.getText().toString())) {
-            goToJoinOrCreateTeam();
-            return;
-        }
-        goToHome();
-    }
-
-    private void goToHome() {
-        ActivityChanger.changeActivityTo(LoginActivity.this, HomeActivity.class);
-    }
-
-    private void goToJoinOrCreateTeam() {
-        ActivityChanger.changeActivityTo(LoginActivity.this, JoinOrCreateTeamActivity.class);
-    }
 
     private void assignElements() {
         login = findViewById(R.id.login_loginbtn);
