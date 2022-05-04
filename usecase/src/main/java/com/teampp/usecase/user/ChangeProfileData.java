@@ -1,11 +1,11 @@
-package com.teampp.usecase;
+package com.teampp.usecase.user;
 
 import android.widget.EditText;
 
-import com.teampp.domain.builder.ConcreteUserBuilder;
-import com.teampp.domain.entities.User;
-import com.teampp.domain.valueobjects.BasicID;
-import com.teampp.domain.repositories.UserRepository;
+import com.teampp.domain.user.ConcreteUserBuilder;
+import com.teampp.domain.user.User;
+import com.teampp.domain.general.valueobjects.BasicID;
+import com.teampp.domain.user.UserRepository;
 import com.teampp.usecase.help.ExistanceChecker;
 
 public class ChangeProfileData {

@@ -1,13 +1,13 @@
-package com.teampp.usecase;
+package com.teampp.usecase.user;
 
-import com.teampp.domain.builder.ConcreteUserBuilder;
-import com.teampp.domain.entities.User;
-import com.teampp.domain.repositories.UserRepository;
+import com.teampp.domain.user.ConcreteUserBuilder;
+import com.teampp.domain.user.User;
+import com.teampp.domain.user.UserRepository;
 
-public class ChangeCurrentTeam {
+public class ChangeCurrentTeamOfUser {
     private final UserRepository repository;
 
-    public ChangeCurrentTeam(UserRepository repository) {
+    public ChangeCurrentTeamOfUser(UserRepository repository) {
         this.repository = repository;
     }
 

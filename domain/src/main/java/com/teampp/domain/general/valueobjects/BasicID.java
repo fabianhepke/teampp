@@ -1,6 +1,6 @@
-package com.teampp.domain.valueobjects;
+package com.teampp.domain.general.valueobjects;
 
-import com.teampp.domain.entities.exceptions.WrongInputSyntaxException;
+import com.teampp.domain.general.exceptions.WrongInputSyntaxException;
 
 import java.util.Objects;
 
