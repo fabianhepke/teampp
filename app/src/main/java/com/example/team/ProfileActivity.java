@@ -22,13 +22,10 @@ import com.example.team.database.UserTeamConnectionRepositoryImpl;
 import com.teampp.usecase.ChangeActivity;
 import com.example.team.help.NavigationHandler;
 import com.google.android.material.card.MaterialCardView;
-import com.teampp.domain.repositories.TeamRepository;
-import com.teampp.domain.repositories.UserRepository;
-import com.teampp.domain.repositories.UserTeamConnectionRepository;
-import com.teampp.usecase.GetCurrentTeam;
-import com.teampp.usecase.TeamsOfUser;
-import com.teampp.usecase.LeaveTeam;
-import com.teampp.usecase.LogoutUser;
+import com.teampp.domain.userteamconnection.UserTeamConnectionRepository;
+import com.teampp.usecase.team.TeamsOfUser;
+import com.teampp.usecase.team.LeaveTeam;
+import com.teampp.usecase.user.LogoutUser;
 
 import static android.content.ContentValues.TAG;
 

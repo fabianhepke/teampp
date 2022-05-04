@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 
 import com.example.team.database.UserRepositoryImpl;
 import com.teampp.usecase.ChangeActivity;
-import com.teampp.domain.repositories.UserRepository;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,8 +1,7 @@
 package com.example.team.database;
 
 import com.example.team.help.ApiHelper;
-import com.teampp.domain.entities.DatePromise;
-import com.teampp.domain.repositories.DatePromiseRepository;
+import com.teampp.domain.datepromise.DatePromiseRepository;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,14 +1,9 @@
 package com.example.team.database;
 
-import android.util.Log;
-
 import com.example.team.help.ApiHelper;
-import com.teampp.domain.entities.UserTeamConnection;
-import com.teampp.domain.repositories.UserTeamConnectionRepository;
+import com.teampp.domain.userteamconnection.UserTeamConnectionRepository;
 
 import java.util.concurrent.ExecutionException;
-
-import static android.content.ContentValues.TAG;
 
 public class UserTeamConnectionRepositoryImpl implements UserTeamConnectionRepository {
     @Override

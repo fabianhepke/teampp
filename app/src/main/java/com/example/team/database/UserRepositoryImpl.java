@@ -5,16 +5,17 @@ import android.util.Log;
 import com.example.team.help.ApiHelper;
 import com.example.team.help.JsonHelper;
 import com.example.team.help.URLHelper;
-import com.teampp.domain.builder.ConcreteTeamBuilder;
-import com.teampp.domain.entities.Team;
-import com.teampp.domain.entities.User;
-import com.teampp.domain.valueobjects.TeamID;
-import com.teampp.domain.valueobjects.Token;
-import com.teampp.domain.repositories.UserRepository;
+import com.teampp.domain.team.ConcreteTeamBuilder;
+import com.teampp.domain.team.Team;
+import com.teampp.domain.user.Token;
+import com.teampp.domain.user.User;
+import com.teampp.domain.user.UserRepository;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static android.content.ContentValues.TAG;
@@ -194,6 +195,8 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return passwortMatchUser;
     }
+
+    @Override
     public boolean doesPasswordMatchUserEMail(String eMail, String password) {
         String result = null;
         String url = "https://www.memevz.h10.de/teamPP.php?op=passwordmatchemail&username="
@@ -317,6 +320,42 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getUserByID(int userID) {
         //TODO
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getPromisedUsers(int dateID) {
+        ArrayList<String> names = new ArrayList<>();
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getPromisedUsers&date_id=" + dateID;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+            JSONArray jsonArray = new JSONArray(URLHelper.convertUrlString(result));
+            for (int i = 0; i < jsonArray.length(); i++) {
+                names.add(jsonArray.getJSONObject(i).getString("name"));
+            }
+            return names;
+        }catch (ExecutionException | InterruptedException | JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getCanceledUsers(int dateID) {
+        ArrayList<String> names = new ArrayList<>();
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getCanceledUsers&date_id=" + dateID;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+            JSONArray jsonArray = new JSONArray(URLHelper.convertUrlString(result));
+            for (int i = 0; i < jsonArray.length(); i++) {
+                names.add(jsonArray.getJSONObject(i).getString("name"));
+            }
+            return names;
+        }catch (ExecutionException | InterruptedException | JSONException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

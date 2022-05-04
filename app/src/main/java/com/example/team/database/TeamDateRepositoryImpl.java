@@ -2,11 +2,11 @@ package com.example.team.database;
 
 import com.example.team.help.ApiHelper;
 import com.example.team.help.URLHelper;
-import com.teampp.domain.builder.ConcreteTeamDateBuilder;
-import com.teampp.domain.entities.TeamDate;
-import com.teampp.domain.valueobjects.Adress;
-import com.teampp.domain.valueobjects.TeamID;
-import com.teampp.domain.repositories.TeamDateRepository;
+import com.teampp.domain.team.ConcreteTeamDateBuilder;
+import com.teampp.domain.team.TeamDateBuilder;
+import com.teampp.domain.teamdate.TeamDate;
+import com.teampp.domain.teamdate.Adress;
+import com.teampp.domain.teamdate.TeamDateRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,23 +17,7 @@ import java.util.concurrent.ExecutionException;
 public class TeamDateRepositoryImpl implements TeamDateRepository {
 
     @Override
-    public void addHomeTeamDate(int teamID, String dateName, String dateString) {
-        String url ="https://www.memevz.h10.de/teamPP.php?op=addHomeDate&team_id="
-                + teamID
-                + "&place=Daheim"
-                + "&datename=" + dateName
-                + "&date=" + dateString;
-        url = URLHelper.convertStringForUrl(url);
-        try {
-            new ApiHelper(url).execute().get();
-        }catch (ExecutionException | InterruptedException e) {
-            e.fillInStackTrace();
-        }
-    }
-
-    @Override
     public JSONArray getDatesByTeamID(int teamID) {
-        //TODO Implement
         String url = "https://www.memevz.h10.de/teamPP.php?op=getDatesOfTeam&team_id=" + teamID;
         String result;
         try {
@@ -77,17 +61,13 @@ public class TeamDateRepositoryImpl implements TeamDateRepository {
     }
 
     @Override
-    public TeamDate getDateByID(int dateID) {
-        String url = "https://www.memevz.h10.de/teamPP.php?op=getDateById&date_id=" + dateID;
+    public String getDatenameByID(int dateID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getDatenameById&date_id=" + dateID;
         String result;
         try {
             result = new ApiHelper(url).execute().get();
             JSONObject json = new JSONObject(URLHelper.convertUrlString(result));
-            return new ConcreteTeamDateBuilder().setDateID(dateID)
-                    .setDateName(json.getString("datename"))
-                    .setDateString(json.getString("date"))
-                    .setAdress(new Adress(json.getInt("plz"), json.getString("place"), json.getString("street"), json.getString("hnr")))
-                    .build();
+            return json.getString("datename");
         }catch (ExecutionException | InterruptedException | JSONException e) {
             e.printStackTrace();
         }

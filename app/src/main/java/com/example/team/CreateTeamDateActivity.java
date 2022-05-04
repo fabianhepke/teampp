@@ -16,15 +16,15 @@ import com.example.team.database.TeamDateRepositoryImpl;
 import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
 import com.teampp.usecase.ChangeActivity;
-import com.teampp.domain.repositories.TeamRepository;
-import com.teampp.usecase.GetCurrentTeam;
+import com.teampp.domain.team.TeamRepository;
+import com.teampp.usecase.team.GetCurrentTeam;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
-import com.teampp.domain.repositories.TeamDateRepository;
-import com.teampp.domain.repositories.UserRepository;
-import com.teampp.usecase.CreateTeamDate;
+import com.teampp.domain.teamdate.TeamDateRepository;
+import com.teampp.domain.user.UserRepository;
+import com.teampp.usecase.teamdate.CreateTeamDate;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -32,8 +32,6 @@ import java.util.TimeZone;
 
 public class CreateTeamDateActivity extends AppCompatActivity {
 
-    private RadioGroup rg;
-    private RadioButton home;
     private EditText title, plz, place, street, hnr;
     private Button addDate, addTime, submit;
     private TextView timeView, dateView;
@@ -72,8 +70,6 @@ public class CreateTeamDateActivity extends AppCompatActivity {
         street = findViewById(R.id.date_street_input);
         place = findViewById(R.id.date_place_input);
         hnr = findViewById(R.id.date_hnr_input);
-        home = findViewById(R.id.date_radio_daheim);
-        rg = findViewById(R.id.date_radio_groupe);
         userID = getUserID();
         teamID = getTeamID();
     }
@@ -88,58 +84,13 @@ public class CreateTeamDateActivity extends AppCompatActivity {
         super.onResume();
 
         assignButtonEvents();
-        setRadioEvents();
     }
-
-    private void setRadioEvents() {
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (home.isChecked()) {
-                    plz.setEnabled(false);
-                    place.setEnabled(false);
-                    street.setEnabled(false);
-                    hnr.setEnabled(false);
-                    plz.setBackgroundColor(getResources().getColor(R.color.mid_grey));
-                    place.setBackgroundColor(getResources().getColor(R.color.mid_grey));
-                    street.setBackgroundColor(getResources().getColor(R.color.mid_grey));
-                    hnr.setBackgroundColor(getResources().getColor(R.color.mid_grey));
-                }
-                else {
-                    plz.setEnabled(true);
-                    place.setEnabled(true);
-                    street.setEnabled(true);
-                    hnr.setEnabled(true);
-                    plz.setBackgroundColor(getResources().getColor(R.color.light_grey));
-                    place.setBackgroundColor(getResources().getColor(R.color.light_grey));
-                    street.setBackgroundColor(getResources().getColor(R.color.light_grey));
-                    hnr.setBackgroundColor(getResources().getColor(R.color.light_grey));
-                }
-            }
-        });
-    }
-
     private void assignButtonEvents() {
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createNewDate();
-            }
-        });
+        submit.setOnClickListener(view -> createNewDate());
 
-        addDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setDate();
-            }
-        });
+        addDate.setOnClickListener(v -> setDate());
 
-        addTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setTime();
-            }
-        });
+        addTime.setOnClickListener(v -> setTime());
     }
 
     private void createNewDate() {
@@ -148,12 +99,7 @@ public class CreateTeamDateActivity extends AppCompatActivity {
         }
         CreateTeamDate createTeamDateUseCase = new CreateTeamDate(teamDateRepository);
         Date finalDate = new Date(dateDate.getTime() + timeDate.getTime());
-        if (home.isChecked()) {
-            createTeamDateUseCase.createHomeTeamDate(teamID, finalDate, title);
-        }
-        else {
-            createTeamDateUseCase.createTeamDate(finalDate, teamID, title, plz, place, street, hnr);
-        }
+        createTeamDateUseCase.createTeamDate(finalDate, teamID, title, plz, place, street, hnr);
         ChangeActivity.changeActivity(CreateTeamDateActivity.this, HomeActivity.class);
     }
 

@@ -1,12 +1,12 @@
 package com.teampp.domain;
 
-import com.teampp.domain.valueobjects.Adress;
-import com.teampp.domain.valueobjects.EMail;
-import com.teampp.domain.valueobjects.Password;
-import com.teampp.domain.valueobjects.TeamID;
-import com.teampp.domain.valueobjects.Token;
-import com.teampp.domain.valueobjects.BasicID;
-import com.teampp.domain.valueobjects.Username;
+import com.teampp.domain.teamdate.Adress;
+import com.teampp.domain.user.EMail;
+import com.teampp.domain.user.Password;
+import com.teampp.domain.team.TeamID;
+import com.teampp.domain.user.Token;
+import com.teampp.domain.general.valueobjects.BasicID;
+import com.teampp.domain.user.Username;
 
 import org.junit.Test;
 

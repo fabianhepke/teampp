@@ -10,8 +10,7 @@ import android.widget.EditText;
 
 import com.example.team.database.UserRepositoryImpl;
 import com.teampp.usecase.ChangeActivity;
-import com.teampp.domain.repositories.UserRepository;
-import com.teampp.usecase.RegisterUser;
+import com.teampp.usecase.user.RegisterUser;
 
 
 public class RegisterActivity extends AppCompatActivity{

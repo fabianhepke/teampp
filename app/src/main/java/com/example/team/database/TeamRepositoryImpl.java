@@ -2,12 +2,9 @@ package com.example.team.database;
 
 import com.example.team.help.ApiHelper;
 import com.example.team.help.URLHelper;
-import com.teampp.domain.entities.Team;
-import com.teampp.domain.entities.User;
-import com.teampp.domain.valueobjects.TeamID;
-import com.teampp.domain.repositories.TeamRepository;
+import com.teampp.domain.team.Team;
+import com.teampp.domain.team.TeamRepository;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

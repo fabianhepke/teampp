@@ -3,16 +3,13 @@ package com.example.team;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.example.team.database.UserRepositoryImpl;
 import com.teampp.usecase.ChangeActivity;
-import com.teampp.domain.repositories.UserRepository;
-import com.teampp.usecase.LoginUser;
-
+import com.teampp.usecase.user.LoginUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
         userRepository = new UserRepositoryImpl();
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -37,26 +33,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setButtonClickEvents() {
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ChangeActivity.changeActivity(LoginActivity.this, RegisterActivity.class);
-            }
-        });
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
+        register.setOnClickListener(v -> ChangeActivity.changeActivity(LoginActivity.this, RegisterActivity.class));
+        login.setOnClickListener(v -> login());
     }
 
     private void login() {
         LoginUser loginUseCase = new LoginUser(userRepository, LoginActivity.this, HomeActivity.class, JoinOrCreateTeamActivity.class);
         loginUseCase.loginUser(stayLoggedInBox.isChecked(), usernameView, passwordView);
     }
-
 
     private void assignElements() {
         login = findViewById(R.id.login_loginbtn);

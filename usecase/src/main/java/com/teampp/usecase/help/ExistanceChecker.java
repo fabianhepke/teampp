@@ -1,7 +1,7 @@
 package com.teampp.usecase.help;
 
-import com.teampp.domain.entities.User;
-import com.teampp.domain.repositories.UserRepository;
+import com.teampp.domain.user.User;
+import com.teampp.domain.user.UserRepository;
 
 public class ExistanceChecker {
 

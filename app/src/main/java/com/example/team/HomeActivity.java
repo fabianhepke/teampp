@@ -16,9 +16,9 @@ import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
 import com.teampp.usecase.ChangeActivity;
 import com.example.team.help.NavigationHandler;
-import com.teampp.usecase.GetCurrentTeam;
-import com.teampp.usecase.DatesOfTeam;
-import com.teampp.usecase.InsertDates;
+import com.teampp.usecase.team.GetCurrentTeam;
+import com.teampp.usecase.teamdate.DatesOfTeam;
+import com.example.team.help.InsertDates;
 
 public class HomeActivity extends AppCompatActivity {
 

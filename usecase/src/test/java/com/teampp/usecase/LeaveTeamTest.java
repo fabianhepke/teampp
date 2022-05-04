@@ -1,16 +1,14 @@
 package com.teampp.usecase;
 
-import com.teampp.domain.builder.ConcreteTeamBuilder;
-import com.teampp.domain.entities.UserTeamConnection;
-import com.teampp.domain.repositories.TeamRepository;
-import com.teampp.domain.repositories.UserRepository;
-import com.teampp.domain.repositories.UserTeamConnectionRepository;
+import com.teampp.domain.team.ConcreteTeamBuilder;
+import com.teampp.domain.team.TeamRepository;
+import com.teampp.domain.user.UserRepository;
+import com.teampp.domain.userteamconnection.UserTeamConnectionRepository;
+import com.teampp.usecase.team.LeaveTeam;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.mock;

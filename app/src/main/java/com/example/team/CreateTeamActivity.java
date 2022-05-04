@@ -14,14 +14,11 @@ import android.widget.TextView;
 import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
 import com.example.team.database.UserTeamConnectionRepositoryImpl;
-import com.teampp.domain.entities.*;
-import com.teampp.domain.entities.enums.Rank;
-import com.teampp.domain.valueobjects.*;
-import com.teampp.domain.repositories.TeamRepository;
-import com.teampp.domain.repositories.UserRepository;
-import com.teampp.domain.repositories.UserTeamConnectionRepository;
-import com.teampp.usecase.CreateTeam;
-import com.teampp.usecase.GetCurrentTeam;
+import com.teampp.domain.team.TeamRepository;
+import com.teampp.domain.user.UserRepository;
+import com.teampp.domain.userteamconnection.UserTeamConnectionRepository;
+import com.teampp.usecase.team.CreateTeam;
+import com.teampp.usecase.team.GetCurrentTeam;
 
 public class CreateTeamActivity extends AppCompatActivity {
 

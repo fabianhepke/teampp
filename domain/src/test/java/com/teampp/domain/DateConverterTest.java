@@ -1,8 +1,6 @@
 package com.teampp.domain;
 
-import com.teampp.domain.domainservice.DateConverter;
-import com.teampp.domain.entities.TeamDate;
-import com.teampp.domain.builder.ConcreteTeamDateBuilder;
+import com.teampp.domain.teamdate.DateConverter;
 
 import org.junit.Test;
 

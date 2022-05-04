@@ -14,10 +14,10 @@ import com.example.team.database.TeamRepositoryImpl;
 import com.example.team.database.UserRepositoryImpl;
 import com.example.team.database.UserTeamConnectionRepositoryImpl;
 import com.teampp.usecase.ChangeActivity;
-import com.teampp.domain.repositories.TeamRepository;
-import com.teampp.domain.repositories.UserRepository;
-import com.teampp.domain.repositories.UserTeamConnectionRepository;
-import com.teampp.usecase.JoinTeam;
+import com.teampp.domain.team.TeamRepository;
+import com.teampp.domain.user.UserRepository;
+import com.teampp.domain.userteamconnection.UserTeamConnectionRepository;
+import com.teampp.usecase.team.JoinTeam;
 
 public class JoinTeamActivity extends AppCompatActivity {
 

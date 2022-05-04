@@ -1,11 +1,16 @@
 package com.teampp.usecase.help;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.TypedValue;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 
 import com.google.android.material.card.MaterialCardView;
+
+import org.w3c.dom.Text;
 
 public class GetUIElement {
 
@@ -33,4 +38,11 @@ public class GetUIElement {
         return materialCardView;
     }
 
+    public static TextView getTextView(Context context, String text) {
+        TextView textView = new TextView(context);
+        textView.setText(text);
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PT, 12);
+        return textView;
+    }
 }

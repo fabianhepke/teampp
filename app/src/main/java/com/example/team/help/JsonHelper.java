@@ -1,10 +1,9 @@
 package com.example.team.help;
 
-import com.teampp.domain.builder.ConcreteUserBuilder;
-import com.teampp.domain.entities.User;
-import com.teampp.domain.entities.enums.Rank;
-import com.teampp.domain.valueobjects.*;
-import com.teampp.domain.valueobjects.EMail;
+import com.teampp.domain.user.ConcreteUserBuilder;
+import com.teampp.domain.user.User;
+import com.teampp.domain.user.Rank;
+import com.teampp.domain.user.Token;
 
 import org.json.JSONException;
 import org.json.JSONObject;

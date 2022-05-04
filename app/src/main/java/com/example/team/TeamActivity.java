@@ -20,11 +20,9 @@ import com.example.team.database.UserRepositoryImpl;
 import com.teampp.usecase.ChangeActivity;
 import com.example.team.help.NavigationHandler;
 import com.google.android.material.card.MaterialCardView;
-import com.teampp.domain.repositories.TeamRepository;
-import com.teampp.domain.repositories.UserRepository;
-import com.teampp.usecase.ChangeCurrentTeam;
-import com.teampp.usecase.GetCurrentTeam;
-import com.teampp.usecase.TeamsOfUser;
+import com.teampp.usecase.user.ChangeCurrentTeamOfUser;
+import com.teampp.usecase.team.GetCurrentTeam;
+import com.teampp.usecase.team.TeamsOfUser;
 
 public class TeamActivity extends AppCompatActivity {
 
@@ -124,7 +122,7 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     private void saveTeamInfo(int newTeamID) {
-        ChangeCurrentTeam changeCurrentTeamUseCase = new ChangeCurrentTeam(userRepository);
+        ChangeCurrentTeamOfUser changeCurrentTeamUseCase = new ChangeCurrentTeamOfUser(userRepository);
         changeCurrentTeamUseCase.changeTeam(userID, newTeamID);
     }
 

@@ -1,13 +1,13 @@
 package com.teampp.usecase;
 
-import com.teampp.domain.repositories.DatePromiseRepository;
+import com.teampp.domain.datepromise.DatePromiseRepository;
+import com.teampp.usecase.teamdate.PromiseTeamDate;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
