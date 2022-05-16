@@ -1,4 +1,4 @@
-package com.example.team;
+package com.teampp.plugin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,16 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.team.database.TeamRepositoryImpl;
-import com.example.team.database.UserRepositoryImpl;
-import com.example.team.database.UserTeamConnectionRepositoryImpl;
-import com.example.team.help.ErrorHelper;
-import com.example.team.help.InputChecker;
+import com.example.team.R;
+import com.teampp.plugin.database.TeamRepositoryImpl;
+import com.teampp.plugin.database.UserRepositoryImpl;
+import com.teampp.plugin.database.UserTeamConnectionRepositoryImpl;
+import com.teampp.plugin.help.ErrorHelper;
+import com.teampp.plugin.help.InputChecker;
 import com.teampp.domain.team.TeamRepository;
 import com.teampp.domain.user.UserRepository;
 import com.teampp.domain.userteamconnection.UserTeamConnectionRepository;

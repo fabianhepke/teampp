@@ -1,4 +1,4 @@
-package com.example.team;
+package com.teampp.plugin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,17 +8,17 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.team.database.TeamRepositoryImpl;
-import com.example.team.database.UserRepositoryImpl;
-import com.example.team.help.ChangeActivity;
-import com.example.team.help.NavigationHandler;
+import com.example.team.R;
+import com.teampp.plugin.database.TeamRepositoryImpl;
+import com.teampp.plugin.database.UserRepositoryImpl;
+import com.teampp.plugin.help.ChangeActivity;
+import com.teampp.plugin.help.NavigationHandler;
 import com.google.android.material.card.MaterialCardView;
 import com.teampp.usecase.user.ChangeCurrentTeamOfUser;
 import com.teampp.usecase.team.GetCurrentTeam;

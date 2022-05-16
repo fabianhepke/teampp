@@ -1,4 +1,4 @@
-package com.example.team.help;
+package com.teampp.plugin.help;
 
 public class URLHelper {
     public static String convertStringForUrl(String string) {

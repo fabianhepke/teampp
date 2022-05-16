@@ -1,4 +1,4 @@
-package com.example.team;
+package com.teampp.plugin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,10 +9,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.example.team.database.UserRepositoryImpl;
-import com.example.team.help.ErrorHelper;
-import com.example.team.help.InputChecker;
-import com.example.team.help.ChangeActivity;
+import com.example.team.R;
+import com.teampp.plugin.database.UserRepositoryImpl;
+import com.teampp.plugin.help.ErrorHelper;
+import com.teampp.plugin.help.InputChecker;
+import com.teampp.plugin.help.ChangeActivity;
 import com.teampp.usecase.user.LoginUser;
 
 public class LoginActivity extends AppCompatActivity {

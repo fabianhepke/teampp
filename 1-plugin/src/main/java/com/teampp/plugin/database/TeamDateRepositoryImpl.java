@@ -1,7 +1,7 @@
-package com.example.team.database;
+package com.teampp.plugin.database;
 
-import com.example.team.help.ApiHelper;
-import com.example.team.help.URLHelper;
+import com.teampp.plugin.help.ApiHelper;
+import com.teampp.plugin.help.URLHelper;
 import com.teampp.domain.teamdate.TeamDateRepository;
 
 import org.json.JSONArray;

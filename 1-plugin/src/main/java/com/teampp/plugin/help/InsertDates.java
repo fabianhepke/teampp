@@ -1,4 +1,4 @@
-package com.example.team.help;
+package com.teampp.plugin.help;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-import com.example.team.database.DatePromiseRepositoryImpl;
-import com.example.team.database.TeamDateRepositoryImpl;
+import com.teampp.plugin.database.DatePromiseRepositoryImpl;
+import com.teampp.plugin.database.TeamDateRepositoryImpl;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.teampp.usecase.teamdate.DatesOfTeam;

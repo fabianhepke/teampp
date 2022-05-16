@@ -1,4 +1,4 @@
-package com.example.team.help;
+package com.teampp.plugin.help;
 
 import android.content.Context;
 import android.graphics.Color;

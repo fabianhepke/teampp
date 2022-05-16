@@ -1,4 +1,4 @@
-package com.example.team;
+package com.teampp.plugin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,18 +9,18 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.team.database.TeamRepositoryImpl;
-import com.example.team.database.UserRepositoryImpl;
-import com.example.team.database.UserTeamConnectionRepositoryImpl;
-import com.example.team.help.ChangeActivity;
-import com.example.team.help.NavigationHandler;
+import com.example.team.R;
+import com.teampp.plugin.database.TeamRepositoryImpl;
+import com.teampp.plugin.database.UserRepositoryImpl;
+import com.teampp.plugin.database.UserTeamConnectionRepositoryImpl;
+import com.teampp.plugin.help.ChangeActivity;
+import com.teampp.plugin.help.NavigationHandler;
 import com.google.android.material.card.MaterialCardView;
 import com.teampp.domain.userteamconnection.UserTeamConnectionRepository;
 import com.teampp.usecase.team.TeamsOfUser;
@@ -31,6 +31,8 @@ import static android.content.ContentValues.TAG;
 
 public class ProfileActivity extends AppCompatActivity {
     private ImageButton teams, home, profile;
+    private String username, name;
+    private TextView usernameView, nameView;
     private Button logout;
     private LinearLayout sv;
     private int userID;
@@ -45,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         userID = getUserID();
         assignElements();
+        fillProfileInfo();
         assignButtonEvents();
         adjustScrollView();
 
@@ -53,6 +56,11 @@ public class ProfileActivity extends AppCompatActivity {
         nav.addNavigationBarEvents(teams, home, profile);
 
         insertTeams();
+    }
+
+    private void fillProfileInfo() {
+        usernameView.setText(username);
+        nameView.setText(name);
     }
 
     private void adjustScrollView() {
@@ -180,5 +188,10 @@ public class ProfileActivity extends AppCompatActivity {
         profile = findViewById(R.id.nav_profile);
         sv = findViewById(R.id.profile_teams_container);
         logout = findViewById(R.id.profile_logout_btn);
+        usernameView = findViewById(R.id.profile_username);
+        nameView = findViewById(R.id.profile_name);
+        UserRepositoryImpl userRepository = new UserRepositoryImpl();
+        username = userRepository.getUsername(userID);
+        name = userRepository.getName(userID);
     }
 }

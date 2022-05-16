@@ -1,4 +1,4 @@
-package com.example.team.help;
+package com.teampp.plugin.help;
 
 import com.teampp.domain.user.ConcreteUserBuilder;
 import com.teampp.domain.user.User;

@@ -1,13 +1,12 @@
-package com.example.team.help;
+package com.teampp.plugin.help;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.ImageButton;
 
-import com.example.team.HomeActivity;
-import com.example.team.ProfileActivity;
+import com.teampp.plugin.HomeActivity;
+import com.teampp.plugin.ProfileActivity;
 import com.example.team.R;
-import com.example.team.TeamActivity;
+import com.teampp.plugin.TeamActivity;
 
 public class NavigationHandler {
 

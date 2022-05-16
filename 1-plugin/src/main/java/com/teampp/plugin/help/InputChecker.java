@@ -1,9 +1,9 @@
-package com.example.team.help;
+package com.teampp.plugin.help;
 
 import android.widget.EditText;
 
-import com.example.team.database.TeamRepositoryImpl;
-import com.example.team.database.UserRepositoryImpl;
+import com.teampp.plugin.database.TeamRepositoryImpl;
+import com.teampp.plugin.database.UserRepositoryImpl;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

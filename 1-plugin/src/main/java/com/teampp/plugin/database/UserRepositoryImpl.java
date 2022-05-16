@@ -1,10 +1,10 @@
-package com.example.team.database;
+package com.teampp.plugin.database;
 
 import android.util.Log;
 
-import com.example.team.help.ApiHelper;
-import com.example.team.help.JsonHelper;
-import com.example.team.help.URLHelper;
+import com.teampp.plugin.help.ApiHelper;
+import com.teampp.plugin.help.JsonHelper;
+import com.teampp.plugin.help.URLHelper;
 import com.teampp.domain.team.ConcreteTeamBuilder;
 import com.teampp.domain.team.Team;
 import com.teampp.domain.user.Token;
@@ -46,34 +46,6 @@ public class UserRepositoryImpl implements UserRepository {
             e.printStackTrace();
         }
         return isSuccessfull;
-    }
-
-    @Override
-    public void changeUserData(int userID, String username, String password, String eMail, String name) {
-        String url ="https://www.memevz.h10.de/teamPP.php?op=changeUserData&user_id="
-                + userID
-                + "username=" + username
-                + "&password=" + password
-                + "&email=" + eMail
-                + "&name=" + name;
-        url = URLHelper.convertStringForUrl(url);
-        try {
-            new ApiHelper(url).execute().get();
-        }catch (ExecutionException | InterruptedException e) {
-            e.fillInStackTrace();
-        }
-    }
-
-    @Override
-    public void changeUserLoginToken(int userID, Token newToken) {
-        String url ="https://www.memevz.h10.de/teamPP.php?op=changeUserLogin&user_id="
-                + userID
-                + "login_token=" + newToken;
-        try {
-            new ApiHelper(url).execute().get();
-        }catch (ExecutionException | InterruptedException e) {
-            e.fillInStackTrace();
-        }
     }
 
     @Override
@@ -318,12 +290,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getUserByID(int userID) {
-        //TODO
-        return null;
-    }
-
-    @Override
     public ArrayList<String> getPromisedUsers(int dateID) {
         ArrayList<String> names = new ArrayList<>();
         String url = "https://www.memevz.h10.de/teamPP.php?op=getPromisedUsers&date_id=" + dateID;
@@ -357,6 +323,46 @@ public class UserRepositoryImpl implements UserRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public String getUsername(int userID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getUsername&user_id=" + userID;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            result = null;
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            return jsonObject.getString("username");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String getName(int userID) {
+        String url = "https://www.memevz.h10.de/teamPP.php?op=getName&user_id=" + userID;
+        String result;
+        try {
+            result = new ApiHelper(url).execute().get();
+        }catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            result = null;
+        }
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(result);
+            return jsonObject.getString("name");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

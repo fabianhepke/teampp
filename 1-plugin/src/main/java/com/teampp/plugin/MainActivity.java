@@ -1,4 +1,4 @@
-package com.example.team;
+package com.teampp.plugin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,8 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.example.team.database.UserRepositoryImpl;
-import com.example.team.help.ChangeActivity;
+import com.example.team.R;
+import com.teampp.plugin.database.UserRepositoryImpl;
+import com.teampp.plugin.help.ChangeActivity;
 
 public class MainActivity extends AppCompatActivity {
 

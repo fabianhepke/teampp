@@ -1,12 +1,12 @@
-package com.example.team;
+package com.teampp.plugin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
-import com.example.team.help.ChangeActivity;
+import com.example.team.R;
+import com.teampp.plugin.help.ChangeActivity;
 
 public class JoinOrCreateTeamActivity extends AppCompatActivity {
 

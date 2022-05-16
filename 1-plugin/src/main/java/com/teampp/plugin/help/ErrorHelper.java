@@ -1,9 +1,7 @@
-package com.example.team.help;
+package com.teampp.plugin.help;
 
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.example.team.help.InputChecker;
 
 public class ErrorHelper {
 

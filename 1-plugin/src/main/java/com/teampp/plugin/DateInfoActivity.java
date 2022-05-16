@@ -1,4 +1,4 @@
-package com.example.team;
+package com.teampp.plugin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.team.database.TeamDateRepositoryImpl;
-import com.example.team.database.UserRepositoryImpl;
-import com.example.team.help.InsertUsersOfDate;
+import com.example.team.R;
+import com.teampp.plugin.database.TeamDateRepositoryImpl;
+import com.teampp.plugin.database.UserRepositoryImpl;
+import com.teampp.plugin.help.InsertUsersOfDate;
 
 public class DateInfoActivity extends AppCompatActivity {
 

@@ -1,8 +1,10 @@
-package com.example.team;
+package com.teampp.plugin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.team.R;
 
 public class EditProfileActivity extends AppCompatActivity {
 
