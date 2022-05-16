@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DateInfoActivity">
+
+    <include layout="@layout/top_bar"
+        android:id="@+id/info_topbar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="{dateTitle}"
+        android:id="@+id/info_datetitle"
+        android:textSize="12pt"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/info_topbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/info_datetitle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12pt"
+                android:textColor="@color/black"
+                android:layout_margin="20dp"
+                android:text="Zugesagt:"
+                android:textStyle="bold"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:minHeight="200dp"
+                android:id="@+id/info_scrollview_zugesagt">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/info_zusagen_container">
+
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12pt"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/info_scrollview_zugesagt"
+                android:layout_margin="20dp"
+                android:text="Abgesagt:"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/info_textview_abgesagt"
+                android:textStyle="bold"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:minHeight="200dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/info_textview_abgesagt">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/info_absagen_container">
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

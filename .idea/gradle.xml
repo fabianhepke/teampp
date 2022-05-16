@@ -12,9 +12,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/domain" />
-            <option value="$PROJECT_DIR$/usecase" />
+            <option value="$PROJECT_DIR$/1-plugin" />
+            <option value="$PROJECT_DIR$/2-application" />
+            <option value="$PROJECT_DIR$/3-domain" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
