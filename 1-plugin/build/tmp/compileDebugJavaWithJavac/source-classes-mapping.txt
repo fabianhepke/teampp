@@ -1,0 +1,56 @@
+com/teampp/plugin/EditProfileActivity.java
+ com.teampp.plugin.EditProfileActivity
+com/teampp/plugin/help/NavigationHandler.java
+ com.teampp.plugin.help.NavigationHandler
+com/example/team/BuildConfig.java
+ com.example.team.BuildConfig
+com/teampp/plugin/database/TeamRepositoryImpl.java
+ com.teampp.plugin.database.TeamRepositoryImpl
+com/teampp/plugin/help/GetUIElement.java
+ com.teampp.plugin.help.GetUIElement
+com/teampp/plugin/database/UserRepositoryImpl.java
+ com.teampp.plugin.database.UserRepositoryImpl
+com/teampp/plugin/database/TeamDateRepositoryImpl.java
+ com.teampp.plugin.database.TeamDateRepositoryImpl
+com/teampp/plugin/ProfileActivity.java
+ com.teampp.plugin.ProfileActivity
+com/teampp/plugin/JoinOrCreateTeamActivity.java
+ com.teampp.plugin.JoinOrCreateTeamActivity
+com/teampp/plugin/TeamActivity.java
+ com.teampp.plugin.TeamActivity
+com/teampp/plugin/JoinTeamActivity.java
+ com.teampp.plugin.JoinTeamActivity
+com/teampp/plugin/MainActivity.java
+ com.teampp.plugin.MainActivity
+com/teampp/plugin/CreateTeamDateActivity.java
+ com.teampp.plugin.CreateTeamDateActivity
+com/teampp/plugin/database/UserTeamConnectionRepositoryImpl.java
+ com.teampp.plugin.database.UserTeamConnectionRepositoryImpl
+com/teampp/plugin/help/JsonHelper.java
+ com.teampp.plugin.help.JsonHelper
+com/teampp/plugin/help/URLHelper.java
+ com.teampp.plugin.help.URLHelper
+com/teampp/plugin/help/ApiHelper.java
+ com.teampp.plugin.help.ApiHelper
+com/teampp/plugin/help/ErrorHelper.java
+ com.teampp.plugin.help.ErrorHelper
+com/teampp/plugin/help/InsertDates.java
+ com.teampp.plugin.help.InsertDates
+com/teampp/plugin/help/ChangeActivity.java
+ com.teampp.plugin.help.ChangeActivity
+com/teampp/plugin/database/DatePromiseRepositoryImpl.java
+ com.teampp.plugin.database.DatePromiseRepositoryImpl
+com/teampp/plugin/help/InsertUsersOfDate.java
+ com.teampp.plugin.help.InsertUsersOfDate
+com/teampp/plugin/RegisterActivity.java
+ com.teampp.plugin.RegisterActivity
+com/teampp/plugin/CreateTeamActivity.java
+ com.teampp.plugin.CreateTeamActivity
+com/teampp/plugin/DateInfoActivity.java
+ com.teampp.plugin.DateInfoActivity
+com/teampp/plugin/help/InputChecker.java
+ com.teampp.plugin.help.InputChecker
+com/teampp/plugin/HomeActivity.java
+ com.teampp.plugin.HomeActivity
+com/teampp/plugin/LoginActivity.java
+ com.teampp.plugin.LoginActivity

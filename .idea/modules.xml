@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Team++.iml" filepath="$PROJECT_DIR$/.idea/modules/Team++.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Team++.1-plugin.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Team++.1-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/usecase/Team++.2-application.iml" filepath="$PROJECT_DIR$/.idea/modules/usecase/Team++.2-application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/Team++.3-domain.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/Team++.3-domain.iml" />
+    </modules>
+  </component>
+</project>

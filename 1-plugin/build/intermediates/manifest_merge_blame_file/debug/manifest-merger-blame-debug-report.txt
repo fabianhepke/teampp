@@ -1,0 +1,158 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.team"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="27"
+8-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="31" />
+9-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+11-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:5:5-79
+11-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:5:22-76
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:6:5-67
+12-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:6:22-64
+13
+14    <queries>
+14-->[androidx.test:runner:1.4.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\c6ae6b0576d060a58d4c24594ec4747f\runner-1.4.0\AndroidManifest.xml:24:5-28:15
+15        <package android:name="androidx.test.orchestrator" />
+15-->[androidx.test:runner:1.4.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\c6ae6b0576d060a58d4c24594ec4747f\runner-1.4.0\AndroidManifest.xml:25:9-62
+15-->[androidx.test:runner:1.4.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\c6ae6b0576d060a58d4c24594ec4747f\runner-1.4.0\AndroidManifest.xml:25:18-59
+16        <package android:name="androidx.test.services" />
+16-->[androidx.test:runner:1.4.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\c6ae6b0576d060a58d4c24594ec4747f\runner-1.4.0\AndroidManifest.xml:26:9-58
+16-->[androidx.test:runner:1.4.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\c6ae6b0576d060a58d4c24594ec4747f\runner-1.4.0\AndroidManifest.xml:26:18-55
+17        <package android:name="com.google.android.apps.common.testing.services" />
+17-->[androidx.test:runner:1.4.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\c6ae6b0576d060a58d4c24594ec4747f\runner-1.4.0\AndroidManifest.xml:27:9-83
+17-->[androidx.test:runner:1.4.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\c6ae6b0576d060a58d4c24594ec4747f\runner-1.4.0\AndroidManifest.xml:27:18-80
+18    </queries>
+19
+20    <application
+20-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:8:5-45:19
+21        android:allowBackup="true"
+21-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:9:9-35
+22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+22-->[androidx.core:core:1.7.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\9b4bbe17406ebdd5cecd894aeda4ed80\core-1.7.0\AndroidManifest.xml:24:18-86
+23        android:debuggable="true"
+24        android:extractNativeLibs="false"
+25        android:icon="@mipmap/ic_launcher"
+25-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:10:9-43
+26        android:label="@string/app_name"
+26-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:11:9-41
+27        android:roundIcon="@mipmap/ic_launcher_round"
+27-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:12:9-54
+28        android:supportsRtl="true"
+28-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:13:9-35
+29        android:theme="@style/Theme.Team" >
+29-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:14:9-42
+30        <activity
+30-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:15:9-16:51
+31            android:name="com.teampp.plugin.DateInfoActivity"
+31-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:15:19-68
+32            android:screenOrientation="portrait" />
+32-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:16:13-49
+33        <activity
+33-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:17:9-18:51
+34            android:name="com.teampp.plugin.EditProfileActivity"
+34-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:17:19-71
+35            android:screenOrientation="portrait" />
+35-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:18:13-49
+36        <activity
+36-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:19:9-20:51
+37            android:name="com.teampp.plugin.CreateTeamDateActivity"
+37-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:19:19-74
+38            android:screenOrientation="portrait" />
+38-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:20:13-49
+39        <activity
+39-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:21:9-22:51
+40            android:name="com.teampp.plugin.ProfileActivity"
+40-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:21:19-67
+41            android:screenOrientation="portrait" />
+41-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:22:13-49
+42        <activity
+42-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:23:9-24:51
+43            android:name="com.teampp.plugin.TeamActivity"
+43-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:23:19-64
+44            android:screenOrientation="portrait" />
+44-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:24:13-49
+45        <activity
+45-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:25:9-26:51
+46            android:name="com.teampp.plugin.HomeActivity"
+46-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:25:19-64
+47            android:screenOrientation="portrait" />
+47-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:26:13-49
+48        <activity
+48-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:27:9-28:51
+49            android:name="com.teampp.plugin.RegisterActivity"
+49-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:27:19-68
+50            android:screenOrientation="portrait" />
+50-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:28:13-49
+51        <activity
+51-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:29:9-30:51
+52            android:name="com.teampp.plugin.CreateTeamActivity"
+52-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:29:19-70
+53            android:screenOrientation="portrait" />
+53-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:30:13-49
+54        <activity
+54-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:31:9-32:51
+55            android:name="com.teampp.plugin.JoinTeamActivity"
+55-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:31:19-68
+56            android:screenOrientation="portrait" />
+56-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:32:13-49
+57        <activity
+57-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:33:9-34:51
+58            android:name="com.teampp.plugin.JoinOrCreateTeamActivity"
+58-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:33:19-76
+59            android:screenOrientation="portrait" />
+59-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:34:13-49
+60        <activity
+60-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:35:9-36:51
+61            android:name="com.teampp.plugin.LoginActivity"
+61-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:35:19-65
+62            android:screenOrientation="portrait" />
+62-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:36:13-49
+63        <activity
+63-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:37:9-44:20
+64            android:name="com.teampp.plugin.MainActivity"
+64-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:37:19-64
+65            android:screenOrientation="portrait" >
+65-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:38:13-49
+66            <intent-filter>
+66-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:39:13-43:29
+67                <action android:name="android.intent.action.MAIN" />
+67-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:40:17-69
+67-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:40:25-66
+68
+69                <category android:name="android.intent.category.LAUNCHER" />
+69-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:42:17-77
+69-->C:\Users\fabian.hepke\AndroidStudioProjects\Team\1-plugin\src\main\AndroidManifest.xml:42:27-74
+70            </intent-filter>
+71        </activity>
+72
+73        <provider
+73-->[androidx.emoji2:emoji2:1.0.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\51c794e8d58f2add1b6e1035ee7c058d\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
+74            android:name="androidx.startup.InitializationProvider"
+74-->[androidx.emoji2:emoji2:1.0.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\51c794e8d58f2add1b6e1035ee7c058d\jetified-emoji2-1.0.0\AndroidManifest.xml:27:13-67
+75            android:authorities="com.example.team.androidx-startup"
+75-->[androidx.emoji2:emoji2:1.0.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\51c794e8d58f2add1b6e1035ee7c058d\jetified-emoji2-1.0.0\AndroidManifest.xml:28:13-68
+76            android:exported="false" >
+76-->[androidx.emoji2:emoji2:1.0.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\51c794e8d58f2add1b6e1035ee7c058d\jetified-emoji2-1.0.0\AndroidManifest.xml:29:13-37
+77            <meta-data
+77-->[androidx.emoji2:emoji2:1.0.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\51c794e8d58f2add1b6e1035ee7c058d\jetified-emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
+78                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+78-->[androidx.emoji2:emoji2:1.0.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\51c794e8d58f2add1b6e1035ee7c058d\jetified-emoji2-1.0.0\AndroidManifest.xml:32:17-75
+79                android:value="androidx.startup" />
+79-->[androidx.emoji2:emoji2:1.0.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\51c794e8d58f2add1b6e1035ee7c058d\jetified-emoji2-1.0.0\AndroidManifest.xml:33:17-49
+80            <meta-data
+80-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\e539e26c730ec8f29e3c4a27f918073b\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
+81                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+81-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\e539e26c730ec8f29e3c4a27f918073b\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
+82                android:value="androidx.startup" />
+82-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\fabian.hepke\.gradle\caches\transforms-2\files-2.1\e539e26c730ec8f29e3c4a27f918073b\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
+83        </provider>
+84    </application>
+85
+86</manifest>
