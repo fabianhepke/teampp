@@ -30,10 +30,15 @@ public class LeaveTeam {
 
     private void changeCurrentTeam(int userID) {
         int teamID;
-        TeamsOfUser teamsOfUser = new TeamsOfUser(teamRepository, userRepository, userID);
-        teamsOfUser.nextTeam();
-        teamID = teamsOfUser.getTeamId();
         ChangeCurrentTeamOfUser changeCurrentTeam = new ChangeCurrentTeamOfUser(userRepository);
-        changeCurrentTeam.changeTeam(userID, teamID);
+        try {
+            TeamsOfUser teamsOfUser = new TeamsOfUser(teamRepository, userRepository, userID);
+            teamsOfUser.nextTeam();
+            teamID = teamsOfUser.getTeamId();
+            changeCurrentTeam.changeTeam(userID, teamID);
+        } catch (Exception e) {
+            changeCurrentTeam.changeTeam(userID, 0);
+        }
+
     }
 }

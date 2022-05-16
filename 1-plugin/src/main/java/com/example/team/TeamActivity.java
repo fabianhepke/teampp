@@ -76,8 +76,12 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     private void insertTeams() {
-        insertActualTeam();
-        insertOtherTeams();
+        try {
+            insertActualTeam();
+            insertOtherTeams();
+        } catch (Exception e) {
+
+        }
     }
 
     private void insertOtherTeams() {
@@ -174,7 +178,11 @@ public class TeamActivity extends AppCompatActivity {
         addTeam = findViewById(R.id.teams_addteam);
         userRepository = new UserRepositoryImpl();
         teamRepository = new TeamRepositoryImpl();
-        userID = getUserID();
-        getCurrentTeamUseCase = new GetCurrentTeam(teamRepository, userRepository, userID);
+        try {
+            userID = getUserID();
+            getCurrentTeamUseCase = new GetCurrentTeam(teamRepository, userRepository, userID);
+        }catch (Exception e) {
+
+        }
     }
 }

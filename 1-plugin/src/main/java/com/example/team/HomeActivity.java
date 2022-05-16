@@ -94,7 +94,11 @@ public class HomeActivity extends AppCompatActivity {
         addDate = findViewById(R.id.home_add_date);
         container = findViewById(R.id.home_date_container);
         userID = getUserID();
-        teamID = getCurrentTeamID();
-        getDatesOfTeamUseCase = new DatesOfTeam(teamDateRepository, teamID);
+        try {
+            teamID = getCurrentTeamID();
+            getDatesOfTeamUseCase = new DatesOfTeam(teamDateRepository, teamID);
+        } catch (Exception e) {
+
+        }
     }
 }

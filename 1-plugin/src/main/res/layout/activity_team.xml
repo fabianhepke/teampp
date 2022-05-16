@@ -60,6 +60,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
+                            android:text="Du hat kein Team"
                             android:textSize="12pt"
                             android:textStyle="bold" />
 
@@ -67,6 +68,7 @@
                             android:id="@+id/teams_actual_member"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="Drücke den unteren Button, um einem Team beizutreten!"
                             android:textSize="8pt" />
                     </LinearLayout>
 

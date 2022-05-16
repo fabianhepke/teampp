@@ -75,10 +75,15 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private void insertTeams() {
-        getTeamsOfUserUseCase = new TeamsOfUser(teamRepository, userRepository, userID);
-        insertOneTeam(getTeamsOfUserUseCase.getCurrentTeam(userID).getTeamName(), getTeamsOfUserUseCase.getCurrentTeam(userID).getMembers(), getTeamsOfUserUseCase.getCurrentTeam(userID).getTeamID().toInt());
-        while (!getTeamsOfUserUseCase.isFinished()) {
-            insertOneTeam(getTeamsOfUserUseCase.getTeamName(), getTeamsOfUserUseCase.getTeamMemberNum(), getTeamsOfUserUseCase.getTeamId());
+        try {
+
+            getTeamsOfUserUseCase = new TeamsOfUser(teamRepository, userRepository, userID);
+            insertOneTeam(getTeamsOfUserUseCase.getCurrentTeam(userID).getTeamName(), getTeamsOfUserUseCase.getCurrentTeam(userID).getMembers(), getTeamsOfUserUseCase.getCurrentTeam(userID).getTeamID().toInt());
+            while (!getTeamsOfUserUseCase.isFinished()) {
+                insertOneTeam(getTeamsOfUserUseCase.getTeamName(), getTeamsOfUserUseCase.getTeamMemberNum(), getTeamsOfUserUseCase.getTeamId());
+            }
+        } catch (Exception e) {
+
         }
     }
 
